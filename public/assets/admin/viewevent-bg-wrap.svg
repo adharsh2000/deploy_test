@@ -1,0 +1,30 @@
+<svg width="768" height="1080" viewBox="0 0 768 1080" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g clip-path="url(#clip0_1_968)">
+<path d="M0 4.00001C0 1.79087 1.79086 0 4 0H768V1080H3.99998C1.79085 1080 0 1078.21 0 1076V4.00001Z" fill="white"/>
+<path opacity="0.3" d="M219.5 93.5C219.5 232.68 106.895 345.5 -32 345.5C-170.895 345.5 -283.5 232.68 -283.5 93.5C-283.5 -45.6804 -170.895 -158.5 -32 -158.5C106.895 -158.5 219.5 -45.6804 219.5 93.5Z" fill="#D9D9D9" stroke="url(#paint0_linear_1_968)" stroke-width="5"/>
+<circle opacity="0.3" cx="-13.5" cy="111.5" r="270" stroke="url(#paint1_linear_1_968)" stroke-width="5"/>
+<path opacity="0.3" d="M298.5 133C298.5 293.995 168.211 424.5 7.5 424.5C-153.211 424.5 -283.5 293.995 -283.5 133C-283.5 -27.995 -153.211 -158.5 7.5 -158.5C168.211 -158.5 298.5 -27.995 298.5 133Z" stroke="url(#paint2_linear_1_968)" stroke-width="5"/>
+<path opacity="0.3" d="M341.5 154.5C341.5 327.369 201.585 467.5 29 467.5C-143.585 467.5 -283.5 327.369 -283.5 154.5C-283.5 -18.3689 -143.585 -158.5 29 -158.5C201.585 -158.5 341.5 -18.3689 341.5 154.5Z" stroke="url(#paint3_linear_1_968)" stroke-width="5"/>
+</g>
+<defs>
+<linearGradient id="paint0_linear_1_968" x1="-32" y1="-161" x2="-32" y2="348" gradientUnits="userSpaceOnUse">
+<stop stop-color="#141415"/>
+<stop offset="1" stop-color="#6480AB" stop-opacity="0"/>
+</linearGradient>
+<linearGradient id="paint1_linear_1_968" x1="-13.5" y1="-161" x2="-13.5" y2="384" gradientUnits="userSpaceOnUse">
+<stop stop-color="#141415"/>
+<stop offset="1" stop-color="#6480AB" stop-opacity="0"/>
+</linearGradient>
+<linearGradient id="paint2_linear_1_968" x1="7.5" y1="-161" x2="7.5" y2="427" gradientUnits="userSpaceOnUse">
+<stop stop-color="#141415"/>
+<stop offset="1" stop-color="#6480AB" stop-opacity="0"/>
+</linearGradient>
+<linearGradient id="paint3_linear_1_968" x1="29" y1="-161" x2="29" y2="470" gradientUnits="userSpaceOnUse">
+<stop stop-color="#141415"/>
+<stop offset="1" stop-color="#6480AB" stop-opacity="0"/>
+</linearGradient>
+<clipPath id="clip0_1_968">
+<path d="M0 4.00001C0 1.79087 1.79086 0 4 0H768V1080H3.99998C1.79085 1080 0 1078.21 0 1076V4.00001Z" fill="white"/>
+</clipPath>
+</defs>
+</svg>

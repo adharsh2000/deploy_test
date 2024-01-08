@@ -1,0 +1,143 @@
+/* left menu */
+.left-menu-h { height: calc(100vh); transition: width 0.4s; }
+.left-menu-h.active { width: 320px; }
+.logo { display: none; }
+.left-menu-h:hover .logo { display: block; }
+.left-menu-h:hover .logo_icon { display: none; }
+.left-menu-h:hover .lock_icon { display: none; }
+.leftmenu-lock{
+    background: no-repeat url("/assets/images/left-menu-icons/lock-border.png") center;
+    min-width:19px;
+    min-height: 23px;
+    display: block;
+}
+.leftmenu-unlock{
+    background: no-repeat url("/assets/images/left-menu-icons/unlock.svg") right center;
+    min-width:19px;
+    min-height: 18px;
+    display: block;
+}
+
+.left-menu-sec [data-simplebar="init"]{
+    height: calc(100% - 340px);
+}
+.left-menu-sec .simplebar-track.simplebar-vertical{
+    right: -26px;
+}
+.left-menu-sec .simplebar-track.simplebar-vertical .simplebar-scrollbar{
+    background-color: rgba(0, 0, 0, 0.1);
+    width: 5px;
+}
+
+ul.left-menu li { position: relative;margin-bottom: 0.625vw; }
+ul.left-menu li a{ color: #424242; font-size: 14px; padding: 0.625vw 0; display: block; }
+ul.left-menu li.p-l-15 a{ padding-left: 15px; }
+
+.left-menu-h ul.left-menu>li:hover>a{ background-color: #FEF2F3; border-radius: 10px; }
+.left-menu-h ul.left-menu li a span  { min-width: 180px; display: inline-flex; white-space: nowrap;}
+.left-menu-h ul.left-menu li a span, .left-menu-h ul.left-menu li a span i { font-size: 0; padding-left: 60px; }
+
+.left-menu-h:hover ul.left-menu li a span, .left-menu-h:hover ul.left-menu li a span i { font-size: 14px; }
+.sub-menu { position: fixed; top: 24px; left: 280px; z-index: 99999; display: none; background-color: #F0F4F5; min-width: 234px; height: calc(100vh - 47px); padding: 24px 16px; overflow-y: auto; }
+.left-menu li:hover .sub-menu { display: block; }
+.left-menu-h .sub-menu li a { padding-left: 15px; }
+.left-menu-h ul.left-menu .sub-menu li a:hover{ background-color: white; border-radius: 8px; }
+
+ul.left-menu li ul.sub-menu li a{ padding:0; }
+/* ul.left-menu li.active a { color: #D73F09; } */
+ul.left-menu li:not(:first-child) { display: block; } /* margin-top: 12px; */
+.left-menu-h:hover .sub-menu li:not(:first-child) { margin-top: 0px; }
+ul.left-menu li:before { content: ""; position: absolute; left: 16px; top: 45%; transform: translateY(-50%); width: 24px; height: 24px; pointer-events: none;}
+.divide { border-top: 1px solid #eeeeee; }
+ul.left-menu li.lock:before {  background: no-repeat url("/assets/admin/left-menu-icons/lock.svg"); }
+ul.left-menu li.ico-dashboard:before {  font-family: 'austin-isd'; content: "\e915"; color:#9CA1AB;font-size: 20px;}
+
+ul.left-menu li.ico-eLibrary:before {  background: no-repeat url("/assets/admin/left-menu-icons/eLibrary.svg"); }
+ul.left-menu li.ico-messageboard:before {  background: no-repeat url("/assets/admin/left-menu-icons/messageboard.svg"); }
+ul.left-menu li.ico-pages:before {  background: no-repeat url("/assets/admin/left-menu-icons/pages.svg"); }
+ul.left-menu li.ico-usersmanagement:before {  background: no-repeat url("/assets/admin/left-menu-icons/usersmanagement.svg"); }
+ul.left-menu li.ico-eventsmanagement:before {  background: no-repeat url("/assets/admin/left-menu-icons/eventsmanagement.svg"); }
+
+ul.left-menu li.active.ico-dashboard:before {  color: #A93439; }
+ul.left-menu li.active.ico-eLibrary:before 
+{
+    background: no-repeat url("/assets/admin/left-menu-icons/elibrary_admin_active.svg");
+    
+}
+ul.left-menu li.active.ico-messageboard:before 
+{
+    background: no-repeat url("/assets/admin/left-menu-icons/message_admin_active.svg");
+    
+}
+ul.left-menu li.active.ico-pages:before 
+{
+    background: no-repeat url("/assets/admin/left-menu-icons/page_admin_icon.svg");
+    
+}
+ul.left-menu li.active.ico-usersmanagement:before 
+{
+    background: no-repeat url("/assets/admin/left-menu-icons/user-search.svg");
+    
+}
+ul.left-menu li.active.ico-eventsmanagement:before 
+{
+    background: no-repeat url("/assets/admin/left-menu-icons/calendar-edit.svg");
+    
+}
+ul.left-menu li.settings:before {  background: no-repeat url("/assets/admin/left-menu-icons/settings.svg"); }
+ul.left-menu li.dark-mode:before {  background: no-repeat url("/assets/admin/left-menu-icons/dark-mode.svg"); }
+ul.left-menu li.support:before {  background: no-repeat url("/assets/admin/left-menu-icons/support-tickets.svg"); }
+
+ul.left-menu li a.supportBg { background-color: #AF1E27; color: #FFF; border-radius: 8px; }
+ul.left-menu li a.supportBg span { color: #FFF; }
+.left-menu-h ul.left-menu.hoverNone>li:hover>a.supportBg { background-color: #1F2A37; }
+.left-menu-h.active .simplebar-track.simplebar-vertical .simplebar-scrollbar:before, .left-menu-h.active .simplebar-track.simplebar-horizontal .simplebar-scrollbar:before { width: 2px; }
+.left-menu-h .simplebar-track.simplebar-vertical .simplebar-scrollbar:before, .left-menu-h .simplebar-track.simplebar-horizontal .simplebar-scrollbar:before { width: 0; }
+.profile img { min-width: 48px; }
+.left-menu-h ul.left-menu.hoverNone li.userProfile span { padding-left: 10px; }
+.left-menu-h .userprofileIcon { display: none; }
+.left-menu-h:hover .userprofileIcon { display: block; }
+.left-menu-h ul.left-menu.hoverNone li.userProfile .userPic img  { min-width: 45px; height: 45px; border-radius: 100%; }
+.shadow1 { box-shadow: 0px 2px 4px -2px rgba(0, 0, 0, 0.03), 0px 4px 6px -1px rgba(0, 0, 0, 0.02); }
+/* left menu End*/  
+
+.theme-cust{ display: flex !important; align-items: center; margin-left: 0px;padding-left: 10px !important;}
+ ul.left-menu li.theme-cust:before{ display: none;}
+
+.left-menu-h ul.left-menu li a.theme-cust span{ padding-left: 0px !important; min-width: 50px;}
+ul.left-menu li .theme-cust a{ padding-top: 0; padding-bottom: 0;}
+
+/******************** dark*******************/
+.dark .leftmenu-lock{
+    background-image: url("/assets/images/left-menu-icons/dark-lock-border.png");
+}
+.dark .leftmenu-unlock{
+    background-image: url("/assets/images/left-menu-icons/dark-unlock.svg");
+}
+.dark ul.left-menu li a {
+    color: #fff;
+}
+.dark .left-menu-h ul.left-menu>li:hover>a {
+    background-color: #0E2511;
+    border-radius: 8px;
+}
+.dark ul.left-menu li.ico-home:before {
+    background: no-repeat url(/assets/images/left-menu-icons/dark-home.svg);
+}
+
+.dark ul.left-menu li.dark-mode:before {
+    background-image: url(/assets/images/left-menu-icons/light-mode.svg);
+}
+/******************** dark end*******************/
+
+/* Responsive */  
+
+@media only screen and (max-width: 1279px) {
+    .left-menu-sec [data-simplebar="init"]{
+        height: calc(100% - 340px);
+    }
+    ul.left-menu li:before { left: 16px;}
+    ul.left-menu li a{
+        padding: 9px 0;
+    }
+}

@@ -1,0 +1,488 @@
+.custAvatar .p-avatar-group {
+    gap: 8px;
+}
+
+.custAvatar .p-avatar {
+    font-size: 12px;
+    font-weight: 500;
+    color: #FFFFFF;
+    background-color: #111928;
+}
+
+.tableCust .p-paginator {
+    justify-content: end;
+    border: 0;
+    padding: 0;
+    padding-top: 16px;
+}
+
+.tableCust {
+    position: relative;
+}
+
+.tableCust .p-paginator-current {
+    position: absolute;
+    left: 0;
+}
+
+.tableCust .p-paginator .p-paginator-first,
+.tableCust .p-paginator .p-paginator-prev,
+.tableCust .p-paginator .p-paginator-next,
+.tableCust .p-paginator .p-paginator-last,
+.tableCust .p-paginator .p-paginator-pages .p-paginator-page {
+    border: 1px solid #D1D5DB;
+    border-radius: 0;
+    width: 33px;
+    height: 33px;
+    margin: 0;
+    min-width: inherit;
+}
+
+.tableCust .p-paginator .p-paginator-pages .p-paginator-page.p-highlight {
+    border: 1px solid #D1D5DB;
+    background-color: #DAEEFF;
+    color: #06486C;
+}
+
+.tableCust .p-link:focus {
+    box-shadow: none;
+}
+
+.tableCust .p-paginator .p-paginator-pages .p-paginator-page:not(.p-highlight):hover,
+.tableCust .p-paginator .p-paginator-first:not(.p-disabled):not(.p-highlight):hover,
+.tableCust .p-paginator .p-paginator-prev:not(.p-disabled):not(.p-highlight):hover,
+.tableCust .p-paginator .p-paginator-next:not(.p-disabled):not(.p-highlight):hover,
+.tableCust .p-paginator .p-paginator-last:not(.p-disabled):not(.p-highlight):hover {
+    background-color: #DAEEFF;
+}
+
+.tableCust .p-paginator .p-paginator-prev {
+    border-radius: 4px 0 0 4px;
+    width: 65px;
+}
+
+.tableCust .p-paginator .p-paginator-next {
+    border-radius: 0 4px 4px 0;
+    width: 65px;
+}
+
+.tableCust .pi-angle-left:before {
+    font-family: 'Open Sans', sans-serif;
+    content: "Previous" !important;
+}
+
+.tableCust .pi-angle-right:before {
+    font-family: 'Open Sans', sans-serif;
+    content: "Next" !important;
+}
+
+
+
+.tableCust .p-dropdown {
+    background: #F5F6F7;
+}
+
+.tableCust .p-paginator .p-dropdown .p-dropdown-trigger {
+    width: 2rem;
+}
+
+.tableCust .p-paginator .p-dropdown {
+     position: absolute;
+    left: 190px;
+    height: 40px;
+    margin-right: 1rem;
+}
+
+.tableCust .p-inputtext {
+    padding: 7px 9px;
+}
+
+.tableCust .p-dropdown .p-dropdown-label {
+    background: #F6F7F9;
+}
+
+.tableCust .p-dropdown .p-dropdown-trigger {
+    background: #F6F7F9;
+}
+
+  .tableCust .pi {
+    font-size: 12px;
+}
+
+
+/* admin side start */
+.tilesShadow {
+    box-shadow: 0px 1px 2px 0px #00000014;
+}
+
+/* search start */
+.custom_search .p-inputtext {
+    color: #9CA1AB;
+    background: #F5F6F7;
+    border: 1px solid #BECDE3;
+    font-size: 16px;
+    padding: 12px 16px;
+}
+.custom_search .p-inputtext:enabled:hover{
+    border-color: #A93439;
+}
+
+.custom_search .p-inputgroup-addon{
+    background: #A93439;
+    color: #FFFFFF;
+    border-top: 1px solid #A93439;
+    border-bottom: 1px solid #A93439;
+    padding: 0.75rem 0.75rem;
+}
+
+.custom_search .p-inputgroup-addon:last-child, .custom_search .p-inputgroup button:last-child, .custom_search .p-inputgroup input:last-child, .custom_search .p-inputgroup > .p-inputwrapper:last-child, .custom_search .p-inputgroup > .p-inputwrapper:last-child > .p-inputtext {
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+}
+
+.custom_search .p-inputgroup-addon:first-child, .p-inputgroup button:first-child, .p-inputgroup input:first-child, .p-inputgroup > .p-inputwrapper:first-child, .p-inputgroup > .p-inputwrapper:first-child > .p-inputtext {
+    border-top-left-radius: 0px;
+    border-bottom-left-radius: 0px;
+}
+/* search end  */
+
+/* accordion start */
+.customAccordion .p-accordion-header-link {
+    flex-direction: row-reverse;
+    justify-content: space-between;
+}
+
+.customAccordion .p-accordion .p-accordion-header .p-accordion-header-link {
+    color: #4B586E;
+    font-size: 18px;
+    font-weight: 500;
+    padding: 16px;
+}
+
+.p-accordion .p-accordion-header .p-accordion-header-link {
+    border: none;
+}
+
+.p-accordion .p-accordion-header:not(.p-highlight):not(.p-disabled):hover .p-accordion-header-link{
+    background: #F5F6F7;
+    border: none;
+}
+
+.customAccordion .p-accordion .p-accordion-header:not(.p-disabled) .p-accordion-header-link:focus{
+    box-shadow: none;
+}
+
+.customAccordion .p-accordion .p-accordion-content {
+    padding: 8px 12px;
+    border: none;
+}
+
+
+.customAccordion .pi-chevron-right:before {
+    font-family: 'austin-isd' !important;
+    content: "\e903";
+    font-size: 10px;
+}
+
+.customAccordion .pi-chevron-down:before {
+    font-family: 'austin-isd' !important;
+    content: '\e933';
+    font-size: 10px;
+}
+
+.customAccordion .p-accordion .p-accordion-tab {
+    margin-bottom: 1.25vw;
+}
+/* accordion end */
+
+/* check box custom start */
+.custumCheckbox.p-checkbox .p-checkbox-box.p-highlight {
+    border-color: #1F2A37;
+    background: #1F2A37;
+}
+.custumCheckbox.p-checkbox:not(.p-checkbox-disabled) .p-checkbox-box.p-highlight:hover {
+    border-color: #1F2A37;
+    background: #1F2A37;
+}
+.custumCheckbox.p-checkbox:not(.p-checkbox-disabled) .p-checkbox-box.p-focus {
+    border-color: #1F2A37;
+    box-shadow: none;
+}
+
+.custumCheckbox.p-checkbox:not(.p-checkbox-disabled) .p-checkbox-box:hover {
+    border-color: #1F2A37;
+}
+.custumCheckbox.p-checkbox .p-checkbox-box {
+    width: 16px;
+    height: 16px;
+    color: #495057;
+    border-radius: 4px;
+}
+
+.custumCheckbox.p-checkbox {
+    width: 16px;
+    height: 16px;
+}
+
+.custumCheckbox.p-checkbox .p-checkbox-box .p-checkbox-icon {
+    font-size: 9px;
+}
+
+/* check box custom end */
+
+/* radio start */
+.custRadio .p-radiobutton .p-radiobutton-box.p-highlight {
+    border-color: #1F2A37;
+    background: #1F2A37;
+}
+.custRadio .p-radiobutton .p-radiobutton-box {
+    width: 16px;
+    height: 16px;
+}
+.custRadio .p-radiobutton{
+    width: 16px;
+    height: 16px;
+}
+
+.custRadio .p-radiobutton .p-radiobutton-box .p-radiobutton-icon{
+    width: 8px;
+    height: 8px;
+}
+
+.custRadio .p-radiobutton .p-radiobutton-box.p-highlight:not(.p-disabled):hover {
+    border-color: #1F2A37;
+    background: #1F2A37;
+    color: #ffffff;
+}
+/* radio end */
+
+/* input start  */
+.customInput .p-inputtext {
+    padding: 12px 16px;
+    font-size: 16px;
+    background: #F5F6F7;
+    border: 1px solid #BECDE3;
+}   
+
+.customInput .p-inputtext:enabled:hover{
+    border-color: #A93439;
+}
+
+.customInput .p-inputtext:enabled:focus{
+    box-shadow: none !important;
+    border-color: #A93439;
+}
+/* input end  */
+
+/* dropdown start */
+.customDropdown .p-inputtext {
+    padding: 12px 16px;
+    font-size: 16px;
+    background: #F5F6F7;
+} 
+
+.customDropdown .p-dropdown:not(.p-disabled).p-focus {
+    box-shadow: none;
+    border-color: #A93439;
+}
+
+.customDropdown .p-dropdown .p-dropdown-trigger{
+    background: #F5F6F7;
+    color: #9CA1AB;
+}
+
+.customDropdown .p-dropdown:not(.p-disabled):hover{
+    border-color: #A93439;
+}
+
+.customDropdown .pi {
+    font-size: 9px;
+}
+/* dropdown end */
+    
+/* calendar start */
+.customCalendar .p-inputtext {
+    padding: 12px 16px 12px 0px;
+    font-size: 16px;
+    background: #F5F6F7;
+} 
+
+.customCalendar .p-button {
+    padding: 12px 16px;
+    font-size: 16px;
+    color: #4B586E;
+    background: #F5F6F7;
+    border-right: none;
+    border-left: 1px solid #BECDE3;
+    border-top: 1px solid #BECDE3;
+    border-bottom: 1px solid #BECDE3;
+}
+
+.customCalendar .p-inputtext {
+    border: 1px solid #BECDE3;
+    border-right: 1px solid #BECDE3;
+    border-left: none;
+    border-top: 1px solid #BECDE3;
+    border-bottom: 1px solid #BECDE3;
+}
+.customCalendar .p-inputtext:enabled:hover{
+    border-color: #BECDE3;
+}
+
+.customCalendar .p-button:enabled:hover,.customCalendar .p-button:not(button):not(a):not(.p-disabled):hover{
+    background: #F5F6F7;
+    color: #4B586E;
+    border-color: #BECDE3;
+}
+.customCalendar .p-inputtext:enabled:focus {
+    box-shadow: none !important;
+    border-color: #BECDE3;
+}
+
+.pi-calendar:before{
+    font-family: 'austin-isd' ;
+    content: "\e90a";
+    font-size: 15px;
+}
+/* calendar end */
+
+/* keyword search start */
+.keywordSearch .p-inputtext {
+    padding: 12px 16px;
+    font-size: 16px;
+    background: #fff;
+    border: 1px solid #BECDE3;
+    border-radius: 8px;
+}  
+
+.keywordSearch .p-inputtext:enabled:hover{
+    border-color: #A93439;
+}
+
+.keywordSearch .p-inputtext:enabled:focus {
+    box-shadow: none;
+    border-color: #A93439;
+}
+
+.keywordSearch .p-input-icon-left > .p-inputtext {
+    padding-left: 2.5rem;
+}
+/* keyword search end */
+
+/* document usages search */
+.documentSearch .p-inputtext{
+    background: #F5F6F7;
+}
+/* document usages search */
+
+.mapouter{position:relative;height:100%;width:100%;background:#fff;} .maprouter a{color:#fff !important;position:absolute !important;top:0 !important;z-index:0 !important;}
+.gmap_canvas{overflow:hidden;height:100%;width:100%}
+.gmap_canvas iframe{position:relative;z-index:2; width: 100%;height: 100%;border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+}
+
+/* admin side end */
+
+/* Website side start */
+.bgnewsimage:before{
+    position: absolute;
+    top: 26px;
+    background-image: url(../../public/assets/images/svg/newsbgimage.svg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 263px;
+    height: 504px;
+    content: '';
+}
+
+/* school details popups start  */
+.p-sidebar-right .p-sidebar.width768 {
+    width: 768px;
+}
+
+.width768.p-sidebar {
+    background-image: url(../../public/assets/images/school_popup_bg.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.egaleshadow {
+    box-shadow: 0px 10px 10px 0px rgba(0, 0, 0, 0.04);
+    box-shadow: 0px 20px 25px -5px rgba(0, 0, 0, 0.1);
+}
+/* school details popups end  */
+
+/* Website side end */
+
+/***********************************************
+            Responsive
+***********************************************/
+
+
+@media (min-width:1700px) {}
+
+@media (max-width:1366px) {}
+
+@media (min-width:1280px) {
+    .custom_search .p-inputtext {
+        padding: 0.625vw 0.833vw;
+        font-size: 0.833vw;
+    }
+    .customAccordion .p-accordion .p-accordion-header .p-accordion-header-link {
+        font-size: 0.938vw;
+        padding: 0.833vw;
+    }
+    .customAccordion .pi-chevron-right:before {
+        font-size: 0.625vw;
+    }
+    
+    .customAccordion .pi-chevron-down:before {
+        font-size: 0.625vw;
+    }
+    .customInput .p-inputtext {
+        padding: 0.625vw 0.833vw;
+        font-size: 0.833vw;
+    }
+    .customDropdown .p-inputtext {
+        padding: 0.625vw 0.833vw;
+        font-size: 0.833vw;
+    }
+    .customCalendar .p-inputtext {
+        padding: 0.625vw 0.833vw 0.625vw 0vw;
+        font-size: 0.833vw;
+    }
+    .customCalendar .p-button {
+        padding: 0.625vw 0.833vw 0.625vw;
+        font-size: 0.833vw;
+    }
+    .keywordSearch .p-inputtext {
+        padding: 0.625vw 0.833vw;
+        font-size: 0.833vw;
+    }
+    .bgnewsimage:before{
+        top: 4.281vw;
+        width: 13.698vw;
+        height: 26.25vw;
+    }
+
+    /* website start */
+    .p-sidebar-right .p-sidebar.width768 {
+        width: 40vw;
+    }
+
+    /* website end */
+    
+}
+
+@media (max-width:1024px) {}
+
+@media (max-width:991px) {}
+
+@media (max-width:767px) {}
+
+@media (max-width:680px) {}
+
+
+.p-overlaypanel .p-overlaypanel-content {
+    padding: 0.5rem;
+}

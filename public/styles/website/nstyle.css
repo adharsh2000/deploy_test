@@ -1,0 +1,217 @@
+.custAvatar .p-avatar-group {
+    gap: 8px;
+}
+
+.custAvatar .p-avatar {
+    font-size: 12px;
+    font-weight: 500;
+    color: #FFFFFF;
+    background-color: #111928;
+}
+
+.tableCust .p-paginator {
+    justify-content: end;
+    border: 0;
+    padding: 0;
+    padding-top: 16px;
+}
+
+.tableCust {
+    position: relative;
+}
+
+.tableCust .p-paginator-current {
+    position: absolute;
+    left: 0;
+}
+
+.tableCust .p-paginator .p-paginator-first,
+.tableCust .p-paginator .p-paginator-prev,
+.tableCust .p-paginator .p-paginator-next,
+.tableCust .p-paginator .p-paginator-last,
+.tableCust .p-paginator .p-paginator-pages .p-paginator-page {
+    border: 1px solid #D1D5DB;
+    border-radius: 0;
+    width: 33px;
+    height: 33px;
+    margin: 0;
+    min-width: inherit;
+}
+
+.tableCust .p-paginator .p-paginator-pages .p-paginator-page.p-highlight {
+    border: 1px solid #D1D5DB;
+    background-color: #DAEEFF;
+    color: #06486C;
+}
+
+.tableCust .p-link:focus {
+    box-shadow: none;
+}
+
+.tableCust .p-paginator .p-paginator-pages .p-paginator-page:not(.p-highlight):hover,
+.tableCust .p-paginator .p-paginator-first:not(.p-disabled):not(.p-highlight):hover,
+.tableCust .p-paginator .p-paginator-prev:not(.p-disabled):not(.p-highlight):hover,
+.tableCust .p-paginator .p-paginator-next:not(.p-disabled):not(.p-highlight):hover,
+.tableCust .p-paginator .p-paginator-last:not(.p-disabled):not(.p-highlight):hover {
+    background-color: #DAEEFF;
+}
+
+.tableCust .p-paginator .p-paginator-prev {
+    border-radius: 4px 0 0 4px;
+    width: 65px;
+}
+
+.tableCust .p-paginator .p-paginator-next {
+    border-radius: 0 4px 4px 0;
+    width: 65px;
+}
+
+.tableCust .pi-angle-left:before {
+    font-family: 'Open Sans', sans-serif;
+    content: "Previous" !important;
+}
+
+.tableCust .pi-angle-right:before {
+    font-family: 'Open Sans', sans-serif;
+    content: "Next" !important;
+}
+
+
+
+.tableCust .p-dropdown {
+    background: #F5F6F7;
+}
+
+.tableCust .p-paginator .p-dropdown .p-dropdown-trigger {
+    width: 2rem;
+}
+
+.tableCust .p-paginator .p-dropdown {
+     position: absolute;
+    left: 190px;
+    height: 40px;
+    margin-right: 1rem;
+}
+
+.tableCust .p-inputtext {
+    padding: 7px 9px;
+}
+
+.tableCust .p-dropdown .p-dropdown-label {
+    background: #F6F7F9;
+}
+
+.tableCust .p-dropdown .p-dropdown-trigger {
+    background: #F6F7F9;
+}
+
+  .tableCust .pi {
+    font-size: 12px;
+}
+
+/* Website side start */
+.bgnewsimage:before{
+    position: absolute;
+    top: 26px;
+    background-image: url(../../public/assets/images/svg/newsbgimage.svg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 263px;
+    height: 504px;
+    content: '';
+}
+
+/* school details popups start  */
+.p-sidebar-right .p-sidebar.width768 {
+    width: 768px;
+}
+
+.width768.p-sidebar {
+    background-image: url(../../public/assets/images/school_popup_bg.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.egaleshadow {
+    box-shadow: 0px 10px 10px 0px rgba(0, 0, 0, 0.04);
+    box-shadow: 0px 20px 25px -5px rgba(0, 0, 0, 0.1);
+}
+
+.detailBoxShadow {
+    box-shadow: 0px 0px 58px 0px rgba(94, 94, 94, 0.15);
+}
+/* school details popups end  */
+
+/* Website side end */
+
+/***********************************************
+            Responsive
+***********************************************/
+
+
+@media (min-width:1700px) {}
+
+@media (max-width:1366px) {}
+
+@media (min-width:1280px) {
+    .custom_search .p-inputtext {
+        padding: 0.625vw 0.833vw;
+        font-size: 0.833vw;
+    }
+    .customAccordion .p-accordion .p-accordion-header .p-accordion-header-link {
+        font-size: 0.938vw;
+        padding: 0.833vw;
+    }
+    .customAccordion .pi-chevron-right:before {
+        font-size: 0.625vw;
+    }
+    
+    .customAccordion .pi-chevron-down:before {
+        font-size: 0.625vw;
+    }
+    .customInput .p-inputtext {
+        padding: 0.625vw 0.833vw;
+        font-size: 0.833vw;
+    }
+    .customDropdown .p-inputtext {
+        padding: 0.625vw 0.833vw;
+        font-size: 0.833vw;
+    }
+    .customCalendar .p-inputtext {
+        padding: 0.625vw 0.833vw 0.625vw 0vw;
+        font-size: 0.833vw;
+    }
+    .customCalendar .p-button {
+        padding: 0.625vw 0.833vw 0.625vw;
+        font-size: 0.833vw;
+    }
+    .keywordSearch .p-inputtext {
+        padding: 0.625vw 0.833vw;
+        font-size: 0.833vw;
+    }
+    .bgnewsimage:before{
+        top: 4.281vw;
+        width: 13.698vw;
+        height: 26.25vw;
+    }
+
+    /* website start */
+    .p-sidebar-right .p-sidebar.width768 {
+        width: 40vw;
+    }
+    /* website end */
+    
+}
+
+@media (max-width:1024px) {}
+
+@media (max-width:991px) {}
+
+@media (max-width:767px) {}
+
+@media (max-width:680px) {}
+
+
+.p-overlaypanel .p-overlaypanel-content {
+    padding: 0.5rem;
+}

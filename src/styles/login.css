@@ -1,0 +1,16 @@
+.p-password-input {
+  width: 100% !important;
+}
+
+.custom-editor .ql-toolbar .ql-formats {
+  margin-right: 2px !important;
+}
+.contentaddheight{
+  min-height: 50px !important;
+}
+@media screen and(max-width:768px) {
+  .contentaduj{
+   width: 100% !important;
+   text-align: center !important;
+  }
+}
