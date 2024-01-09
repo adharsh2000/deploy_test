@@ -5,6 +5,7 @@ import SimpleBar from 'simplebar-react';
 import 'simplebar-react/dist/simplebar.min.css';
 import { OverlayPanel } from 'primereact/overlaypanel';
 import { Inter, Montserrat } from '@next/font/google'
+import { useRouter } from "next/router";
 
 const myInter = Inter({
   weight: ['100', '200','300', '400', '500', '600', '700', '800', '900'],
@@ -18,19 +19,30 @@ const myMontserrat = Montserrat({
 })
 
 
+
 export default function Footer({ ...pageProps }) {
     const notificatio = useRef(null);
+    const router = useRouter();
 
     return (
         <div className="relative pt-[150px]">            
             <footer className="bg-[#1F2A37] pt-[164px] pb-[58px] px-[15px] lg:px-[20px] xl:px-[1.04vw] relative" >
                 <span className="absolute bottom-[0px] right-0 left-0 mx-auto z-[-1] flex justify-center">
-                    <Image
-                        src="/assets/images/footer-round.svg"
-                        width="1921"
-                        height="793"
-                        alt=""
-                    />
+                {router.pathname === '/website/aisdtv' ? 
+                <Image
+                    src="/assets/images/footer-round-dark.svg"
+                    width="1921"
+                    height="793"
+                    alt=""
+                />
+                :
+                <Image
+                    src="/assets/images/footer-round.svg"
+                    width="1921"
+                    height="793"
+                    alt=""
+                />
+                }
                 </span>
                 <div className="xl:max-w-[88.3025vw] mx-auto">
                     <div className="footer-logo absolute top-[0] left-0 right-0 mx-auto">

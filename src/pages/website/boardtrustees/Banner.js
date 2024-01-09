@@ -76,7 +76,7 @@ export default function Banner() {
                     <div className="text-[#374151] text-[20px] xl:text-[1.042vw]">
                       AISD Board Meetings
                     </div>
-                    <div className="text-[#4B586E] text-[0.833vw] xl:text-[0.833vw] leading-none">
+                    <div className="text-[#4B586E] text-[16px] xl:text-[0.833vw] leading-[1.2]">
                       Meetings will broadcast on{" "}
                       <Link href={""} className="underline">
                         AISD.TV
