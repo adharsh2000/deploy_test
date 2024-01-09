@@ -2,8 +2,6 @@ import Layout from '@/components/layout/layout'
 import Academic from '@/components/website/academic'
 import React, { useState } from 'react'
 import AcadamicsBanner from './acadamicsbanner';
-import { Tab, TabPanel, Tabs, TabList } from 'react-web-tabs';
-import 'react-web-tabs/dist/react-web-tabs.css';
 
 function Acadamics() {
     const [academicvisible,setAcademicvisible] =useState(false);
