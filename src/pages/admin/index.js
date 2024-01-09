@@ -25,18 +25,32 @@ export default function Index() {
 
   const router = useRouter();
 
+  const auth = async (email) => {
+    try {
+      const response = await fetchAPI(`/auth/login`, 'POST', {email}, 'application/json');
+      console.log(response)
+      sessionStorage.setItem('AccessToken', response?.token)
+      sessionStorage.setItem('role', response?.user?.role?.role)
+      sessionStorage.setItem('userId', response?.user?.user_id);
+      router.push('/admin/dashboard');
+      setLoading(false)
+    } catch (error) {
+      setLoading(false)
+      console.log(error)
+    }
+  }
+
   const login = useGoogleLogin({
     onSuccess: tokenResponse => {
       setLoading(true)
-      sessionStorage.setItem('AccessToken', tokenResponse?.access_token)
+      // sessionStorage.setItem('AccessToken', tokenResponse?.access_token)
       try {
         axios.get(`https://www.googleapis.com/oauth2/v2/userinfo?access_token=${tokenResponse?.access_token}`)
           .then(resp => {
             sessionStorage.setItem("AdminUserName", resp?.data?.name)
             sessionStorage.setItem("AdminUserImage", resp?.data?.picture)
             sessionStorage.setItem("AdminUserEmail", resp?.data?.email)
-            setLoading(false)
-            router.push('/admin/dashboard');
+            auth(resp?.data?.email);
           })
       }
       catch (error) {
@@ -62,7 +76,6 @@ export default function Index() {
     try {
       !CheckMandat && await fetchAPI(`/auth/login`, 'POST', data, 'application/json')
         .then((response) => {
-          console.log(response, 'hellu')
           if (response?.data?.message?.includes('wrong')){
             setLoading(false);
             toast.current.show({severity:'error', detail:'Invalid Credentials', life: 3000});
@@ -117,10 +130,10 @@ export default function Index() {
                   <form autoComplete="off">
                     <div className="mb-[26px] xl:mb-[1.354vw]">
                       <h2 className="text-[24px] xl:text-[1.875vw] font-semibold text-[#242526]">Login</h2>
-                      <div className="text-[#53565A] text-[18px] xl:text-[0.938vw] font-medium pt-2">Provide your credentials to proceed, please.</div>
+                      {/* <div className="text-[#53565A] text-[18px] xl:text-[0.938vw] font-medium pt-2">Provide your credentials to proceed, please.</div> */}
                     </div>
 
-                    <div className="relative  mb-2 xl:mb-[0.781vw] loginInputadmin">
+                    {/* <div className="relative  mb-2 xl:mb-[0.781vw] loginInputadmin">
                       <div className="pb-2 "><label htmlFor="" className="text-[#344054] text-sm font-medium">Email</label></div>
                       <InputText
                         value={EmailInput}
@@ -156,7 +169,7 @@ export default function Index() {
                       <span className="text-[#FFFFFF] text-[16px] xl:text-[0.833vw] bg-[#A93439] hover:bg-[#972c06] rounded-lg w-full text-center py-[12px] xl:py-[0.525vw]">Login</span>
                     </div>
 
-                    <div className='flex items-center justify-center text-[#A7A9AE] text-[15px] xl:text-[0.781vw] font-normal text-center mb-[16px] xl:mb-[0.833vw]'><div className='border-[1px] w-[120px] xl:w-[6.250vw] border-[#E6E3D9]'></div>&nbsp; Or Sign in with Google &nbsp;<div className='border-[1px] w-[120px] xl:w-[6.250vw] border-[#E6E3D9]'></div></div>
+                    <div className='flex items-center justify-center text-[#A7A9AE] text-[15px] xl:text-[0.781vw] font-normal text-center mb-[16px] xl:mb-[0.833vw]'><div className='border-[1px] w-[120px] xl:w-[6.250vw] border-[#E6E3D9]'></div>&nbsp; Or Sign in with Google &nbsp;<div className='border-[1px] w-[120px] xl:w-[6.250vw] border-[#E6E3D9]'></div></div> */}
 
                     {/* <div className="flex w-full mb-[40px] xl:mb-[2.083vw]">
                       <Link onClick={() => login()} className="flex items-center justify-center gap-2 text-[#53565A] bg-[#FFFFFF] border-[1px] border-[#E6E3D9] text-[16px] xl:text-[0.833vw] rounded-lg w-full text-center py-[12px] xl:py-[0.625vw] ">
@@ -182,12 +195,12 @@ export default function Index() {
                         Sign in with Google</span>
                     </div>
 
-                    <div className="flex items-center justify-center mb-8 xl:mb-[2.083vw] text-[16px] xl:text-[0.833vw] font-medium text-[#A7A9AE]">
+                    {/* <div className="flex items-center justify-center mb-8 xl:mb-[2.083vw] text-[16px] xl:text-[0.833vw] font-medium text-[#A7A9AE]">
                       Not Registered Yet?
                       <Link href='/' className="ml-2 font-medium text-[#2B407D] hover:text-[#2B407D]">
                         Create account.
                       </Link>
-                    </div>
+                    </div> */}
 
                   </form>
                 </div>

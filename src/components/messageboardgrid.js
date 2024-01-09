@@ -19,6 +19,12 @@ export default function MessageBoardGrid(props) {
             await fetchAPI(`/messageboard/topicview/pinnedunpinnedtopic`, 'POST', data, 'application/json')
                 .then((response) => {
                     response?.message?.includes('successfully') && props?.setPinnedUpdated(true)
+                    if (response?.message?.includes('topic pinned')) {
+                        toast.current.show({ severity: 'success', summary: 'Post has been pinned', detail: '' });
+                      }
+                      else if (response?.message?.includes('unpinned')) {
+                        toast.current.show({ severity: 'success', summary: 'Post has been unpinned', detail: '' });
+                      }
                 }
                 )
         }
@@ -36,7 +42,7 @@ export default function MessageBoardGrid(props) {
                     {props?.TopicList?.map(item =>
                         <span className="shadow border border-[#E5E7EB] rounded-[8px] xl:rounded-[0.417vw] p-[16px] xl:p-[0.833vw] boxWrapper grow_ellipse">
                             <div className="relative">
-                                <div className="col cursor-pointer" onClick={() => { props?.setShowDiscussionDetail(true), props?.setPost_id(item?.topic_id) }}>
+                                <div className="col cursor-pointer" onClick={() => { props?.setShowDiscussionDetail(true), props?.setPost_id(item?.topic_id),props?.setCategory_id(item?.category_id) }}>
                                     <span className="text-[#374151] text-[14px] xl:text-[0.729vw]">
                                         {item?.user?.firstName + item?.user?.lastName}
                                     </span>

@@ -34,6 +34,7 @@ export default function Index() {
             <div className="mt-[30px] xl:mt-[2.09vw]">
               <CatalogeLibrary />
             </div>
+      
           </div>
         </div>
       </Layout>

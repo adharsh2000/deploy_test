@@ -19,9 +19,9 @@ export default function Index() {
   return (
     <>
       <Layout pageTitle="School Comparison">
-        <Schoolcombanner />                           
+        <Schoolcombanner className="relative z-40" />                           
         {/**School Comparison Sticky**/}
-        <div className='grid grid-cols-4 xl:gap-[1.667vw] gap-[30px] sticky top-[25%] z-40 xl:px-[6.042vw] px-[100px]'>
+        <div className='grid grid-cols-4 xl:gap-[1.667vw] gap-[30px] sticky top-[25%] z-30 xl:px-[6.042vw] px-[100px] max-lg:hidden md:-mb-[15.625vw]'>
             {/**col**/}
             <div className='shadows_shadow-lg bg-white xl:rounded-[0.833vw] rounded-[14px] xl:pt-[0.313vw] pt-1 xl:pb-[0.833vw] pb-4 xl:px-[0.833vw] px-4 space-y-[12px]'>
                 <div className='flex items-center justify-between'>
@@ -85,7 +85,7 @@ export default function Index() {
         </div>
         {/**School Comparison Sticky**/}
         {/**School Comparison**/}
-        <div className="xl:px-[6.042vw] px-[100px]"> 
+        <div className="xl:px-[6.042vw] px-[100px] relative z-40"> 
         <div className="xl:space-y-[0.833vw] space-y-[14px]">
         <div className="breadCrumb flex justify-start gap-[16px] mb-[20px] xl:mb-[1.04vw]">
         <div className="col">

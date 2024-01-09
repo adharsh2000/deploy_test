@@ -16,6 +16,7 @@ export default function RemoveUser(props) {
                 console.log(data);
                 props.onHides(false)
                 props.setId(null)
+                props.fetchPost();
                 if (data?.message?.includes("not found")) {
                     return toast.current.show({ severity: 'error', detail: data?.message, life: 3000 });
                 }

@@ -140,8 +140,90 @@
 .detailBoxShadow {
     box-shadow: 0px 0px 58px 0px rgba(94, 94, 94, 0.15);
 }
+
+/* acadamics start */
+.acadamics_bg {
+    background-image: url(../../assets/website/acadamics_banner_bg.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+.buttonShadow {
+    box-shadow: 0px 1px 3px 0px #0000001A;
+}
+
+.iconsListTV [class*="austin-"] { font-size: 24px; color: #E5E7EB;}
+.iconsListTV a { display: inline-flex; justify-content: center; align-items: center; background: #1F2A37; width: 60px; height: 46px; border-radius: 8px;} 
+
+.scrollpanel-demo2 .p-scrollpanel.custombar1 .p-scrollpanel-bar {
+    background-color: #8F9FB8 !important;
+}
+
+.scrollpanel-demo2 .p-scrollpanel.custombar1 .p-scrollpanel-wrapper {
+    border-right: 10px solid #4F6484 !important;
+}
+
+.p-carousel.custm_carouselTV .p-carousel-content .p-carousel-next {
+    background: #A93439 !important;
+}
+.p-carousel.custm_carouselTV .p-carousel-content .p-carousel-prev {
+    background: #A93439 !important;
+}
+.p-carousel.custm_carouselTV .p-carousel-content .p-carousel-prev:enabled:hover, .p-carousel.custm_carouselTV .p-carousel-content .p-carousel-next:enabled:hover {
+    background: #e9ecef !important;
+}
+
+
+/* acadamics end */
 /* school details popups end  */
 
+.tvBodyColor {
+    background: #111928;
+}
+
+/* calender */
+.headp .p-datepicker .p-datepicker-header .p-datepicker-prev, .p-datepicker .p-datepicker-header .p-datepicker-next{
+    display: none;
+  }
+  
+  .headp .p-datepicker-header .p-datepicker-title{
+    margin: 0;
+  }
+  
+   .headp .p-datepicker-weekheader{
+    display: none;
+  }
+  
+  .headp .p-datepicker-weeknumber{
+    display: none;
+  }
+  
+  .headp .p-datepicker {
+
+    background-color: #1F2A37 !important;
+    color: #fff !important;
+  }
+
+  .headp .p-datepicker .p-datepicker-header{
+    background-color: #1F2A37 !important;
+  }
+
+  .p-datepicker .p-datepicker-header .p-datepicker-title .p-datepicker-year, .p-datepicker .p-datepicker-header .p-datepicker-title .p-datepicker-month{
+    color: #fff;
+  }
+
+  .headp .p-datepicker table td.p-datepicker-today > span{
+     background-color: #A93439;
+     color: #fff;
+  }
+
+  .headp .p-datepicker:not(.p-disabled) table td span:not(.p-highlight):not(.p-disabled):hover{
+    background-color: #A93439;
+    color: #fff;
+  }
+
+  /* calender end */
 /* Website side end */
 
 /***********************************************
@@ -199,6 +281,8 @@
     .p-sidebar-right .p-sidebar.width768 {
         width: 40vw;
     }
+    .iconsListTV a { width: 3.125vw; height: 2.396vw;}
+    .iconsListTV [class*="austin-"] { font-size: 1.25vw;}
     /* website end */
     
 }
@@ -215,3 +299,4 @@
 .p-overlaypanel .p-overlaypanel-content {
     padding: 0.5rem;
 }
+

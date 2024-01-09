@@ -105,7 +105,6 @@ const MegaMenuPopup = (props) => {
                        </Link>
                     </div>
                   </div>
-
                   <div className="grid grid-cols-4 gap-[24px] xl:gap-[1.083vw] xl:mt-[1.25vw] mt-[24px]">
                     <div>
                         <h4 className="text-[#374151] text-[16px] xl:text-[0.833vw] font-semibold">
@@ -195,10 +194,10 @@ const MegaMenuPopup = (props) => {
                         <div className="mxl:mt-[0.833vw] mt-[16px]">
                           <ul className="list-none xl:space-y-[0.533vw] space-y-[16px] text-[#4B586E] text-[16px] xl:text-[0.833vw] font-light">
                               <li>
-                                  <Link href={""}> All Departments</Link>
+                                  <Link href='/website/departments'> All Departments</Link>
                               </li>
                               <li>
-                                  <Link href={""}> Academics</Link>
+                                  <Link href={"/website/acadamics"}> Academics</Link>
                               </li>
                               <li>
                                   <Link href={""}>Athletics</Link>

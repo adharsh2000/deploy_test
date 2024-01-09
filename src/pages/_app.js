@@ -8,14 +8,26 @@ import { Inter } from '@next/font/google'
 import { GoogleOAuthProvider } from '@react-oauth/google';
 
 import { Montserrat } from '@next/font/google';
+import { useRouter } from "next/router";
+import { useEffect } from "react";
 const myMontserrat = Montserrat({
   weight: ['300', '400', '500', '600', '700', '800'],
   subsets: ['latin'],
   display: 'swap'
-
 })
 
+
+
+
 export default function App({ Component, pageProps }) {
+  const router = useRouter();
+  useEffect(() => {  
+    if(router.pathname === '/website/aisdtv') 
+    { document.body.classList.add('tvBodyColor'); } 
+    else 
+    { document.body.classList.remove('tvBodyColor');}
+  }, []);
+
   return <main className={myMontserrat.className}>
     <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}>
       <ThemeProvider attribute="class">

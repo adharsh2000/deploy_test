@@ -5,8 +5,8 @@ import Whychosseaustinisd from "./whychosseaustinisd";
 import LatestNews from "./latestnews";
 import SocialMedia from "./socialmedia";
 import CalendarEvents from "./calendarevents";
-import AisdTv from "./aisdtv";
 import Image from "next/image";
+import AisdTv from "./aisdtvhome";
 
 
 export default function Index() {

@@ -184,12 +184,8 @@ export default function Index() {
                   </div>
 
                   <Link
-                    href={"javascript:void(0);"}
-                    className="mt-4 bg-[#A93439] hover:bg-[#762428] rounded-[8px] xl:rounded-[0.417vw] py-[10px] xl:py-[0.521vw] px-[16px] xl:px-[0.833vw]
-                                 inline-block text-[12px] xl:text-[0.725vw] text-white font-light"
-                  >
-                    Compare{" "}
-                    <i className="austin-arrow-line-right ml-[8px] xl:ml-[0.417vw]"></i>
+                    href={"/website/schoolcomparison"}
+                    className="mt-4 bg-[#A93439] hover:bg-[#762428] rounded-[8px] xl:rounded-[0.417vw] py-[10px] xl:py-[0.521vw] px-[16px] xl:px-[0.833vw] inline-block text-[12px] xl:text-[0.725vw] text-white font-light">Compare<i className="austin-arrow-line-right ml-[8px] xl:ml-[0.417vw]"></i>
                   </Link>
                 </div>
                 <div className="xl:mt-[1.667vw] mt-[30px]">

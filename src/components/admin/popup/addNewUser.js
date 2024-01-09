@@ -9,12 +9,26 @@ import { Calendar } from "primereact/calendar";
 import { Toast } from "primereact/toast";
 import { FileUpload } from "primereact/fileupload";
 import Addsuccessfulpopup from "@/components/admin/popup/addsuccessfulpopup";
+import fetchAPI from "@/service/api/fetchAPI";
+import adminFetchAPI from "@/service/api/adminFetchApi";
 
 const AddNewUser = (props) => {
   const [date, setDate] = useState(null);
   const [text, setText] = useState("");
   const toast = useRef(null);
   const [visible, setVisible] = useState(false);
+  const [roles, setRoles] = useState([]);
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [role, setRole] = useState("");
+  const [email, setEmail] = useState("")
+
+  const resetForm = () => {
+    setFirstName("");
+    setLastName("");
+    setRole("");
+    setEmail("")
+  }
 
   const onUpload = () => {
     toast.current.show({
@@ -37,6 +51,53 @@ const AddNewUser = (props) => {
     { name: "Istanbul", code: "IST" },
     { name: "Paris", code: "PRS" },
   ];
+
+  const fetchRoles = async () => {
+    try {
+      let data = {
+        "page": 1,
+        "limit": 10,
+        "search": ""
+      }
+      const response = await fetchAPI(`/role/list`, 'POST', data, 'application/json');
+      console.log(response)
+      setRoles(response?.rows);
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  useEffect(() => {
+    fetchRoles();
+  }, [])
+
+  const handleSubmit = async () => {
+    const formData = new FormData();
+
+    formData.append("userCode", "213123");
+    formData.append("firstName", firstName);
+    formData.append("lastName", lastName);
+    formData.append("email", email);
+    formData.append("role_id", role);
+    formData.append("isBlocked", "0");
+    formData.append("isConfirmed", "0");
+    formData.append("profile_pic", "img.png");
+    formData.append("designation", null);
+    formData.append("created_by", sessionStorage.getItem("userId"));
+
+    try {
+      await adminFetchAPI(`/user`, 'POST', formData, 'multipart/form-data');
+      // resetForm()
+      setVisible(true);
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  const onHide = () => {
+    setVisible(false);
+    resetForm();
+  }
 
   return (
     <>
@@ -68,13 +129,33 @@ const AddNewUser = (props) => {
                           htmlFor="username"
                           className="text-[#374151] xl:text-[0.833vw] text-base font-medium"
                         >
-                          Title
+                          First Name
                         </label>
                         <InputText
                           id="username"
                           placeholder="Type here"
                           className="placeholder:text-[#9CA1AB] placeholder:font-normal"
                           aria-describedby="username-help"
+                          value={firstName}
+                          onChange={(e) => setFirstName(e.target.value)}
+                        />
+                      </div>
+                    </div>
+                    <div className="col-span-12 xl:mb-[0.833vw] mb-[16px]">
+                      <div className="flex flex-col customInput">
+                        <label
+                          htmlFor="username"
+                          className="text-[#374151] xl:text-[0.833vw] text-base font-medium"
+                        >
+                          Last Name
+                        </label>
+                        <InputText
+                          id="username"
+                          placeholder="Type here"
+                          className="placeholder:text-[#9CA1AB] placeholder:font-normal"
+                          aria-describedby="username-help"
+                          value={lastName}
+                          onChange={(e) => setLastName(e.target.value)}
                         />
                       </div>
                     </div>
@@ -87,10 +168,11 @@ const AddNewUser = (props) => {
                           Role
                         </label>
                         <Dropdown
-                          value={selectedCity}
-                          onChange={(e) => setSelectedCity(e.value)}
-                          options={cities}
-                          optionLabel="name"
+                          value={role}
+                          onChange={(e) => setRole(e.value)}
+                          options={roles}
+                          optionLabel="role"
+                          optionValue="role_id"
                           placeholder="Select an option"
                           className="w-full"
                         />
@@ -109,6 +191,8 @@ const AddNewUser = (props) => {
                           placeholder="Type here"
                           className="placeholder:text-[#9CA1AB] placeholder:font-normal"
                           aria-describedby="username-help"
+                          value={email}
+                          onChange={(e) => setEmail(e.target.value)}
                         />
                       </div>
                     </div>
@@ -154,9 +238,10 @@ const AddNewUser = (props) => {
                   Cancel
                 </Link>
                 <Link
-                  href={""}  
+                  href={""}
                   className="text-white bg-[#1F2A37] xl:text-[0.833vw] text-base font-normal xl:leading-[1.042vw] leading-5 border border-[#1F2A37] xl:rounded-[0.521vw] rounded-lg px-[20px] xl:px-[1.042vw] py-[12px] xl:py-[0.625vw]"
-                  onClick={() => setVisible(true)}
+                  // onClick={() => setVisible(true)}
+                  onClick={handleSubmit}
                 >
                   Add User
                 </Link>
@@ -165,10 +250,12 @@ const AddNewUser = (props) => {
           </div>
 
           <Addsuccessfulpopup
-           visible={visible}
-           onHides={() => setVisible(false)}
-           message="New user kathryn Murphy add successfully "
-           
+            visible={visible}
+            onHides={() => setVisible(false)}
+            message={`New user ${firstName} ${lastName} add successfully `}
+            resetForm={resetForm}
+            setVisible={setVisible}
+            setAddNewUser={props?.setAddNewUser}
           />
         </Sidebar>
       </div>

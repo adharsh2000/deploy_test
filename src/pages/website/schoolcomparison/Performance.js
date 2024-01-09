@@ -1,9 +1,7 @@
 import Barcharthorizontal from "@/components/allchart/barchart";
-
+import ReactEcharts from "echarts-for-react";
 export default function PerformanceComponent() {
-
-
-  const CustomerCountData1 = { 
+  const CustomerCountData1 = {
     label: [
       "All Subjects",
       "Social Studies",
@@ -202,6 +200,431 @@ export default function PerformanceComponent() {
       },
     ],
   };
+
+  const option1 = {
+    legend: {
+      show: false,
+      icon: "roundRect",
+      bottom: "0%",
+      left: "0%",
+      itemWidth: 10,
+      itemHeight: 10,
+    },
+    grid: {
+      top: "20",
+      right: "20",
+      bottom: "10",
+      left: "20",
+      containLabel: true,
+    },
+    xAxis: {
+      type: "value",
+      data: CustomerCountData1.label,
+      min: 0,
+      // max: maxv,
+      axisLine: {
+        show: false,
+        lineStyle: {
+          color: "#EAEDF3",
+        },
+      },
+      axisLabel: {
+        show: false,
+        color: "#53565A",
+        fontSize: 9,
+        interval: 0,
+      },
+      axisTick: {
+        show: false,
+      },
+      splitLine: {
+        show: false,
+      },
+    },
+    yAxis: [
+      {
+        type: "category",
+        interval: 10,
+        axisLine: {
+          show: false,
+          lineStyle: {
+            color: "#EAEDF3",
+          },
+        },
+        data: CustomerCountData1.label,
+        axisLabel: {
+          color: "#53565A",
+          show: true,
+          lineHeight: 16,
+          width: 70,
+          fontSize: 9.5,
+          overflow: "breakAll",
+        },
+        splitLine: {
+          show: false,
+          lineStyle: {
+            type: "dashed",
+            color: "rgba(219, 212, 212, 1)",
+          },
+        },
+      },
+      {
+        type: "category",
+        data: CustomerCountData1.value,
+        axisLabel: {
+          color: "#53565A",
+          formatter: "{value} %",
+          show: true,
+        },
+        axisLine: {
+          show: false,
+        },
+        axisTick: {
+          show: false,
+        },
+        splitLine: {
+          show: false,
+        },
+      },
+    ],
+    series: [
+      {
+        name: "Clean",
+        type: "bar",
+        stack: "total",
+        color: "#FF8C38",
+        barWidth: "80%",
+        label: {
+          show: false,
+          color: "#53565A",
+          position: "outside",
+        },
+        emphasis: {
+          focus: "series",
+        },
+        data: CustomerCountData1.value,
+      },
+    ],
+  };
+
+  const option2 = {
+    legend: {
+      show: false,
+      icon: "roundRect",
+      bottom: "0%",
+      left: "0%",
+      itemWidth: 10,
+      itemHeight: 10,
+    },
+    grid: {
+      top: "20",
+      right: "20",
+      bottom: "10",
+      left: "20",
+      containLabel: true,
+    },
+    xAxis: {
+      type: "value",
+      data: CustomerCountData1.label,
+      min: 0,
+      // max: maxv,
+      axisLine: {
+        show: false,
+        lineStyle: {
+          color: "#EAEDF3",
+        },
+      },
+      axisLabel: {
+        show: false,
+        color: "#53565A",
+        fontSize: 9,
+        interval: 0,
+      },
+      axisTick: {
+        show: false,
+      },
+      splitLine: {
+        show: false,
+      },
+    },
+    yAxis: [
+      {
+        type: "category",
+        interval: 10,
+        axisLine: {
+          show: false,
+          lineStyle: {
+            color: "#EAEDF3",
+          },
+        },
+        data: CustomerCountData1.label,
+        axisLabel: {
+          color: "#53565A",
+          show: true,
+          lineHeight: 16,
+          width: 70,
+          fontSize: 9.5,
+          overflow: "breakAll",
+        },
+        splitLine: {
+          show: false,
+          lineStyle: {
+            type: "dashed",
+            color: "rgba(219, 212, 212, 1)",
+          },
+        },
+      },
+      {
+        type: "category",
+        data: CustomerCountData1.value,
+        axisLabel: {
+          color: "#53565A",
+          formatter: "{value} %",
+          show: true,
+        },
+        axisLine: {
+          show: false,
+        },
+        axisTick: {
+          show: false,
+        },
+        splitLine: {
+          show: false,
+        },
+      },
+    ],
+    series: [
+      {
+        name: "Clean",
+        type: "bar",
+        stack: "total",
+        color: "#FF8C38",
+        barWidth: "80%",
+        label: {
+          show: false,
+          color: "#53565A",
+          position: "outside",
+        },
+        emphasis: {
+          focus: "series",
+        },
+        data: CustomerCountData1.value,
+      },
+    ],
+  };
+
+  const option3 = {
+    legend: {
+      show: false,
+      icon: "roundRect",
+      bottom: "0%",
+      left: "0%",
+      itemWidth: 10,
+      itemHeight: 10,
+    },
+    grid: {
+      top: "20",
+      right: "20",
+      bottom: "10",
+      left: "20",
+      containLabel: true,
+    },
+    xAxis: {
+      type: "value",
+      data: CustomerCountData3.label,
+      min: 0,
+      // max: maxv,
+      axisLine: {
+        show: false,
+        lineStyle: {
+          color: "#EAEDF3",
+        },
+      },
+      axisLabel: {
+        show: false,
+        color: "#53565A",
+        fontSize: 9,
+        interval: 0,
+      },
+      axisTick: {
+        show: false,
+      },
+      splitLine: {
+        show: false,
+      },
+    },
+    yAxis: [
+      {
+        type: "category",
+        interval: 10,
+        axisLine: {
+          show: false,
+          lineStyle: {
+            color: "#EAEDF3",
+          },
+        },
+        data: CustomerCountData3.label,
+        axisLabel: {
+          color: "#53565A",
+          show: true,
+          lineHeight: 16,
+          width: 70,
+          fontSize: 9.5,
+          overflow: "breakAll",
+        },
+        splitLine: {
+          show: false,
+          lineStyle: {
+            type: "dashed",
+            color: "rgba(219, 212, 212, 1)",
+          },
+        },
+      },
+      {
+        type: "category",
+        data: CustomerCountData3.value,
+        axisLabel: {
+          color: "#53565A",
+          formatter: "{value} %",
+          show: true,
+        },
+        axisLine: {
+          show: false,
+        },
+        axisTick: {
+          show: false,
+        },
+        splitLine: {
+          show: false,
+        },
+      },
+    ],
+    series: [
+      {
+        name: "Clean",
+        type: "bar",
+        stack: "total",
+        color: "#FF8C38",
+        barWidth: "80%",
+        label: {
+          show: false,
+          color: "#53565A",
+          position: "outside",
+        },
+        emphasis: {
+          focus: "series",
+        },
+        data: CustomerCountData3.value,
+      },
+    ],
+  };
+
+  const option4 = {
+    legend: {
+      show: false,
+      icon: "roundRect",
+      bottom: "0%",
+      left: "0%",
+      itemWidth: 10,
+      itemHeight: 10,
+    },
+    grid: {
+      top: "20",
+      right: "20",
+      bottom: "10",
+      left: "20",
+      containLabel: true,
+    },
+    xAxis: {
+      type: "value",
+      data: CustomerCountData4.label,
+      min: 0,
+      // max: maxv,
+      axisLine: {
+        show: false,
+        lineStyle: {
+          color: "#EAEDF3",
+        },
+      },
+      axisLabel: {
+        show: false,
+        color: "#53565A",
+        fontSize: 9,
+        interval: 0,
+      },
+      axisTick: {
+        show: false,
+      },
+      splitLine: {
+        show: false,
+      },
+    },
+    yAxis: [
+      {
+        type: "category",
+        interval: 10,
+        axisLine: {
+          show: false,
+          lineStyle: {
+            color: "#EAEDF3",
+          },
+        },
+        data: CustomerCountData4.label,
+        axisLabel: {
+          color: "#53565A",
+          show: true,
+          lineHeight: 16,
+          width: 70,
+          fontSize: 9.5,
+          overflow: "breakAll",
+        },
+        splitLine: {
+          show: false,
+          lineStyle: {
+            type: "dashed",
+            color: "rgba(219, 212, 212, 1)",
+          },
+        },
+      },
+      {
+        type: "category",
+        data: CustomerCountData4.value,
+        axisLabel: {
+          color: "#53565A",
+          formatter: "{value} %",
+          show: true,
+        },
+        axisLine: {
+          show: false,
+        },
+        axisTick: {
+          show: false,
+        },
+        splitLine: {
+          show: false,
+        },
+      },
+    ],
+    series: [
+      {
+        name: "Clean",
+        type: "bar",
+        stack: "total",
+        color: "#FF8C38",
+        barWidth: "80%",
+        label: {
+          show: false,
+          color: "#53565A",
+          position: "outside",
+        },
+        emphasis: {
+          focus: "series",
+        },
+        data: CustomerCountData4.value,
+      },
+    ],
+  };
+
   return (
     <div className="px-28 mt-8">
       <div className="flex gap-6 items-center mb-6">
@@ -217,7 +640,21 @@ export default function PerformanceComponent() {
             <span className="font-light">(2022)</span>
           </h3>
           <div className=" h-[200px]">
-            <Barcharthorizontal
+            <ReactEcharts
+              option={option1}
+              style={{ height: "100%", width: "100%" }}
+              opts={{ renderer: "svg" }}
+            />
+          </div>
+        </div>
+
+        <div className="rounded-2xl bg-white flex flex-col gap-2 border border-[#E5E7EB] px-4 py-2">
+          <h3 className="text-sm font-medium text-[#374151] border-b border-[#E5E7EB]">
+            STAAR Percent at Approaches{" "}
+            <span className="font-light">(2022)</span>
+          </h3>
+          <div className=" h-[200px]">
+            {/* <Barcharthorizontal
               legend={{
                 show: false,
                 icon: "roundRect",
@@ -245,6 +682,12 @@ export default function PerformanceComponent() {
               //   maxv={80}
               //   datayaxis={datayaxis}
               data={CustomerCountData1}
+            /> */}
+
+<ReactEcharts
+              option={option1}
+              style={{ height: "100%", width: "100%" }}
+              opts={{ renderer: "svg" }}
             />
           </div>
         </div>
@@ -255,45 +698,7 @@ export default function PerformanceComponent() {
             <span className="font-light">(2022)</span>
           </h3>
           <div className=" h-[200px]">
-            <Barcharthorizontal
-              legend={{
-                show: false,
-                icon: "roundRect",
-                bottom: "0%",
-                left: "0%",
-                itemWidth: 10,
-                itemHeight: 10,
-              }}
-              grid={{
-                top: "20",
-                right: "20",
-                bottom: "10",
-                left: "20",
-                containLabel: true,
-              }}
-              axisLabely={{
-                show: true,
-              }}
-              label={{
-                show: false,
-                color: "#53565A",
-                position: "outside",
-              }}
-              minv={0}
-              //   maxv={80}
-              //   datayaxis={datayaxis}
-              data={CustomerCountData1}
-            />
-          </div>
-        </div>
-
-        <div className="rounded-2xl bg-white flex flex-col gap-2 border border-[#E5E7EB] px-4 py-2">
-          <h3 className="text-sm font-medium text-[#374151] border-b border-[#E5E7EB]">
-            STAAR Percent at Approaches{" "}
-            <span className="font-light">(2022)</span>
-          </h3>
-          <div className=" h-[200px]">
-            <Barcharthorizontal
+            {/* <Barcharthorizontal
               legend={{
                 show: false,
                 icon: "roundRect",
@@ -321,6 +726,12 @@ export default function PerformanceComponent() {
               //   maxv={80}
               //   datayaxis={datayaxis}
               data={CustomerCountData3}
+            /> */}
+
+<ReactEcharts
+              option={option3}
+              style={{ height: "100%", width: "100%" }}
+              opts={{ renderer: "svg" }}
             />
           </div>
         </div>
@@ -331,7 +742,7 @@ export default function PerformanceComponent() {
             <span className="font-light">(2022)</span>
           </h3>
           <div className=" h-[200px]">
-            <Barcharthorizontal
+            {/* <Barcharthorizontal
               legend={{
                 show: false,
                 icon: "roundRect",
@@ -359,6 +770,13 @@ export default function PerformanceComponent() {
               //   maxv={80}
               //   datayaxis={datayaxis}
               data={CustomerCountData4}
+            /> */}
+
+
+<ReactEcharts
+              option={option4}
+              style={{ height: "100%", width: "100%" }}
+              opts={{ renderer: "svg" }}
             />
           </div>
         </div>
@@ -492,7 +910,7 @@ export default function PerformanceComponent() {
             <p className="text-sm text-[#4B586E]">
               Academic Achievement Science
             </p>
-          <img src="/assets/website/minus-circle.svg" />
+            <img src="/assets/website/minus-circle.svg" />
           </div>
           <div className="flex justify-between py-4">
             <p className="text-sm text-[#4B586E]">
@@ -591,8 +1009,6 @@ export default function PerformanceComponent() {
             <img src="/assets/website/minus-circle.svg" />
           </div>
         </div>
-
-
 
         <div className="rounded-2xl bg-white flex flex-col gap-1 border border-[#E5E7EB] px-4 py-2">
           <h3 className="text-sm font-medium text-[#374151]">

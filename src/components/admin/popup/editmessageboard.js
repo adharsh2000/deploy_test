@@ -9,12 +9,18 @@ import { Calendar } from "primereact/calendar";
 import { Tooltip } from 'primereact/tooltip';
 import Comments from "@/components/admin/comment";
 import Loader from "@/components/loader";
+import RemoveUser from "./removeUser";
+import adminFetchAPI from "@/service/api/adminFetchApi";
+import { Toast } from "primereact/toast";
 
 const EditMessageBoard = (props) => {
-  const { post,loading } = props;
+  const { post, loading } = props;
   const [date, setDate] = useState(null);
   const [text, setText] = useState("");
   const [selectedCity, setSelectedCity] = useState(null);
+
+  const toast = useRef(null);
+
   const cities = [
     { name: "New York", code: "NY" },
     { name: "Rome", code: "RM" },
@@ -55,7 +61,7 @@ const EditMessageBoard = (props) => {
     }
   ]
 
-  const tagsArray = post?.post?.tags?.split(',')
+  const tagsArray = post?.tagRes
 
   const convertDateFormat = (dateString) => {
     const options = {
@@ -71,7 +77,27 @@ const EditMessageBoard = (props) => {
     const trimmedDate = formattedDate.replace(/,/, '');
     return trimmedDate;
   };
-  
+
+  const handleDelete = async () => {
+    console.log('post id hee',props?.post?.post?.post_id)
+    const id = props?.post?.post?.post_id;
+    await adminFetchAPI(`/messageboard/posts/${id}`, 'DELETE', {}, 'application/json')
+      .then(({ data }) => {
+        props.setEditMessageBoard(false)
+        props.fetchPost();
+        if (data?.message?.includes("not found")) {
+          return toast.current.show({ severity: 'error', detail: data?.message, life: 3000 });
+        }
+
+        toast.current.show({ severity: 'success', detail: "post successfully deleted.", life: 3000 });
+
+      })
+      .catch((err) => {
+        toast.current.show({ severity: 'error', detail: "something went wrong..", life: 3000 });
+        console.log(err)
+      })
+  }
+
   return (
     <>
       <div>
@@ -103,7 +129,7 @@ const EditMessageBoard = (props) => {
                             {`${post?.post?.user?.firstName} ${post?.post?.user?.lastName}`}
                           </h6>
                           <p className="text-[#9CA1AB] text-[16px] xl:text-[0.729vw] font-light">
-                          {convertDateFormat(post?.post?.createdAt)}
+                            {convertDateFormat(post?.post?.createdAt)}
                           </p>
                         </div>
                       </div>
@@ -114,7 +140,7 @@ const EditMessageBoard = (props) => {
                           <i className="autinisd-warning  text-[15px]  mr-2"></i>
                           Unpublish
                         </div>
-                        <Link href='' className="flex items-center font-light xl:text-[0.725vw] t text-[16px] bg-[#FDE8E8] px-[16px] xl:px-[0.833vw] py-[0.417vw] xl:py-[8px]  rounded-full leading-none ">
+                        <Link href='' onClick={() => handleDelete()} className="flex items-center font-light xl:text-[0.725vw] t text-[16px] bg-[#FDE8E8] px-[16px] xl:px-[0.833vw] py-[0.417vw] xl:py-[8px]  rounded-full leading-none ">
                           {" "}
                           <i className="autinisd-trash  text-[15px]  mr-2"></i> Delete
                         </Link>
@@ -140,7 +166,7 @@ const EditMessageBoard = (props) => {
                     <div
                       className='flex xl:gap-[0.625vw] gap-[16px] divide-x divide-[#BECDE3]' >
                       <p className="text-[#62789B] text-[14px] xl:text-[0.729vw] font-normal px-[12px] xl:px-[0.625vw] py-[6px] xl:py-[0.313vw]">
-                        Category: {post?.post?.category}
+                        Category: {post?.category?.topic_category}
                       </p>
 
                       <div>
@@ -148,11 +174,11 @@ const EditMessageBoard = (props) => {
                           {
                             tagsArray?.map(item => (
                               <Link
-                                key={item}
+                                key={item?.tag_id}
                                 href=""
                                 className="bg-[#E8EBF0] rounded-md text-[#62789B] text-[14px] xl:text-[0.729vw] font-medium px-[12px] xl:px-[0.625vw] py-[6px] xl:py-[0.313vw]"
                               >
-                                {`# ${item}`}
+                                {`# ${item?.title}`}
                               </Link>
                             ))
                           }
@@ -244,6 +270,7 @@ const EditMessageBoard = (props) => {
           }
         </Sidebar>
       </div>
+      <Toast ref={toast}></Toast>
     </>
   );
 };

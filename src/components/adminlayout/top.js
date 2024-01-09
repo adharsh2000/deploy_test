@@ -20,6 +20,7 @@ export default function AdminTop({ ...pageProps }) {
     const [addModulesApps, setModulesApps] = useState(false);
     const [profilePicture, setProfilePicture] = useState("");
     const [profileName, setProfileName] = useState("");
+    const [role,setRole] = useState("");
     const router = useRouter();
 
     const Logout = () => {
@@ -32,6 +33,7 @@ export default function AdminTop({ ...pageProps }) {
             console.log(sessionStorage?.getItem("AdminUserImage"),sessionStorage?.getItem("AdminUserName"))
             setProfilePicture(sessionStorage?.getItem("AdminUserImage") ? sessionStorage?.getItem("AdminUserImage") : "")
             setProfileName(sessionStorage?.getItem("AdminUserName") ? sessionStorage?.getItem("AdminUserName") : "")
+            setRole(sessionStorage?.getItem("role"))
         }
     }, [])
 
@@ -58,7 +60,7 @@ export default function AdminTop({ ...pageProps }) {
                         <div className="flex items-center xl:gap-[0.625vw] gap-3 cursor-pointer" onClick={(e) => userprofile.current.toggle(e)}>
                             <div className="text-right space-y-1">
                                 <div className="text-[#4B586E] xl:text-[0.833vw] text-base font-semibold xl:leading-[0.833vw] leading-4">{profileName ? profileName : "Jese Leos"}</div>
-                                <div className="text-[#9CA1AB] xl:text-[0.729vw] text-sm font-normal xl:leading-[0.729vw] leading-[14px]">Admin</div>
+                                <div className="text-[#9CA1AB] xl:text-[0.729vw] text-sm font-normal xl:leading-[0.729vw] leading-[14px]">{role}</div>
                             </div>
                             <div><Image src={profilePicture === "" ? "/assets/admin/left-menu-icons/profile.svg" : profilePicture} width={48} height={48} alt='profile' className="rounded-full" /></div>
                             <div className="text-[#9CA1AB] xl:text-[1.302vw]"><i className="autinisd-arrow-circle-down"></i></div>
@@ -141,7 +143,7 @@ export default function AdminTop({ ...pageProps }) {
                 <OverlayPanel ref={userprofile} className="user_profile">
                     <div className="bg-white rounded-lg xl:py-[0.833vw] py-4 xl:w-[12.500vw]">
                         <div className="xl:py-[0.521vw] py-2.5 xl:px-[0.833vw] px-4 text-black">
-                            <div className="font-normal xl:text-[0.625vw] text-xs">Admin Account</div>
+                            <div className="font-normal xl:text-[0.625vw] text-xs">{role} Account</div>
                             <div className="xl:text-[0.938vw] font-semibold">{profileName ? profileName : "Jhon Nassir Jr."}</div>
                         </div>
                         <Link href={''} className="xl:py-[0.521vw] py-2.5 xl:px-[0.833vw] px-4 xl:text-[0.729vw] text-sm font-normal flex items-center xl:gap-[0.625vw] gap-3">

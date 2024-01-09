@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import AdminLayout from '@/components/adminlayout/layout';
 import FilterComponent from "@/components/filtercomponent";
@@ -10,6 +10,7 @@ import AddNewUser from "@/components/admin/popup/addNewUser";
 import RemoveUser from "@/components/admin/popup/removeUser";
 import { OverlayPanel } from 'primereact/overlaypanel';
 import { Button } from 'primereact/button';
+import adminFetchAPI from "@/service/api/adminFetchApi";
 
 export default function Index() {
 
@@ -17,6 +18,7 @@ export default function Index() {
     const [rowClick, setRowClick] = useState(true);
     const [selectedProducts, setSelectedProducts] = useState(null);
     const [filters, setFilters] = useState(null);
+    const [users,setUsers] = useState([]);
     const op = useRef(null);
 
     const TableImage = (rowData) => {
@@ -61,8 +63,15 @@ export default function Index() {
         </div></>;
     };
 
+    const formatDate = (dateString) => {
+        const dateObject = new Date(dateString);
+        const options = { year: 'numeric', month: 'long', day: 'numeric' };
+        return dateObject.toLocaleDateString('en-US', options);
+      };
+
     const PreObsStatusData = (rowData) => {
-      if (rowData.status === "Confirmed") {
+        console.log("row",rowData)
+      if (rowData.status === "confirmed") {
           return (
             <>
               <div className="flex items-center text-[12px] xl:text-[0.625vw] font-medium text-[#046C4E]  bg-[#D8E7E1] border py-[2px] xl:py-[0.104vw] px-[8px] xl:px-[0.417vw] rounded gap-2">
@@ -71,7 +80,7 @@ export default function Index() {
               </div>
             </>
           );
-        } else if (rowData.status === "Unconfirmed") {
+        } else if (rowData.status === "unconfirmed") {
           return (
             <>
               <div className="flex items-center text-[12px] xl:text-[0.625vw] font-medium text-[#C81E1E] bg-[#FDE8E8] py-[2px] xl:py-[0.104vw] px-[8px] xl:px-[0.417vw] rounded gap-2">
@@ -198,6 +207,35 @@ export default function Index() {
         },
     ]
 
+    const fetchUsers = async () => {
+        try {
+            let data = {
+                "page":1,
+                "limit" : 10,
+                "search":"",
+                "period":"2024-2025"
+            }
+            const response = await adminFetchAPI('/user/list', "POST", data ,"application/json");
+            const users = response?.allUser?.rows;
+            const updatedUsers = users?.map(item => {
+                const name = `${item.firstName} ${item.lastName}`;
+              
+                return {
+                  ...item,
+                  name: name
+                };
+              }) || [];
+            setUsers(updatedUsers);
+            console.log(updatedUsers);
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    useEffect(() => {
+        fetchUsers();
+    },[])
+
 
     return (
         <>
@@ -227,7 +265,7 @@ export default function Index() {
 
             <div className="bg-white  xl:mt-[1.406vw] mt-[24px] xl:p-[0.833vw] p-[20px] rounded-md ">
 
-                <DataTable value={products}
+                <DataTable value={users}
                     className="custTable tableCust custCheckBox"
                     scrollable
                     responsiveLayout="scroll"
@@ -257,7 +295,7 @@ export default function Index() {
                     ></Column>
 
                     <Column
-                        field="Role"
+                        field="role.role"
                         header="Role"
                         style={{ minWidth: "8rem" }}
                   
@@ -282,10 +320,10 @@ export default function Index() {
                     ></Column>
 
                     <Column
-                        field="Created"
+                        field="createdAt"
                         header="Created"
                         style={{ minWidth: "12rem" }}
-
+                        body={(rowData) => formatDate(rowData.createdAt)}
                     ></Column>
 
                    <Column
@@ -294,7 +332,7 @@ export default function Index() {
                             frozen
                             alignFrozen="right"
                             style={{ minWidth: "10rem" }}
-                            body={PreObsStatusData}
+                            body={(rowData) => PreObsStatusData(rowData)}
                         ></Column>
 
                     <Column
@@ -319,6 +357,7 @@ export default function Index() {
             <AddNewUser
             visible={addNewUser}
             onHides={() => setAddNewUser(false)}
+            setAddNewUser={setAddNewUser}
             />
 
             <RemoveUser

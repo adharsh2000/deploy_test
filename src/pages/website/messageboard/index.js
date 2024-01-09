@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import Layout from "@/components/layout/layout";
 import Introbanner from "@/components/introbanner";
 import Pinneditems from "@/components/pinneditems";
@@ -11,8 +11,10 @@ import { useEffect } from "react";
 import LogoutRedirect from "@/pages/logoutRedirect";
 import Loader from "@/components/loader";
 import DiscussionDetails from '@/pages/website/messageboard/discussiondetails'
+import { Toast } from "primereact/toast";
 
 export default function Index() {
+  const toast = useRef(null);
 
   const [showMessageGrid, setShowMessageGrid] = useState(1);
   const [PinnedLoading, setPinnedLoading] = useState(false);
@@ -25,13 +27,12 @@ export default function Index() {
   const [TopContributor, setTopContributor] = useState([]);
   const [UnansweredLoading, setUnansweredLoading] = useState(false);
   const [Unanswered, setUnanswered] = useState([]);
+  const [UpdateLatestPosts, setUpdateLatestPosts] = useState(false);
+  const [UpdatePinUnpin, setUpdatePinUnpin] = useState(false);
 
   const [post_id, setPost_id] = useState('')
-
-  useEffect(() => {
-    setPost_id('')
-  }, [])
-
+  const [category_id, setCategory_id] = useState('')
+console.log(category_id,'hellu')
   const [ShowDiscussionDetail, setShowDiscussionDetail] = useState(false)
 
   const GetPinnedList = async () => {
@@ -42,6 +43,7 @@ export default function Index() {
           response?.rows && setPinnedList(response?.rows)
           setPinnedLoading(false)
           setPinnedUpdated(false)
+          setUpdatePinUnpin(false);
         }
         )
     }
@@ -78,6 +80,7 @@ export default function Index() {
           setTotalRecords(response?.count)
           setTopicLoading(false)
           setTopicUpdated(false)
+          setUpdateLatestPosts(false);
         }
         )
     }
@@ -104,17 +107,17 @@ export default function Index() {
       console.log(error, 'error logged')
     }
   }
-   // paginator for unanswered topic starts
-   const [unansweredtotalRecords, setunansweredTotalRecords] = useState(0);
-   const [unansweredcurrentPage, setunansweredCurrentPage] = useState(1);
-   const [unansweredpageSize, setunansweredPageSize] = useState(5);
-   const [unansweredpagination, setunansweredPagination] = useState(0);
- 
-   const unansweredonPageChange = (event) => {
-     setunansweredCurrentPage(event.page + 1);
-     setunansweredPagination(event.first);
-   };
-   //paginator for latest topic ends
+  // paginator for unanswered topic starts
+  const [unansweredtotalRecords, setunansweredTotalRecords] = useState(0);
+  const [unansweredcurrentPage, setunansweredCurrentPage] = useState(1);
+  const [unansweredpageSize, setunansweredPageSize] = useState(5);
+  const [unansweredpagination, setunansweredPagination] = useState(0);
+
+  const unansweredonPageChange = (event) => {
+    setunansweredCurrentPage(event.page + 1);
+    setunansweredPagination(event.first);
+  };
+  //paginator for latest topic ends
 
   const GetUnanswered = async () => {
     setUnansweredLoading(true)
@@ -138,10 +141,10 @@ export default function Index() {
 
   useEffect(() => {
     GetPinnedList()
-  }, [PinnedUpdated])
+  }, [PinnedUpdated, UpdatePinUnpin])
   useEffect(() => {
     GetLatestList()
-  }, [PinnedUpdated, currentPage, pageSize])
+  }, [PinnedUpdated, currentPage, pageSize, UpdateLatestPosts])
   useEffect(() => {
     GetTopContributor()
   }, [])
@@ -163,7 +166,9 @@ export default function Index() {
       {IsAuthenticated == 'true' ? <Layout pageClass="pg-message-board" pageTitle={ShowDiscussionDetail ? "Discussion detail" : "Message board"}>
         {!ShowDiscussionDetail ? <div className="px-[15px] lg:px-[20px] xl:px-[1.04vw] pt-[80px] xl:pt-[2.604vw] pb-6 xl:pb-[1.25vw]">
           <div className="xl:max-w-[88.3025vw] mx-auto">
-            <Introbanner handleShowMessageGrid={handleShowMessageGrid} />
+            <Introbanner handleShowMessageGrid={handleShowMessageGrid}
+              UpdateLatestPosts={UpdateLatestPosts}
+              setUpdateLatestPosts={setUpdateLatestPosts} />
             <div className="mt-[50px] xl:mt-[2.604vw]">
               <Pinneditems
                 PinnedLoading={PinnedLoading}
@@ -171,6 +176,7 @@ export default function Index() {
                 setPinnedUpdated={setPinnedUpdated}
                 setPinnedLoading={setPinnedLoading}
                 setPost_id={setPost_id}
+                setCategory_id={setCategory_id}
                 setShowDiscussionDetail={setShowDiscussionDetail}
               />
             </div>
@@ -186,6 +192,7 @@ export default function Index() {
                   totalRecords={totalRecords}
                   onPageChange={onPageChange}
                   setPost_id={setPost_id}
+                  setCategory_id={setCategory_id}
                   setShowDiscussionDetail={setShowDiscussionDetail}
                 />
                 :
@@ -197,6 +204,7 @@ export default function Index() {
                   totalRecords={totalRecords}
                   onPageChange={onPageChange}
                   setPost_id={setPost_id}
+                  setCategory_id={setCategory_id}
                   setShowDiscussionDetail={setShowDiscussionDetail}
                 />
               }
@@ -218,9 +226,12 @@ export default function Index() {
             </div>
           </div>
         </div> :
-          <DiscussionDetails post_id={post_id} setShowDiscussionDetail={setShowDiscussionDetail} />
+          <DiscussionDetails post_id={post_id} category_id={category_id} setShowDiscussionDetail={setShowDiscussionDetail}
+            UpdatePinUnpin={UpdatePinUnpin}
+            setUpdatePinUnpin={setUpdatePinUnpin} />
         }
       </Layout> : IsAuthenticated == '' ? <Loader /> : <LogoutRedirect />}
+      <Toast ref={toast}></Toast>
     </>
   );
 }

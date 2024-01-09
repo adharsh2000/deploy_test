@@ -1,0 +1,76 @@
+/* Calendar start */
+.full-calendar-sec .fc .fc-toolbar.fc-header-toolbar{
+    margin-bottom: 0;
+}
+.full-calendar-sec .fc .fc-multimonth-title{
+    background: #F5F6F7;
+    text-align: left;
+    padding: 0.417vw 1.67vw;
+    font-size: 1.04vw;
+    font-weight: 500;
+    font-family: Inter;
+    color: #374151;
+    margin-bottom: 0.730vw;
+    border-radius: 8px;    
+}
+.full-calendar-sec .fc-multimonth-month{
+    margin-bottom: 1.67vw;
+}
+.full-calendar-sec .fc-multimonth-month:last-child{
+    margin-bottom: 0;
+}
+.full-calendar-sec .fc .fc-multimonth{
+    border: 0;
+}
+.full-calendar-sec .fc .fc-multimonth-singlecol .fc-multimonth-header-table{
+    border-left: 1px solid #dee2e6;
+    border-right: 1px solid #dee2e6;
+}
+.full-calendar-sec .fc .fc-multimonth-singlecol .fc-multimonth-daygrid{
+    border-left: 1px solid #dee2e6;
+    border-right: 1px solid #dee2e6;
+    border-bottom: 1px solid #dee2e6;
+}
+.full-calendar-sec .fc .fc-daygrid-event{
+    padding: 3px 8px;
+}
+/* .fc-timegrid-event-harness > .fc-timegrid-event */
+.full-calendar-sec .fc .fc-timegrid-event{
+    padding: 3px 8px;
+}
+.full-calendar-sec .fc-h-event .fc-event-title{
+    text-overflow: ellipsis;
+}
+.full-calendar-sec .fc.fc-theme-standard .fc-view-harness td{
+    background: #fff;
+}
+.full-calendar-sec .fc .fc-daygrid-day.fc-day-today{
+    background: #fff;
+}
+/* Scroll bar */
+.full-calendar-sec ::-webkit-scrollbar{
+    height: 4px;
+    width: 4px;
+    background: gray;
+}
+
+/* Track */
+.full-calendar-sec ::-webkit-scrollbar-track {
+  background: #f1f1f1; 
+}
+ 
+/* Handle */
+.full-calendar-sec ::-webkit-scrollbar-thumb {
+  background: #888; 
+}
+
+/* Handle on hover */
+.full-calendar-sec ::-webkit-scrollbar-thumb:hover {
+  background: #555; 
+}
+
+.full-calendar-sec ::-webkit-scrollbar-thumb:horizontal{
+    background: #6c6c6c;
+    border-radius: 10px;
+}
+/* Calendar end */

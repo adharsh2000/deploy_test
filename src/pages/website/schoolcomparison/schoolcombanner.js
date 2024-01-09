@@ -14,7 +14,7 @@ export default function Schoolcombanner() {
                       
 
                 </span>
-                <div className="flex justify-center w-full absolute top-0 mx-auto cursor-pointer" onClick={()=> setSchoolDetail(true)}>
+                <div className="flex justify-center w-full absolute top-0 mx-auto">
                     <Image src={'/assets/website/schools.png'} width={619} height={340} alt="Banner" />
                 </div>
             </div>

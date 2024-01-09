@@ -176,4 +176,31 @@
     background-size: cover;
 }
 /************* About Us  *******************/
+/**************** department*******************/
+.container-img 
+{
+   
+}
+.container-img img
+{ border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+}
+.container-img:after
+{
+    content: '';
+    background: url('/assets/website/circle-shadow.svg');
+    background-repeat: no-repeat;
+    position: absolute;
+    height: 200px;
+    width: 200px;
+    top: 0;
+
+
+}
+.aisdcard 
+{
+box-shadow: 0px 9px 33px 0px rgba(196, 196, 196, 0.10);
+}
+
+/**************** department*******************/
 

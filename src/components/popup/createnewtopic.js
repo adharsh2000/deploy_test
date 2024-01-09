@@ -24,6 +24,8 @@ const Createnewtopic = (props) => {
 
     const toast = useRef(null);
 
+    const { UpdateLatestPosts, setUpdateLatestPosts } = props;
+
     const [Category, setCategory] = useState([]);
     const [SelectedCategory, setSelectedCategory] = useState(null);
     const [IsPublished, setIsPublished] = useState(null);
@@ -36,39 +38,74 @@ const Createnewtopic = (props) => {
     const [IsCreate, setIsCreate] = useState(null);
     const [Caption, setCaption] = useState(null);
     const [Description, setDescription] = useState(null);
-    const [Tags, setTags] = useState(null);//change to []
+    const [Tags, setTags] = useState([]);
     const [SelectedTags, setSelectedTags] = useState([]);
     const [AttachedFiles, setAttachedFiles] = useState([]);
     const [FileName, setFileName] = useState([]);
 
-    const fetchCategory = async () => {
-        try {
-            const data = await fetchAPI('/messageboard/topiccategory');
-            const categories = data.rows.map((bean) => ({
-                id: bean.topic_category_id,
-                name: bean.topic_category,
-                createdBy: bean.created_by
-            }));
-            setCategory(categories);
-            return categories;
-        } catch (error) {
-            console.error(error);
+    const GetAuthorList = async () => {
+        let data = {
+            "page": 1,
+            "limit": 10
         }
-    };
-    const fetchAuthor = async () => {
         try {
-            const data = await fetchAPI('/messageboard/author');
-            const author = data.rows.map((bean) => ({
-                id: bean.authar_id,
-                name: bean.title
-            }));
-            setAuthor(author);
-            return author;
-        } catch (error) {
-            console.error(error);
+            await fetchAPI(`/messageboard/author/list`, 'POST', data, 'application/json')
+                .then((response) => {
+                    const author = response.rows.map((bean) => ({
+                        id: bean.authar_id,
+                        name: bean.title
+                    }));
+                    setAuthor(author);
+                    return author;
+                }
+                )
         }
-    };
-
+        catch (error) {
+            console.log(error, 'error logged')
+        }
+    }
+    const GetTagList = async () => {
+        let data = {
+            "page": 1,
+            "limit": 10
+        }
+        try {
+            await fetchAPI(`/tags/list`, 'POST', data, 'application/json')
+                .then((response) => {
+                    const tags = response.rows.map((bean) => ({
+                        id: bean.tag_id,
+                        name: bean.title
+                    }));
+                    setTags(tags);
+                    return tags;
+                }
+                )
+        }
+        catch (error) {
+            console.log(error, 'error logged')
+        }
+    }
+    const GetTopicCategoryList = async () => {
+        let data = {
+            "page": 1,
+            "limit": 10
+        }
+        try {
+            await fetchAPI(`/messageboard/topiccategory/list`, 'POST', data, 'application/json')
+                .then((response) => {
+                    const category = response.rows.map((bean) => ({
+                        id: bean.topic_category_id,
+                        name: bean.topic_category
+                    }));
+                    setCategory(category);
+                    return category;
+                }
+                )
+        }
+        catch (error) {
+            console.log(error, 'error logged')
+        }
+    }
     const handleAttachFiles = (e) => {
         const files = e.target.files;
         setAttachedFiles([...AttachedFiles, ...files]);
@@ -78,7 +115,13 @@ const Createnewtopic = (props) => {
         const updatedFiles = [...AttachedFiles];
         updatedFiles.splice(index, 1);
         setAttachedFiles(updatedFiles);
+
+        const fileInput = document.getElementById('fileInput');
+        if (fileInput) {
+            fileInput.value = null;
+        }
     };
+
 
     const handleCoverImageChange = (e) => {
         const file = e.target.files[0];
@@ -88,7 +131,7 @@ const Createnewtopic = (props) => {
             setCoverImg(file);
         }
         else if (file && !type.match('image.*')) {
-            toast.current.show({ severity: 'error', summary: 'Select .png, .jpg, .jpeg format only', detail: '' });
+            toast.current.show({ severity: 'error', summary: 'Select .png, .jpg, .jpeg format only', detail: '',life: 3000});
         }
     };
 
@@ -96,40 +139,45 @@ const Createnewtopic = (props) => {
         setCoverImg(null);
     };
 
-
     useEffect(() => {
-        fetchCategory();
-        fetchAuthor();
+        GetTagList();
+        GetAuthorList();
+        GetTopicCategoryList();
         setCreatedBy(sessionStorage.getItem('UserID'));
     }, []);
-    console.log(AttachedFiles.map(file => file.name), SelectedTags?.name, "categoryFilesAttc");
+    console.log(AttachedFiles.map(file => file.name),"categoryFilesAttc");
     const ClearAllData = () => {
         setSelectedCategory(null);
+        setSelectedAuthor(null);
         setTopic(null);
         setDescription(null);
         handleRemoveFile();
         handleRemoveCoverImage();
+        setSelectedTags([]);
     };
     useEffect(() => {
         ClearAllData();
 
     }, [props.ClearTopicForm])
-    console.log("coverImg1", CoverImg);
-    console.log("coverImg1Name", CoverImg?.name);
 
     const saveNewTopic = async () => {
         const formData = new FormData();
         formData.append('topic_category_id', SelectedCategory?.id);
-        formData.append('isPublished', 1);
+        formData.append('isPublished', 0);
         formData.append('created_by', CreatedBy);
         formData.append('post', Topic);
         formData.append('topic', Topic);
         formData.append('author_id', SelectedAuthor?.id);
         formData.append('cover_image', CoverImg?.name);
         formData.append('iscreate', 1);
+        formData.append('published_Date',new Date());
         //formData.append('caption', Caption);
         formData.append('description', Description);
-        formData.append('tags', SelectedTags?.name);
+        const tagNames = SelectedTags.map(tag => tag.id);
+        formData.append('tag_id', tagNames.join(','));
+
+
+
         // AttachedFiles.forEach((file, index) => {
         // formData.append(`files[${index}][fileName]`, file.name);
         // });
@@ -143,35 +191,17 @@ const Createnewtopic = (props) => {
         });
 
         console.log([...formData], "respForm");
-        // let data = JSON.stringify({
-        //     topic_category_id: SelectedCategory.id,
-        //     isPublished: 1,
-        //     created_by: SelectedCategory.createdBy,
-        //     post: Topic,
-        //     topic: Topic,
-        //     author_id: SelectedAuthor?.id,
-        //     cover_image: CoverImg,
-        //     iscreate: 1,
-        //     //caption: Caption,
-        //     description: Description,
-        //     tags: Tags,
-        //     files: [{
-        //         fileName: AttachedFiles.map((file) => {
-        //             file.fileName
-        //         })
-        //     }]
-        // });
-        const checkMandat = Post === null || Topic === null || topic_category_id === undefined || Tags === undefined
-        console.log("checkMandat", checkMandat);
+
+        const checkMandat = Topic === null || SelectedCategory === null || SelectedTags?.length === 0 || SelectedAuthor === null
         if (checkMandat) {
-            toast.current.show({ severity: 'error', summary: 'Mandatory Fields are required', detail: '' });
+            toast.current.show({ severity: 'error', summary: 'Mandatory Fields are required', detail: '', life: 3000});
 
         }
 
-        await fetchAPI(`/messageboard/posts`, 'POST', formData, 'multipart/form-data')
+        !checkMandat && await fetchAPI(`/messageboard/posts`, 'POST', formData, 'multipart/form-data')
             .then((resp) => {
-                console.log("postresp", resp);
                 if (resp?.createdAt) {
+                    setUpdateLatestPosts(true);
                     toast.current.show({ severity: 'success', summary: 'New Post created', detail: '' });
                     props.onHides();
                 }
@@ -242,7 +272,7 @@ const Createnewtopic = (props) => {
                                 {/**Attached files**/}
                                 <div className="xl:space-y-[0.833vw] space-y-4">
                                     <div className="text-[#374151] xl:text-[0.833vw] text-base font-medium">Attached files</div>
-                                    <div className="grid grid-cols-3 xl:gap-[1.250vw] gap-5">
+                                    <div className="grid grid-cols-3 xl:gap-[1.250vw] gap-5 attachedFiles">
                                         {AttachedFiles.map((file, index) => (
                                             <div key={index} className="xl:text-[0.729vw] text-xs text-[#4B586E] bg-[#F5F6F7] rounded-lg xl:py-[0.417vw] py-2 xl:px-[0.833vw] px-3 flex items-center justify-between">
                                                 <i className="austin-attachment"></i>
@@ -256,15 +286,16 @@ const Createnewtopic = (props) => {
                                 <div className="grid grid-cols-12 xl:gap-[0.833vw] gap-4">
                                     <div className="col-span-6">
                                         <div className="flex flex-col">
-                                            <label htmlFor="username" className="text-[#374151] xl:text-[0.833vw] text-base font-medium">Select Author</label>
+                                            <label htmlFor="username" className="text-[#374151] xl:text-[0.833vw] text-base font-medium">Select Author <span className="text-red-500 required-dot">*</span></label>
                                             <Dropdown value={SelectedAuthor} onChange={(e) => setSelectedAuthor(e.value)} options={Author} optionLabel="name" placeholder="Select" style={{ background: '#F5F6F7', border: '1px solid #BECDE3', borderRadius: '8px' }} />
                                         </div>
                                     </div>
                                     <div className="col-span-6">
                                         <div className="flex flex-col">
                                             <label htmlFor="username" className="text-[#374151] xl:text-[0.833vw] text-base font-medium">Select Tags <span className="text-red-500 required-dot">*</span></label>
-                                            <MultiSelect value={SelectedTags} onChange={(e) => setSelectedTags(e.value)}
-                                                options={Category}
+                                            <MultiSelect value={SelectedTags}
+                                                onChange={(e) => { setSelectedTags(e.value) }}
+                                                options={Tags}
                                                 optionLabel="name"
                                                 placeholder="Select" className="w-full"
                                                 display="chip"

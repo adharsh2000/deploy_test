@@ -106,7 +106,14 @@
   .iconsList a { display: inline-flex; justify-content: center; align-items: center; background: #F5F6F7; width: 60px; height: 46px; } 
 
   .tableCust .p-paginator-current { color: #9CA1AB; }
-  
+  .boxshadow { box-shadow: 0px 1px 2px -1px rgba(0, 0, 0, 0.10), 0px 1px 3px 0px rgba(0, 0, 0, 0.10); }
+  .advancedSearchLinks a { display: block; background-color: #F5F6F7; border-radius: 8px; padding: 13px 16px; }
+  .advancedSearchLinks a:hover, .advancedSearchLinks a.active { background-color: #A93439; color: white; }
+  .searchWaper .p-inputtext { background: #F5F6F7; border-color: #BECDE3; padding: 0 16px; }
+  .searchWaper .p-inputgroup-addon { background: #A93439; border-color: #A93439; color: white; }
+  .searchWaper .p-inputgroup input:first-child { border-radius: 0; }
+  .searchWaper .p-inputgroup-addon:last-child { border-top-right-radius: 8px; border-bottom-right-radius: 8px; }
+
 
 
 /***********************************************

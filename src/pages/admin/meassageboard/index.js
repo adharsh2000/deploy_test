@@ -11,12 +11,13 @@ import AddMessages from "@/components/admin/popup/addmessages";
 import RemoveUser from "@/components/admin/popup/removeUser";
 import axios from "axios";
 import fetchAPI from "@/service/api/fetchAPI";
+import adminFetchAPI from "@/service/api/adminFetchApi";
 
 export default function Index() {
 
   const url = "http://44.213.218.195:8080"
 
-  let tempToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImZpcnN0TmFtZSI6IlNvbmFscmFqICIsImxhc3ROYW1lIjoiS3VtYmhhciIsImVtYWlsIjoic29uYWxyYWpAZWRicml4LmNvbSIsInByb2ZpbGVfcGljIjoiMTcwNDI3MDEyMDE3NC5wbmciLCJkZXNpZ25hdGlvbiI6bnVsbCwiY3JlYXRlZF9ieSI6MSwidXNlcl9pZCI6MX0sImlhdCI6MTcwNDQzNTY2OSwiZXhwIjoxNzA0NTIyMDY5fQ.DXJAY3nynJ1Ope7s1Ym1p8yb0z_p4UASWrQb9S9PVFU"
+  let tempToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImZpcnN0TmFtZSI6IlNvbmFscmFqICIsImxhc3ROYW1lIjoiS3VtYmhhciIsImVtYWlsIjoic29uYWxyYWpAZWRicml4LmNvbSIsInByb2ZpbGVfcGljIjoiMTcwNDI3MDEyMDE3NC5wbmciLCJkZXNpZ25hdGlvbiI6bnVsbCwiY3JlYXRlZF9ieSI6MSwidXNlcl9pZCI6MX0sImlhdCI6MTcwNDY5MTY0MSwiZXhwIjoxNzA0Nzc4MDQxfQ.bFNmvWxWD-e4wYAAfUoCbraRo866vTESg9NJkDa-x_c"
 
 
   const [selectedCategory, setSelectedCategory] = useState(null);
@@ -30,9 +31,13 @@ export default function Index() {
   const [posts, setPosts] = useState([]);
   const [post, setPost] = useState({});
   const [id, setId] = useState(null);
-  const [loading,setLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [postLoading, setPostLoading] = useState(false)
-  const [search, setSearch] = useState("")
+  const [search, setSearch] = useState("");
+  const [totalRecords, setTotalRecords] = useState(0)
+
+
+
   const Category = [
     { name: "Category 1", code: "C1" },
     { name: "Category 2", code: "C2" },
@@ -161,20 +166,20 @@ export default function Index() {
       Category: "Showcases Events",
     },
   ];
-  
-console.log('url',process.env.BASE_URL)
+
+  // console.log('url', process.env.BASE_URL)
   const fetchPostDetails = async (postId) => {
     setLoading(true)
-    await fetchAPI(`/messageboard/posts/postdetails/${postId}`, 'GET', {}, 'application/json')
-    .then((data) => {
-      console.log(data)
-      setPost(data)
-      setLoading(false)
-    })
-    .catch((err) => {
-      console.log(err)
-      setLoading(false)
-    })
+    await adminFetchAPI(`/messageboard/posts/postdetails/${postId}`, 'GET', {}, 'application/json')
+      .then((data) => {
+        console.log(data)
+        setPost(data)
+        setLoading(false)
+      })
+      .catch((err) => {
+        console.log(err)
+        setLoading(false)
+      })
   }
 
   const actionBodyTemplate = (rowData) => {
@@ -184,6 +189,7 @@ console.log('url',process.env.BASE_URL)
           <Link
             href=""
             onClick={() => {
+              console.log("id of post", rowData?.post_id);
               setEditMessageBoard(true);
               setId(rowData?.post_id)
               fetchPostDetails(rowData?.post_id);
@@ -263,36 +269,42 @@ console.log('url',process.env.BASE_URL)
       timeoutId = setTimeout(() => func(...args), delay);
     };
   };
-  
+
   const fetchPost = async () => {
     setPostLoading(true);
     const requestedData = {
-      page: 1,
-      limit: 10,
-      search: search,
+      "page": 1,
+      "limit": 10,
+      "search": search,
     };
-  
+
     try {
-      const response = await axios.post(`${url}/messageboard/posts/list`, requestedData, {
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${tempToken}`,
-        },
-      });
-      setPosts(response.data?.rows);
+      // const response = await axios.post(`${url}/messageboard/posts/list`, requestedData, {
+      //   headers: {
+      //     'Content-Type': 'application/json',
+      //     'Authorization': `Bearer ${tempToken}`,
+      //   },
+      // });
+      const response = await adminFetchAPI(`/messageboard/posts/list`, 'POST', requestedData, 'application/json')
+      setPosts(response?.rows);
+      setTotalRecords(response?.count)
       setPostLoading(false);
     } catch (error) {
       setPostLoading(false);
       console.log(error);
     }
   };
-  
+
   const debouncedFetchData = debounce(fetchPost, 500);
-  
+
   useEffect(() => {
     debouncedFetchData();
   }, [search]);
-  
+
+  const handlePageChange = (e) => {
+    console.log(e)
+  }
+
 
   return (
     <>
@@ -338,14 +350,17 @@ console.log('url',process.env.BASE_URL)
           <div className="bg-white  xl:mt-[1.406vw] mt-[24px] xl:p-[0.833vw] p-[20px] rounded-md ">
             <DataTable
               value={posts}
+              totalRecords={totalRecords}
               className="custTable tableCust custCheckBox"
               scrollable
+              onPage={handlePageChange}
+              // first={{pageCount:6}}
               responsiveLayout="scroll"
               style={{ width: "100%" }}
               paginator
               loading={postLoading}
               paginatorTemplate="CurrentPageReport RowsPerPageDropdown PrevPageLink PageLinks NextPageLink custmpaginator"
-              currentPageReportTemplate="Rows per page  {first}-{last} of {totalRecords}"
+              currentPageReportTemplate={`Rows per page  {first}-{last} of ${totalRecords}`}
               rowsPerPageOptions={[5, 10, 25, 50]}
               rows={10}
               onSelectionChange={(e) => setSelectedProducts(e.value)}
@@ -423,6 +438,7 @@ console.log('url',process.env.BASE_URL)
                 body={actionBodyTemplate}
               ></Column>
             </DataTable>
+
           </div>
         </div>
         <EditMessageBoard
@@ -432,11 +448,16 @@ console.log('url',process.env.BASE_URL)
           setId={setId}
           post={post}
           loading={loading}
+          fetchPost={fetchPost}
+          setEditMessageBoard={setEditMessageBoard}
         />
 
         <AddMessages
           visible={addMessageBoard}
           onHides={() => setAddMessageBoardMessageBoard(false)}
+          setLoading={setLoading}
+          fetchPost={fetchPost}
+          setAddMessageBoardMessageBoard={setAddMessageBoardMessageBoard}
         />
       </AdminLayout>
       <RemoveUser
@@ -446,6 +467,7 @@ console.log('url',process.env.BASE_URL)
         icon="autinisd-info-circle-fill"
         id={id}
         setId={setId}
+        fetchPost={fetchPost}
       />
     </>
   );

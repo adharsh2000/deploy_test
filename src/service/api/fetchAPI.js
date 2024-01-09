@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 
 const fetchAPI = async (endpoint, method = 'GET', data = {}, contentType = '') => {
     try {
-        const checkEndpoint = endpoint === '/messageboard/posts/topcontibotor'
+        const checkEndpoint = endpoint === '/messageboard/posts/list' || endpoint === '/messageboard/posts/topcontibotor' || endpoint === '/messageboard/posts/unansweredtopics' || endpoint.includes('/messageboard/posts/postdetails')
 
         const token = sessionStorage.getItem('AccessToken');
         let response = {};

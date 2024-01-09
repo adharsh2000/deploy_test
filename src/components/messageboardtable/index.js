@@ -24,7 +24,7 @@ export default function MessageBoardTable(props) {
     const itemTemplate = (item) => {
         return (
             <div className={myMontserrat.className}>
-                <span onClick={() => { props?.setShowDiscussionDetail(true), props?.setPost_id(item?.topic_id) }} className='cursor-pointer flex-wrap md:flex xl:flex justify-between gap-1 xl:mt-[0.833vw] mt-[16px] xl:mb-[0.833vw] mb-[16px]'>
+                <span onClick={() => { props?.setShowDiscussionDetail(true), props?.setPost_id(item?.topic_id), props?.setCategory_id(item?.category_id) }} className='cursor-pointer flex-wrap md:flex xl:flex justify-between gap-1 xl:mt-[0.833vw] mt-[16px] xl:mb-[0.833vw] mb-[16px]'>
                     <div className='flex justify-between gap-5'>
                         {imageError ? <div className="text-xl rounded-full w-11 h-11 flex items-center justify-center bg-gray-500 text-white">
                             {item?.user?.firstName?.charAt(0)}

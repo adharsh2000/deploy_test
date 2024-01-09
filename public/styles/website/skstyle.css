@@ -86,6 +86,15 @@
 .autinisd-dost-Frame:before {content: "\e93a";}
 .autinisd-tick-circle:before {content: "\e93b";}
 .autinisd-sub-circle:before {content: "\e93c";}
+.autinisd-doc-file:before {content: "\e93d";}
+.autinisd-sms-tracking:before {content: "\e93e";}
+.autinisd-mail:before {content: "\e93f";}
+.autinisd-tick-square:before {content: "\e940";}
+.autinisd-document-normal:before {content: "\e941";}
+.autinisd-translate:before {content: "\e942";}
+.autinisd-monitor:before {content: "\e943";}
+.autinisd-check-task:before {content: "\e944";}
+.autinisd-arrow-down-line:before {content: "\e945";}
 
 .p-sidebar.width768 {
   width: 40vw;
@@ -458,6 +467,12 @@
 }
 .option_effect:hover .optionbar {
   transform: translateY(38px);  
+}
+
+.departments_banner_warp {
+  background-image: url('/assets/website/departments_banner_warp.png');
+  background-size: 100%;
+  background-position: 50% 15%;
 }
 
 /***********************************************

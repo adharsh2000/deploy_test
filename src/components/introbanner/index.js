@@ -18,6 +18,7 @@ export default function Index(props) {
 
   const [Createnewtopicpopup, setCreatenewtopicpopup] = useState(false);
   const [ClearTopicForm, setClearTopicForm] = useState(false);
+  const {UpdateLatestPosts,setUpdateLatestPosts}=props;
 
   const [tabIndex, setTabIndex] = useState(1);
 
@@ -106,6 +107,8 @@ export default function Index(props) {
               onHides={() => { setCreatenewtopicpopup(false), setClearTopicForm(false) }}
               ClearTopicForm={ClearTopicForm}
               setClearTopicForm={setClearTopicForm}
+              UpdateLatestPosts={UpdateLatestPosts}
+              setUpdateLatestPosts={setUpdateLatestPosts}
             />
 
           </div>

@@ -8,20 +8,14 @@ import { Editor } from "primereact/editor";
 import { Calendar } from 'primereact/calendar';
 import { Toast } from 'primereact/toast';
 import axios from "axios";
+import fetchAPI from "@/service/api/fetchAPI";
+import { MultiSelect } from "primereact/multiselect";
+import adminFetchAPI from "@/service/api/adminFetchApi";
 
 const AddMessages = (props) => {
-    const url = "http://44.213.218.195:8080"
-
-    let tempToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImZpcnN0TmFtZSI6IlNvbmFscmFqICIsImxhc3ROYW1lIjoiS3VtYmhhciIsImVtYWlsIjoic29uYWxyYWpAZWRicml4LmNvbSIsInByb2ZpbGVfcGljIjoiMTcwNDI3MDEyMDE3NC5wbmciLCJkZXNpZ25hdGlvbiI6bnVsbCwiY3JlYXRlZF9ieSI6MSwidXNlcl9pZCI6MX0sImlhdCI6MTcwNDQ1NTMwMCwiZXhwIjoxNzA0NTQxNzAwfQ.9kkOhkAe_AYb2V_9NZbLYzIQds33cWV0je-LzlAwXHA"
+    const { setLoading, fetchPost,setAddMessageBoardMessageBoard } = props;
 
     const toast = useRef(null);
-    const cities = [
-        { name: 'New York', code: 'NY' },
-        { name: 'Rome', code: 'RM' },
-        { name: 'London', code: 'LDN' },
-        { name: 'Istanbul', code: 'IST' },
-        { name: 'Paris', code: 'PRS' }
-    ];
 
     const [date, setDate] = useState(null);
     const [text, setText] = useState('');
@@ -30,9 +24,12 @@ const AddMessages = (props) => {
     const [caption, setCaption] = useState('');
     const [author, setAuthor] = useState(null);
     const [category, setCategory] = useState(null);
-    const [tags, setTags] = useState('');
+    const [tag, setTag] = useState('');
+    const [authors,setAuthors] = useState([]);
+    const [categories,setCategories] = useState([]);
+    const [tags, setTags] = useState([]);
 
-    const resetForm = () => {
+    const resetForm =  () => {
         setDate(null);
         setText('');
         setSelectedCity(null);
@@ -40,10 +37,10 @@ const AddMessages = (props) => {
         setCaption('');
         setAuthor(null);
         setCategory(null);
-        setTags('');
+        setTag(null);
     };
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
 
         if (!title) return toast.current.show({ severity: 'error', detail: 'Title Required.', life: 3000 });
         if (!caption) return toast.current.show({ severity: 'error', detail: 'Caption Required.', life: 3000 });
@@ -66,36 +63,109 @@ const AddMessages = (props) => {
         // };
 
         const formData = new FormData();
-        formData.append('topic_category_id', '1');
+        formData.append('topic_category_id', category?.toString());
         formData.append('isPublished', '0');
-        formData.append('created_by', '2');
+        formData.append('created_by', sessionStorage.getItem("userId"));
         formData.append('post', title);
         formData.append('topic', title);
-        formData.append('author_id', '1');
+        formData.append('author_id', author?.toString());
         formData.append('iscreate', '1');
         formData.append('cover_image', 'img.png');
         formData.append('caption', caption);
         formData.append('description', text);
-        formData.append('tags', tags);
+        formData.append('tag_id', tag?.join());
+        formData.append('files', "");
+        formData.append('published_Date', date);
 
         // const body = JSON.stringify(data);
 
-        // console.log(data)
-        axios.post(`${url}/messageboard/posts`, formData, {
-            headers: {
-                'Content-Type': 'multipart/form-data',
-                'Authorization': `Bearer ${tempToken}`,
-            },
-        })
-            .then(({ data }) => {
-                console.log("data", data)
-                toast.current.show({ severity: 'success', detail: 'created successfully..', life: 3000 });
-                resetForm();
-            })
-            .catch((err) => {
-                console.log("error", err)
-                toast.current.show({ severity: 'error', detail: 'something went wrong', life: 3000 });
-            })
+        // console.log(formData)
+        try {
+            
+            await fetchAPI(`/messageboard/posts`, 'POST', formData, 'multipart/form-data');
+            toast.current.show({ severity: 'success', detail: 'created successfully..', life: 3000 });
+            fetchPost();
+            setAddMessageBoardMessageBoard(false);
+            resetForm();
+        } catch (error) {
+            toast.current.show({ severity: 'error', detail: 'something went wrong', life: 3000 });
+            console.log(error)
+        }
+        // axios.post(`${url}/messageboard/posts`, formData, {
+        //     headers: {
+        //         'Content-Type': 'multipart/form-data',
+        //         'Authorization': `Bearer ${tempToken}`,
+        //     },
+        // })
+        //     .then(({ data }) => {
+        //         console.log("data", data)
+        //         toast.current.show({ severity: 'success', detail: 'created successfully..', life: 3000 });
+        //         resetForm();
+        //     })
+        //     .catch((err) => {
+        //         console.log("error", err)
+        //         toast.current.show({ severity: 'error', detail: 'something went wrong', life: 3000 });
+        //     })
+    }
+
+    const fetchAuthor = async () => {
+        try {
+            const response = await adminFetchAPI(`/messageboard/author/list`, 'POST', {}, 'application/json');
+            console.log(response)
+            setAuthors(response?.rows);
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    const fetchCategories = async () => {
+        try {
+            const response = await adminFetchAPI(`/messageboard/topiccategory/list`, 'POST', {}, 'application/json');
+            console.log(response)
+            setCategories(response?.rows);
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    const fetchTags = async () => {
+        try {
+            let data = {
+                "page":1,
+                "limit":10
+            }
+            const response = await adminFetchAPI(`/tags/list`, 'POST', data, 'application/json');
+            console.log(response)
+            setTags(response?.rows);
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    // const fetchPosts = async () => {
+    //     try {
+    //         setLoading(true)
+    //         await adminFetchAPI(`/messageboard/posts/postdetails/${postId}`, 'GET', {}, 'application/json')
+    //         setLoading(false)
+    //     } catch (error) {
+    //         setLoading(false)
+    //         console.log(error)
+    //     }
+    // }
+
+    useEffect(() => {
+        fetchAuthor();
+        fetchCategories();
+        fetchTags();
+    },[]);
+
+    function formatDateString(inputDateString) {
+        const date = new Date(inputDateString);
+        const year = date.getFullYear();
+        const month = (date.getMonth() + 1).toString().padStart(2, '0'); 
+        const day = date.getDate().toString().padStart(2, '0');       
+        const formattedDate = `${year}-${month}-${day}`;
+        return formattedDate;
     }
 
     return (
@@ -167,10 +237,11 @@ const AddMessages = (props) => {
                                         <div className="flex flex-col customDropdown">
                                             <label htmlFor="username" className="text-[#374151] xl:text-[0.833vw] text-base font-medium">Select Author</label>
                                             <Dropdown
-                                                value={selectedCity}
-                                                onChange={(e) => setSelectedCity(e.value)}
-                                                options={cities}
-                                                optionLabel="name"
+                                                value={author}
+                                                onChange={(e) => {setAuthor(e.value); console.log(e.value.toString())}}
+                                                options={authors}
+                                                optionLabel="title"
+                                                optionValue="authar_id"
                                                 placeholder="Select"
                                                 className="w-full"
                                             />
@@ -180,10 +251,11 @@ const AddMessages = (props) => {
                                         <div className="flex flex-col customDropdown">
                                             <label htmlFor="username" className="text-[#374151] xl:text-[0.833vw] text-base font-medium">Select category</label>
                                             <Dropdown
-                                                value={selectedCity}
-                                                onChange={(e) => setSelectedCity(e.value)}
-                                                options={cities}
-                                                optionLabel="name"
+                                                value={category}
+                                                onChange={(e) => setCategory(e.value)}
+                                                options={categories}
+                                                optionLabel="topic_category"
+                                                optionValue="topic_category_id"
                                                 placeholder="Select"
                                                 className="w-full"
                                             />
@@ -192,13 +264,22 @@ const AddMessages = (props) => {
                                     <div className="col-span-12 xl:col-span-6 ">
                                         <div className="flex flex-col customInput">
                                             <label htmlFor="username" className="text-[#374151] xl:text-[0.833vw] text-base font-medium">Tags</label>
-                                            <InputText
+                                            {/* <InputText
                                                 value={tags}
                                                 id="username"
                                                 placeholder="Select"
                                                 className="placeholder:text-[#9CA1AB] placeholder:font-normal"
                                                 aria-describedby="username-help"
                                                 onChange={(e) => setTags(e.target.value)}
+                                            /> */}
+                                            <MultiSelect 
+                                                value={tag}
+                                                onChange={(e) => {setTag(e.value);console.log(e)}}
+                                                options={tags}
+                                                optionLabel="title"
+                                                optionValue="tag_id"
+                                                placeholder="Select"
+                                                className="w-full"
                                             />
                                         </div>
                                     </div>
@@ -207,7 +288,7 @@ const AddMessages = (props) => {
                                             <label htmlFor="username" className="text-[#374151] xl:text-[0.833vw] text-base font-medium">Publish Date</label>
                                             <Calendar
                                                 value={date}
-                                                onChange={(e) => setDate(e.value)}
+                                                onChange={(e) => {setDate(formatDateString(e.value)); console.log(formatDateString(e.value))}}
                                                 showIcon
                                                 placeholder="Input text"
                                                 iconPos='left'

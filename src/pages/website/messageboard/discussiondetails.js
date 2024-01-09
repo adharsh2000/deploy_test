@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Montserrat, Inter } from "@next/font/google";
 import { BreadCrumb } from "primereact/breadcrumb";
 import Link from "next/link";
@@ -11,6 +11,7 @@ import Bordmeetingview from "@/components/popup/bordmeetingview";
 import fetchAPI from '@/service/api/fetchAPI'
 import Loader from "@/components/loader";
 import { convertDateFormat } from "@/service/utils/DateConversion";
+import { Toast } from "primereact/toast";
 
 const myMontserrat = Montserrat({
   weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900'],
@@ -28,6 +29,8 @@ export default function Index(props) {
 
   const [imageError, setImageError] = useState(false);
 
+  const toast = useRef(null);
+
   const handleImageError = () => {
     setImageError(true);
   };
@@ -35,7 +38,11 @@ export default function Index(props) {
   const [DiscussionDetail, setDiscussionDetail] = useState('')
   const [DiscussionUpdated, setDiscussionUpdated] = useState(false)
   const [CommentsUpdated, setCommentsUpdated] = useState(null);
+  const [PostComment, setPostComment] = useState(null);
+  const [RelatedTopicLoading, setRelatedTopicLoading] = useState(false)
+  const [RelatedTopic, setRelatedTopic] = useState('')
 
+  const [PinnedUpdated, setPinnedUpdated] = useState(false);
 
   const GetDiscussionDetail = async () => {
     setDiscussionDetailLoading(true)
@@ -43,7 +50,7 @@ export default function Index(props) {
       await fetchAPI(`/messageboard/posts/postdetails/${props?.post_id}`)
         .then((response) => {
           response && setDiscussionDetail(response)
-          setDiscussionDetailLoading(false)
+          response?.status==200 && setDiscussionDetailLoading(false)
           setDiscussionUpdated(false)
           setCommentsUpdated(false);
         }
@@ -53,39 +60,47 @@ export default function Index(props) {
       console.log(error, 'error logged')
     }
   }
-
+  const GetRelatedItems = async () => {
+    setRelatedTopicLoading(true)
+    let data = {
+      "page": 1,
+      "limit": 4,
+      "category_id": props?.category_id
+    }
+    try {
+      await fetchAPI(`/messageboard/posts/relatedTopics`, 'POST', data, 'application/json')
+        .then((response) => {
+          response && setRelatedTopic(response)
+          response?.status==200 && setRelatedTopicLoading(false)
+        }
+        )
+    }
+    catch (error) {
+      console.log(error, 'error logged')
+    }
+  }
   //Add comment start
-  const [PostComment,setPostComment]=useState(null);
-
   const addComment = async () => {
     let data = JSON.stringify({
-        topic_id: props?.post_id,
-        created_by: parseInt(sessionStorage.getItem('UserID')),
-        post: PostComment,
-        
-    });
-    //console.log("postrespDet",topic_id,created_by,post);
-    // const checkMandat = Post === null || Topic === null || topic_category_id === undefined || Tags === undefined
-    // console.log("checkMandat", checkMandat);
-    // if (checkMandat) {
-    //     toast.current.show({ severity: 'error', summary: 'Mandatory Fields are required', detail: '' });
+      topic_id: props?.post_id,
+      created_by: parseInt(sessionStorage.getItem('UserID')),
+      post: PostComment,
 
-    // }
+    });
 
     await fetchAPI(`/messageboard/posts/comment`, 'POST', data, 'application/json')
-        .then((resp) => {
-            console.log("postresp", resp);
-            if (resp?.createdAt) {
-                setCommentsUpdated(true);
-                toast.current.show({ severity: 'success', summary: 'New Post created', detail: '' });
-                props.onHides();
-            }
+      .then((resp) => {
+        if (resp?.message?.includes('successfully')) {
+          setCommentsUpdated(true);
+          setPostComment(null);
+          toast.current.show({ severity: 'success', summary: 'Comment Added', detail: '' });
+        }
 
-            else {
-                console.log("Error logged");
-            }
-        });
-};
+        else {
+          console.log("Error logged");
+        }
+      });
+  };
 
   //Add comment end
 
@@ -101,6 +116,14 @@ export default function Index(props) {
       await fetchAPI(`/messageboard/topicview/pinnedunpinnedtopic`, 'POST', data, 'application/json')
         .then((response) => {
           response?.message?.includes('successfully') && setDiscussionUpdated(true)
+          if (response?.message?.includes('topic pinned')) {
+            props.setUpdatePinUnpin(true);
+            toast.current.show({ severity: 'success', summary: 'Post has been pinned', detail: '' });
+          }
+          else if (response?.message?.includes('unpinned')) {
+            props.setUpdatePinUnpin(true);
+            toast.current.show({ severity: 'success', summary: 'Post has been unpinned', detail: '' });
+          }
         }
         )
     }
@@ -108,11 +131,16 @@ export default function Index(props) {
       console.log(error, 'error logged')
     }
   }
+
   useEffect(() => {
     GetDiscussionDetail()
-  }, [props?.post_id, DiscussionUpdated,CommentsUpdated])
+  }, [props?.post_id, DiscussionUpdated, CommentsUpdated])
 
-  const tagArray = DiscussionDetail?.post?.tags?.split(', ');
+  useEffect(() => {
+    GetRelatedItems()
+  }, [props?.category_id, PinnedUpdated])
+
+  // const tagArray = DiscussionDetail?.post?.tags?.split(', ');
 
   const items = [
     { label: "Communication" },
@@ -122,7 +150,7 @@ export default function Index(props) {
   const [text, setText] = useState("");
   const [selectedCity, setSelectedCity] = useState(null);
   const [bordmeetingviewpopup, setbordmeetingviewpopup] = useState(false);
- 
+
   const cities = [
     { name: "Relevancy", code: "RE" },
     { name: "Newly", code: "Ne" },
@@ -209,12 +237,12 @@ export default function Index(props) {
 
                       <div>
                         <div className="flex gap-2 ml-5">
-                          {tagArray?.map(item =>
+                          {DiscussionDetail?.tagRes?.map(item =>
                             <span
                               href=""
                               className="bg-[#E8EBF0] rounded-md text-[#62789B] text-[14px] xl:text-[0.729vw] font-medium px-[12px] xl:px-[0.625vw] py-[6px] xl:py-[0.313vw]"
                             >
-                              {item}
+                              {item?.title}
                             </span>
                           )}
                         </div>
@@ -396,7 +424,7 @@ export default function Index(props) {
                     <div className={`${myInter.className} flex justify-end xl:mt-[0.833vw] mt-[16px]`}>
                       <Link
                         href=""
-                        onClick={()=>{addComment()}}
+                        onClick={() => { addComment() }}
                         className="bg-[#4F6484] rounded-md text-[#fff] text-[14px] xl:text-[0.833vw] font-normal px-[20px] xl:px-[1.042vw] py-[16px] xl:py-[0.733vw] leading-5"
                       >
                         <i className="austin-pluse text-[#fff] text-[20px] mr-2"></i>
@@ -413,7 +441,10 @@ export default function Index(props) {
             }
             <div className="">
               <div >
-                <RelatedItems />
+                {RelatedTopicLoading ? <Loader height='20vh' /> :
+                  <RelatedItems data={RelatedTopic}
+                    setPinnedUpdated={setPinnedUpdated} />
+                }
               </div>
             </div>
           </div>
@@ -423,6 +454,7 @@ export default function Index(props) {
           onHides={() => setbordmeetingviewpopup(false)}
         />
       </div>
+      <Toast ref={toast}></Toast>
     </>
   );
 }

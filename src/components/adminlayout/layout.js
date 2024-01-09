@@ -4,7 +4,7 @@ import Head from "next/head";
 import { Inter } from '@next/font/google'
 import { useRouter } from 'next/router'
 
-const adminStylesheets = ['/styles/admin/filtercomponent.css', '/styles/admin/leftmenu.css', '/styles/admin/nstyle.css', '/styles/admin/skstyle.css', '/styles/admin/systyle.css'];
+const adminStylesheets = ['/styles/admin/filtercomponent.css', '/styles/admin/leftmenu.css', '/styles/admin/nstyle.css', '/styles/admin/skstyle.css', '/styles/admin/systyle.css', '/styles/admin/vsstyle.css'];
 
 const myInter = Inter({
     weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900'],
