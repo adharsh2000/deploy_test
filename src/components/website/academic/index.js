@@ -3,8 +3,8 @@ import Image from "next/image";
 import { Sidebar } from "primereact/sidebar";
 // import { Button } from 'primereact/button';
 import Link from "next/link";
-// import 'react-web-tabs/dist/react-web-tabs.css';
-// import { Tabs, Tab, TabPanel, TabList } from "react-web-tabs";
+import 'react-web-tabs/dist/react-web-tabs.css';
+import { Tabs, Tab, TabPanel, TabList } from "react-web-tabs";
 
 function Academic(props) {
     const maxCharacters = 300;
