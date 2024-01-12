@@ -109,6 +109,7 @@ export default function Index() {
             <meta name="google-site-verification" content="W6XmndxNINBwm3c3p5KH0Sar2-92Hufz7t4kD0-d1HA" />
             <meta name="description" content="" />
             <meta name="viewport" content="width=device-width, initial-scale=1" />
+            <meta name="google-site-verification" content="W6XmndxNINBwm3c3p5KH0Sar2-92Hufz7t4kD0-d1HA" />
             <link rel="icon" href="/favicon.ico" />
             {router.pathname.startsWith('/admin') &&
               adminStylesheets.map((stylesheet, index) => (
