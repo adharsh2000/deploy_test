@@ -5,6 +5,7 @@ import { OverlayPanel } from 'primereact/overlaypanel';
 import { Inter, Montserrat } from '@next/font/google'
 import { useRouter } from 'next/router';
 import MegaMenuPopup from "../website/megamenupopup";
+import TranslateComponent from '@/pages/translate';
 
 const myInter = Inter({
     weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900'],
@@ -72,6 +73,11 @@ export default function Top({ ...pageProps }) {
         const { pathname } = useRouter();
         return pathname === href;
     };
+    const [IsAuthenticated, setIsAuthenticated] = useState('')
+
+    useEffect(() => {
+      setIsAuthenticated(sessionStorage.getItem('IsAuthenticated'))
+    }, [])
 
     return (
         <header className={`${myInter.className} sticky top-0 z-50`} >
@@ -81,8 +87,8 @@ export default function Top({ ...pageProps }) {
                         <ul className="flex gap-4 mt-3">
                             <li>
                                 <Link
-                                    href={"/website/elibrary"}
-                                    className={`${isLinkActive('/website/elibrary') || isLinkActive('/website/elibrary/elibrarycatalog') ? 'bg-[#A93439]' : ''} block text-[16px] xl:text-[0.833vw] text-white font-medium px-[8px] xl:px-[0.417vw] pt-[7px] xl:pt-[0.365vw] pb-[5px] xl:pb-[0.265vw] hover:bg-[#A93439] rounded-lg ease-linear duration-300`}
+                                    href={"/elibrary"}
+                                    className={`${isLinkActive('/elibrary') || isLinkActive('/elibrary/elibrarycatalog') ? 'bg-[#A93439]' : ''} block text-[16px] xl:text-[0.833vw] text-white font-medium px-[8px] xl:px-[0.417vw] pt-[7px] xl:pt-[0.365vw] pb-[5px] xl:pb-[0.265vw] hover:bg-[#A93439] rounded-lg ease-linear duration-300`}
                                 >
                                     eLibrary
                                 </Link>
@@ -97,15 +103,15 @@ export default function Top({ ...pageProps }) {
                             </li>
                             <li>
                                 <Link
-                                    href={"/website/messageboard"}
-                                    className={`${isLinkActive('/website/messageboard') || isLinkActive('/website/messageboard/discussiondetails') ? 'bg-[#A93439]' : ''} block text-[16px] xl:text-[0.833vw] text-white font-medium px-[8px] xl:px-[0.417vw] pt-[7px] xl:pt-[0.365vw] pb-[5px] xl:pb-[0.265vw] hover:bg-[#A93439] rounded-lg ease-linear duration-300`}
+                                    href={"/messageboard"}
+                                    className={`${isLinkActive('/messageboard') || isLinkActive('/messageboard/discussiondetails') ? 'bg-[#A93439]' : ''} block text-[16px] xl:text-[0.833vw] text-white font-medium px-[8px] xl:px-[0.417vw] pt-[7px] xl:pt-[0.365vw] pb-[5px] xl:pb-[0.265vw] hover:bg-[#A93439] rounded-lg ease-linear duration-300`}
                                 >
                                     Message Board
                                 </Link>
                             </li>
                             <li>
                                 <Link
-                                    href='/website/aisdtv'
+                                    href='/aisdtv'
                                     className="block text-[16px] xl:text-[0.833vw] text-white font-medium px-[8px] xl:px-[0.417vw] pt-[7px] xl:pt-[0.365vw] pb-[5px] xl:pb-[0.265vw] hover:bg-[#A93439] rounded-lg ease-linear duration-300"
                                 >
                                     AISD.TV
@@ -132,7 +138,7 @@ export default function Top({ ...pageProps }) {
                                 <span className="absolute right-[-10px] top-[-10px] bottom-[-10px] left-0 bg-[#4b7e7366] rounded-full"></span>
                                 <span className="absolute right-[-20px] top-[-10px] bottom-[-10px] left-0 bg-[#4b7e734d] rounded-full"></span>
                                 <Link
-                                    href={""}
+                                    href={"/enroll"}
                                     className="relative h-full flex items-center text-[16px] xl:text-[0.833vw] text-white font-medium pl-[16px] xl:pl-[0.833vw] pr-[24px] xl:pr-[1.25vw] py-[6px] xl:py-[0.317vw] bg-gradient-to-l from-[#2a4a43] to-[#4b7e73] rounded-r-full ease-linear duration-300"
                                 >
                                     <span className="flex items-center gap-2">
@@ -145,7 +151,10 @@ export default function Top({ ...pageProps }) {
                     </div>
                     <div className="py-[10px] xl:py-[0.525vw] z-[2]">
                         <ul className="flex gap-4">
-                            <li>
+                        <li>
+                        <TranslateComponent lang="en" />
+                        </li>
+                            {/* <li>
                                 <Link
                                     href={""}
                                     className="block text-[16px] xl:text-[0.833vw] text-white hover:text-[#A93439] font-medium px-[8px] xl:px-[3.417vw] py-[6px] xl:py-[1.117vw] rounded-lg ease-linear duration-300"
@@ -161,11 +170,11 @@ export default function Top({ ...pageProps }) {
                                         />
                                     </span>
                                 </Link>
-                            </li>
+                            </li> */}
                             <li className="flex gap-2 items-center flex-col">
                                 <div className="flex gap-2 items-center">
                                     {ProfileImage && !imageError ? (
-                                        <Image
+                                         IsAuthenticated &&<Image
                                             src={ProfileImage}
                                             width={40}
                                             height={40}
@@ -174,7 +183,7 @@ export default function Top({ ...pageProps }) {
                                             onError={handleImageError}
                                         />
                                     ) : (
-                                        <div className="text-xl rounded-full w-11 h-11 flex items-center justify-center bg-gray-500 text-white">
+                                        IsAuthenticated &&<div className="capitalize text-xl rounded-full w-11 h-11 flex items-center justify-center bg-gray-500 text-white">
                                             {UserName.charAt(0)}
                                         </div>
                                     )}
@@ -186,18 +195,17 @@ export default function Top({ ...pageProps }) {
                                             onClick={Logout}
                                             className="cursor-pointer block text-[16px] xl:text-[0.833vw] text-white hover:text-[#A93439] font-medium px-[8px] xl:px-[0.417vw] py-[6px] xl:py-[0.317vw] rounded-lg ease-linear duration-300"
                                         >
-                                            Logout
+                                            {IsAuthenticated ?'Logout':'Login'}
                                         </span>
                                     </div>
                                 </div>
-
                             </li>
                         </ul>
                     </div>
 
                 </div>
             </div>
-            <div className={`${scrolled ? 'bg-[#a93439]' : router.pathname === '/website/aisdtv' ? 'bg-[#1F2A37] border-[#374151] ' : 'bg-[#F0F2F6]'} ${scrolled && router.pathname === '/website/aisdtv' ? 'border-[#374151]' : ''}  border-b border-[#BECDE3] px-[15px] lg:px-[20px] xl:px-[1.04vw] pt-[24px] xl:pt-[1.25vw] pb-[16px] xl:pb-[0.833vw] ease-linear duration-300`}>
+            <div className={`${scrolled ? 'bg-[#a93439]' : router.pathname === '/aisdtv' ? 'bg-[#1F2A37] border-[#374151] ' : 'bg-[#F0F2F6] border-[#BECDE3]'} ${scrolled && router.pathname === '/aisdtv' ? 'border-[#374151]' : ''}  border-b  px-[15px] lg:px-[20px] xl:px-[1.04vw] pt-[24px] xl:pt-[1.25vw] pb-[16px] xl:pb-[0.833vw] ease-linear duration-300`}>
                 <div className="xl:max-w-[88.3025vw] mx-auto flex justify-between">
                     <div className="logo-frontend">
                         <Link
@@ -226,7 +234,7 @@ export default function Top({ ...pageProps }) {
                             <li>
                                 <Link
                                     href={""} onClick={() => setmegamenupopup(true)}
-                                    className={`${scrolled ? 'text-[#E5E7EB] hover:text-[#fff]' : router.pathname === '/website/aisdtv' ? 'text-[#fff]' : 'text-[#4B586E] hover:text-[#A93439]'} block text-[18px] xl:text-[0.94vw] font-medium px-[8px] xl:px-[0.417vw] py-[6px] xl:py-[0.317vw] rounded-lg ease-linear duration-300`}
+                                    className={`${scrolled ? 'text-[#E5E7EB] hover:text-[#fff]' : router.pathname === '/aisdtv' ? 'text-[#fff]' : 'text-[#4B586E] hover:text-[#A93439]'} block text-[18px] xl:text-[0.94vw] font-medium px-[8px] xl:px-[0.417vw] py-[6px] xl:py-[0.317vw] rounded-lg ease-linear duration-300`}
                                 >
                                     <i className="austin-menu-drawer"></i>
                                 </Link>
@@ -234,8 +242,8 @@ export default function Top({ ...pageProps }) {
                             <li className="w-[2px] bg-gradient-to-t from-[#BECDE300] from-20% via-[#BECDE3] via-60% to-[#BECDE300] to-20%"></li>
                             <li>
                                 <Link
-                                   href='/website/aboutus'
-                                    className={`${scrolled ? 'text-[#E5E7EB] hover:text-[#fff]' : router.pathname === '/website/aisdtv' ? 'text-[#4B586E]' : 'text-[#4B586E] hover:text-[#A93439]'} block text-[18px] xl:text-[0.94vw] font-medium px-[8px] xl:px-[0.417vw] py-[6px] xl:py-[0.317vw] rounded-lg ease-linear duration-300`}
+                                    href='/aboutus'
+                                    className={`${scrolled ? 'text-[#E5E7EB] hover:text-[#fff]' : router.pathname === '/aisdtv' ? 'text-[#fff]' : 'text-[#4B586E] hover:text-[#A93439]'} block text-[18px] xl:text-[0.94vw] font-medium px-[8px] xl:px-[0.417vw] py-[6px] xl:py-[0.317vw] rounded-lg ease-linear duration-300`}
                                 >
                                     Our District
                                 </Link>
@@ -244,7 +252,7 @@ export default function Top({ ...pageProps }) {
                             <li>
                                 <Link
                                     href={""}
-                                    className={`${scrolled ? 'text-[#E5E7EB] hover:text-[#fff]' : router.pathname === '/website/aisdtv' ? 'text-[#fff]' : 'text-[#4B586E] hover:text-[#A93439]'} block text-[18px] xl:text-[0.94vw] font-medium px-[8px] xl:px-[0.417vw] py-[6px] xl:py-[0.317vw] rounded-lg ease-linear duration-300`}
+                                    className={`${scrolled ? 'text-[#E5E7EB] hover:text-[#fff]' : router.pathname === '/aisdtv' ? 'text-[#fff]' : 'text-[#4B586E] hover:text-[#A93439]'} block text-[18px] xl:text-[0.94vw] font-medium px-[8px] xl:px-[0.417vw] py-[6px] xl:py-[0.317vw] rounded-lg ease-linear duration-300`}
                                 >
                                     Students
                                 </Link>
@@ -253,7 +261,7 @@ export default function Top({ ...pageProps }) {
                             <li>
                                 <Link
                                     href={""}
-                                    className={`${scrolled ? 'text-[#E5E7EB] hover:text-[#fff]' : router.pathname === '/website/aisdtv' ? 'text-[#fff]' : 'text-[#4B586E] hover:text-[#A93439]'} block text-[18px] xl:text-[0.94vw] font-medium px-[8px] xl:px-[0.417vw] py-[6px] xl:py-[0.317vw] rounded-lg ease-linear duration-300`}
+                                    className={`${scrolled ? 'text-[#E5E7EB] hover:text-[#fff]' : router.pathname === '/aisdtv' ? 'text-[#fff]' : 'text-[#4B586E] hover:text-[#A93439]'} block text-[18px] xl:text-[0.94vw] font-medium px-[8px] xl:px-[0.417vw] py-[6px] xl:py-[0.317vw] rounded-lg ease-linear duration-300`}
                                 >
                                     Families
                                 </Link>
@@ -262,7 +270,7 @@ export default function Top({ ...pageProps }) {
                             <li>
                                 <Link
                                     href={""}
-                                    className={`${scrolled ? 'text-[#E5E7EB] hover:text-[#fff]' : router.pathname === '/website/aisdtv' ? 'text-[#fff]' : 'text-[#4B586E] hover:text-[#A93439]'} block text-[18px] xl:text-[0.94vw] font-medium px-[8px] xl:px-[0.417vw] py-[6px] xl:py-[0.317vw] rounded-lg ease-linear duration-300`}
+                                    className={`${scrolled ? 'text-[#E5E7EB] hover:text-[#fff]' : router.pathname === '/aisdtv' ? 'text-[#fff]' : 'text-[#4B586E] hover:text-[#A93439]'} block text-[18px] xl:text-[0.94vw] font-medium px-[8px] xl:px-[0.417vw] py-[6px] xl:py-[0.317vw] rounded-lg ease-linear duration-300`}
                                 >
                                     Programs
                                 </Link>
@@ -270,8 +278,8 @@ export default function Top({ ...pageProps }) {
                             <li className="w-[2px] bg-gradient-to-t from-[#BECDE300] from-20% via-[#BECDE3] via-60% to-[#BECDE300] to-20%"></li>
                             <li>
                                 <Link
-                                    href={"/website/calendar"}
-                                    className={`${scrolled ? 'text-[#E5E7EB] hover:text-[#fff]' : router.pathname === '/website/aisdtv' ? 'text-[#fff]' : 'text-[#4B586E] hover:text-[#A93439]'} block text-[18px] xl:text-[0.94vw] font-medium px-[8px] xl:px-[0.417vw] py-[6px] xl:py-[0.317vw] rounded-lg ease-linear duration-300`}
+                                    href={"/calendar"}
+                                    className={`${scrolled ? 'text-[#E5E7EB] hover:text-[#fff]' : router.pathname === '/aisdtv' ? 'text-[#fff]' : 'text-[#4B586E] hover:text-[#A93439]'} block text-[18px] xl:text-[0.94vw] font-medium px-[8px] xl:px-[0.417vw] py-[6px] xl:py-[0.317vw] rounded-lg ease-linear duration-300`}
                                 >
                                     Calendar
                                 </Link>
@@ -279,8 +287,8 @@ export default function Top({ ...pageProps }) {
                             <li className="w-[2px] bg-gradient-to-t from-[#BECDE300] from-20% via-[#BECDE3] via-60% to-[#BECDE300] to-20%"></li>
                             <li>
                                 <Link
-                                    href={"/website/schools"}
-                                    className={`${scrolled ? 'text-[#E5E7EB] hover:text-[#fff]' : router.pathname === '/website/aisdtv' ? 'text-[#fff]' : 'text-[#4B586E] hover:text-[#A93439]'} block text-[18px] xl:text-[0.94vw] font-medium px-[8px] xl:px-[0.417vw] py-[6px] xl:py-[0.317vw] rounded-lg ease-linear duration-300`}
+                                    href={"/schools"}
+                                    className={`${scrolled ? 'text-[#E5E7EB] hover:text-[#fff]' : router.pathname === '/aisdtv' ? 'text-[#fff]' : 'text-[#4B586E] hover:text-[#A93439]'} block text-[18px] xl:text-[0.94vw] font-medium px-[8px] xl:px-[0.417vw] py-[6px] xl:py-[0.317vw] rounded-lg ease-linear duration-300`}
                                 >
                                     Schools
                                 </Link>

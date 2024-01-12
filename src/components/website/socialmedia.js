@@ -19,7 +19,7 @@ const SocialMediaCard = (props) => {
         <div className={props.className}>
             {props.data.map((elm) => {
                 return (
-                        <div key={elm.id} className={`rounded-[16px] xl:rounded-[0.833vw] ${router.pathname === '/website/viewmoresocialmedia' ? 'bg-[#fff]': 'bg-[#F5F6F7]'}`}>
+                        <div key={elm.id} className={`rounded-[16px] xl:rounded-[0.833vw] ${router.pathname === '/viewmoresocialmedia' ? 'bg-[#fff]': 'bg-[#F5F6F7]'}`}>
                             <div className="grid grid-cols-12 gap-4 xl:gap-[0.833vw]">
                                 <div className='col-span-4'>
                                     <Image src={`/assets/images/${elm.image}`} width={177} height={185} alt="" className="xl:w-[9.219vw] xl:h-[9.635vw] w-full h-auto rounded-l-lg" />

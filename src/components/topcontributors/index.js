@@ -12,7 +12,6 @@ const myMontserrat = Montserrat({
 
 export default function Index(props) {
   const [imageError, setImageError] = useState(false);
-
   const handleImageError = () => {
     setImageError(true);
   };
@@ -34,7 +33,7 @@ export default function Index(props) {
           {props?.TopContributorLoading ? <Loader height='100%' /> :
             <div className="space-y-[18px] xl:space-y-[0.938vw]">
               {/* row */}
-              {props?.TopContributor?.map(item =>
+              {Array.isArray(props?.TopContributor)&&props?.TopContributor?.map(item =>
                 <div className="flex items-center gap-[16px] xl:gap-[0.833vw] border-b border-[#E5E7EB] pb-[8px] pb-[0.417vw]">
                   <div className="col">
                     <div className="userpic">
@@ -45,15 +44,15 @@ export default function Index(props) {
                         className="rounded-full object-cover min-w-[48px] min-h-[48px]"
                         onError={handleImageError}
                       /> :
-                        <div className="text-xl rounded-full w-11 h-11 flex items-center justify-center bg-gray-500 text-white">
+                        <div className="capitalize text-xl rounded-full w-11 h-11 flex items-center justify-center bg-gray-500 text-white">
                           {item?.user?.firstName?.charAt(0)}
                         </div>
                       }
                     </div>
                   </div>
                   <div className="col space-x-[8px] xl:space-x-[0.417vw]">
-                    <span className="text-[#374151] text-[18px] xl:text-[0.938vw] font-medium">
-                      {item?.user?.firstName + item?.user?.lastName}
+                    <span className="capitalize text-[#374151] text-[18px] xl:text-[0.938vw] font-medium">
+                      {item?.user?.firstName +' '+ item?.user?.lastName}
                     </span>
                     <span>
                       <i className="austin-chat"></i>

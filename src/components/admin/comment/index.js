@@ -6,6 +6,28 @@ import RemoveUser from "@/components/admin/popup/removeUser";
 const Comments = (props) => {
   const [removeUser, setRemoveUser] = useState(false);
   const [deleteUser, setDeleteUser] = useState(false);
+  const [userDetails, setUserDetails] = useState(null);
+
+  const convertDateFormat = (dateString) => {
+    const options = {
+      weekday: "short",
+      month: "short",
+      day: "numeric",
+      year: "numeric",
+      hour: "numeric",
+      minute: "numeric",
+      hour12: true,
+    };
+    const formattedDate = new Date(dateString).toLocaleString("en-US", options);
+    const trimmedDate = formattedDate.replace(/,/, '');
+    return trimmedDate;
+  };
+
+  const handleBlock = (elm) => {
+    setUserDetails(elm?.user);
+    setRemoveUser(true);
+    console.log("user",elm)
+  }
   return (
     <>
       {props.data.map((elm) => {
@@ -21,17 +43,16 @@ const Comments = (props) => {
                     alt="active_user"
                   />
                   <h6 className="text-[#374151] text-[16px] xl:text-[0.938vw] font-semibold">
-                    {elm.name}
+                    {elm?.user?.firstName}{" "}{elm?.user?.lastName}
                   </h6>
                   <span className="austin-dot text-[#A93439] text-[7px]"></span>
                   <p className="text-[#9CA1AB] text-[14px] xl:text-[0.729vw] font-light">
-                    {elm.date}
+                    {convertDateFormat(elm?.createdAt)}
                   </p>
                 </div>
                 <div className="flex justify-end xl:w-[9.813vw] w-[230px]">
-                  <div className="px-[18px] xl:px-[1.042vw] py-[12px] xl:py-[0.433vw] bg-[#DBE1EA] text-[14px] xl:text-[0.829vw] text-[#4B586E] font-light rounded-full ">
+                  <div onClick={() => handleBlock(elm)} className="cursor-pointer px-[18px] xl:px-[1.042vw] py-[12px] xl:py-[0.433vw] bg-[#DBE1EA] text-[14px] xl:text-[0.829vw] text-[#4B586E] font-light rounded-full ">
                     <i
-                      onClick={() => setRemoveUser(true)}
                       className="autinisd-user-delete  text-[18px] text-[#4B586E]  mr-2"
                     ></i>{" "}
                     Block this user
@@ -67,7 +88,7 @@ const Comments = (props) => {
                       </div>
                     </div>
                     <div className="bg-[#F5F6F8] rounded-md p-[14px] xl:p-[0.733vw] text-[#4B586E] text-[14px] xl:text-[0.733vw] font-light">
-                      {elm.description}
+                      {elm?.post}
                     </div>
                   </div>
                 </div>

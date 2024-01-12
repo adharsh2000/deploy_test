@@ -27,12 +27,20 @@ export default function Index() {
 
   const auth = async (email) => {
     try {
-      const response = await fetchAPI(`/auth/login`, 'POST', {email}, 'application/json');
+      const response = await fetchAPI(`/auth/login`, 'POST', { email }, 'application/json');
       console.log(response)
-      sessionStorage.setItem('AccessToken', response?.token)
-      sessionStorage.setItem('role', response?.user?.role?.role)
-      sessionStorage.setItem('userId', response?.user?.user_id);
-      router.push('/admin/dashboard');
+      if (response?.user?.role_id === 1) {
+        sessionStorage.setItem('AccessToken', response?.token)
+        sessionStorage.setItem('role', response?.user?.role?.role)
+        sessionStorage.setItem('userId', response?.user?.user_id);
+        const name = `${response?.user?.firstName} ${response?.user?.lastName}`
+        sessionStorage.setItem("AdminUserName", name);
+        sessionStorage.setItem("AdminUserEmail", response?.user?.email);
+        router.push('/admin/dashboard');
+      } else {
+        router.push('/admin');
+        toast.current.show({severity:'error', detail:'You Are Not Authenticated....', life: 3000});
+      }
       setLoading(false)
     } catch (error) {
       setLoading(false)
@@ -47,9 +55,7 @@ export default function Index() {
       try {
         axios.get(`https://www.googleapis.com/oauth2/v2/userinfo?access_token=${tokenResponse?.access_token}`)
           .then(resp => {
-            sessionStorage.setItem("AdminUserName", resp?.data?.name)
             sessionStorage.setItem("AdminUserImage", resp?.data?.picture)
-            sessionStorage.setItem("AdminUserEmail", resp?.data?.email)
             auth(resp?.data?.email);
           })
       }
@@ -62,41 +68,41 @@ export default function Index() {
   });
 
 
-  const AdminLogin = async () => {
-    setLoading(true)
-    let data = {
-      email: EmailInput,
-      password: PasswordInput
-    }
-    const CheckMandat = EmailInput === ''|| PasswordInput === '';
-    if((EmailInput === '')||(PasswordInput === '')){
-      toast.current.show({severity:'error', detail:'Enter credentials to login', life: 3000});
-      setLoading(false);
-    }
-    try {
-      !CheckMandat && await fetchAPI(`/auth/login`, 'POST', data, 'application/json')
-        .then((response) => {
-          if (response?.data?.message?.includes('wrong')){
-            setLoading(false);
-            toast.current.show({severity:'error', detail:'Invalid Credentials', life: 3000});
-          }
-          response.message.includes('successfully') && router.push('/admin/dashboard')
-          response.message.includes('successfully') && sessionStorage.setItem("AdminUserName", `${response?.user?.firstName} ${response?.user?.lastName}`)
-          response.message.includes('successfully') && sessionStorage.setItem("AdminUserImage", `${response?.user?.profile_pic}`)
-          response.message.includes('successfully') && sessionStorage.setItem("AdminUserEmail", `${response?.user?.email}`)
-          response.message.includes('successfully') && sessionStorage.setItem("AccessToken", `${response?.token}`)
-          response.message.includes('successfully') && sessionStorage.setItem("AdminID", `${response?.user?.user_id}`)
-          response.message.includes('successfully') && sessionStorage.setItem('IsAuthenticated', 'true')
+  // const AdminLogin = async () => {
+  //   setLoading(true)
+  //   let data = {
+  //     email: EmailInput,
+  //     password: PasswordInput
+  //   }
+  //   const CheckMandat = EmailInput === ''|| PasswordInput === '';
+  //   if((EmailInput === '')||(PasswordInput === '')){
+  //     toast.current.show({severity:'error', detail:'Enter credentials to login', life: 3000});
+  //     setLoading(false);
+  //   }
+  //   try {
+  //     !CheckMandat && await fetchAPI(`/auth/login`, 'POST', data, 'application/json')
+  //       .then((response) => {
+  //         if (response?.data?.message?.includes('wrong')){
+  //           setLoading(false);
+  //           toast.current.show({severity:'error', detail:'Invalid Credentials', life: 3000});
+  //         }
+  //         response.message.includes('successfully') && router.push('/admin/dashboard')
+  //         response.message.includes('successfully') && sessionStorage.setItem("AdminUserName", `${response?.user?.firstName} ${response?.user?.lastName}`)
+  //         response.message.includes('successfully') && sessionStorage.setItem("AdminUserImage", `${response?.user?.profile_pic}`)
+  //         response.message.includes('successfully') && sessionStorage.setItem("AdminUserEmail", `${response?.user?.email}`)
+  //         response.message.includes('successfully') && sessionStorage.setItem("AccessToken", `${response?.token}`)
+  //         response.message.includes('successfully') && sessionStorage.setItem("AdminID", `${response?.user?.user_id}`)
+  //         response.message.includes('successfully') && sessionStorage.setItem('IsAuthenticated', 'true')
 
-          
-          setLoading(false)
-        }
-        )
-    }
-    catch (error) {
-      console.log(error, 'error logged')
-    }
-  }
+
+  //         setLoading(false)
+  //       }
+  //       )
+  //   }
+  //   catch (error) {
+  //     console.log(error, 'error logged')
+  //   }
+  // }
 
   return (
     <>
@@ -104,6 +110,7 @@ export default function Index() {
         <>
           <Head>
             <title>Austin-ISD-Admin</title>
+            <meta name="google-site-verification" content="W6XmndxNINBwm3c3p5KH0Sar2-92Hufz7t4kD0-d1HA" />
             <meta name="description" content="" />
             <meta name="viewport" content="width=device-width, initial-scale=1" />
             <link rel="icon" href="/favicon.ico" />

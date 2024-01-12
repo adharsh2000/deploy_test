@@ -16,7 +16,7 @@ const myInter = Inter({
 function AisdDistrict() {
   return (
   <>
-  <div className='px-[30px]  xl:px-[10.417vw] bg-[#347fa91f] py-[40px]'>
+  <div className='aisd-district-profile-wrap px-[30px]  xl:px-[10.417vw] pb-[60px] xl:pb-[79px]'>
   <div className='grid grid-cols-12 bg-[#fff] rounded-[22px] xl:rounded-[1.146vw] items-center'>
   <div className='col-span-12 xl:col-span-6 relative'>
   <Image
@@ -54,15 +54,15 @@ function AisdDistrict() {
   {/* w-[900px] xl:w-[32.875vw] */}
     <div className='bg-[#F9FAFB] py-[20px] contentaduj px-[33px] xl:py-[1.042vw] xl:px-[1.719vw]'>
         <div className='text-[#374151] text-[60px] font-extrabold xl:text-[2.8vw] xl:leading-[3.125vw]'>5,508</div>
-        <div className='text-[#4B586E] text-[16px] font-medium xl:text-[0.833vw] xl:leading-[0.833vw] contentaddheight'>Classroom Teachers</div>
+        <div className='text-[#4B586E] text-[16px] font-medium xl:text-[0.833vw] xl:leading-[0.833vw] contentaddheight text-center'>Classroom Teachers</div>
     </div>
     <div className='bg-[#F9FAFB] py-[20px] contentaduj px-[33px] xl:py-[1.042vw] xl:px-[1.719vw]'>
         <div className='text-[#374151] text-[60px] font-extrabold xl:text-[2.8vw] xl:leading-[3.125vw]'>1,569</div>
-        <div className='text-[#4B586E] text-[16px] font-medium xl:text-[0.833vw] xl:leading-[0.833vw] contentaddheight'>Administrators & Professional Staff</div>
+        <div className='text-[#4B586E] text-[16px] font-medium xl:text-[0.833vw] xl:leading-[0.833vw] contentaddheight text-center'>Administrators & Professional Staff</div>
     </div>
     <div className='bg-[#F9FAFB] py-[20px] contentaduj px-[33px] xl:py-[1.042vw] xl:px-[1.719vw]'>
         <div className='text-[#374151] text-[60px] font-extrabold xl:text-[3.125vw] xl:leading-[3.125vw]'>3,866</div>
-        <div className='text-[#4B586E] text-[13px] font-medium xl:text-[0.677vw xl:leading-[0.833vw] contentaddheight'>Bus Drivers, Custodians, Food Service Staff & Educational Aides</div>
+        <div className='text-[#4B586E] text-[13px] font-medium xl:text-[0.677vw xl:leading-[0.833vw] contentaddheight text-center'>Bus Drivers, Custodians, Food Service Staff & Educational Aides</div>
     </div>
   </div>
   </div>

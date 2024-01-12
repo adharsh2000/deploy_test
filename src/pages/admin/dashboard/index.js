@@ -12,6 +12,10 @@ import AddNewUser from "@/components/admin/popup/addNewUser";
 import Addnewevent from "@/components/popup/addnewevent";
 import AddNewFile from "@/components/admin/popup/addnewfilepopup";
 import AddMessages from "@/components/admin/popup/addmessages";
+import AisdTv from "@/pages/landing/aisdtvhome";
+import Aisdtvbanner from "@/components/website/aisdtv/asidtvbanner";
+import CalendarEvents from "@/pages/landing/calendarevents";
+import CalendarEventsAdmin from "./calendarevents";
 
 export default function Index() {
   const [addNewUser, setAddNewUser] = useState(false);
@@ -433,7 +437,9 @@ export default function Index() {
                     </div>
                   </div>
 
-                  <div className="mt-[22px xl:mt-[1.354vw]">Calender</div>
+                  <div className="mt-[22px xl:mt-[1.354vw]">
+                  <CalendarEventsAdmin/>
+                  </div>
                 </div>
               </div>
             </div>

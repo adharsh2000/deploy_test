@@ -2,3 +2,75 @@
 @tailwind components;
 @tailwind utilities;
 
+#google_translate_element {
+    margin-right: 20px;
+    margin-top: 10px;
+    right: 20vw;
+    z-index: 1000;
+    background-color: rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+}
+
+.goog-te-gadget {
+    color: #091221 !important;
+    cursor: pointer;
+}
+
+.goog-te-combo {
+    cursor: pointer;
+    background-color: #a93439;
+    border-radius: 10px;
+    color: white;
+    height: 30px;
+    font-family: '__Inter_3320a8';
+    font-weight: 500;
+}
+
+#google_translate_element div {
+    display: none !important;
+}
+
+#google_translate_element div:first-child {
+    display: inline !important;
+}
+
+.skiptranslate select {
+    display: none !important;
+}
+.skiptranslate a {
+    display: none !important;
+}
+.skiptranslate select:first-child {
+    display: inline !important;
+}
+::-webkit-scrollbar {
+	height: 12px;
+	width: 12px;
+	background: #B3DDC7;
+
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+	background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+background: #c94f54;
+	border-radius: 10px;
+
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+	background: #c94f54;
+}
+
+::-webkit-scrollbar-thumb:horizontal {
+	background: #c94f54;
+	border-radius: 10px;
+}
+.p-dataview-emptymessage{
+    text-align: center;
+}

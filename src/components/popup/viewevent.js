@@ -5,6 +5,9 @@ import { Sidebar } from "primereact/sidebar";
 import Editevent from "./editevent";
 
 import { Montserrat } from "@next/font/google";
+import fetchAPI from "@/service/api/fetchAPI";
+import { Toast } from "primereact/toast";
+import moment from "moment";
 const myMontserrat = Montserrat({
   weight: ["300", "400", "500", "600", "700", "800"],
   subsets: ["latin"],
@@ -12,40 +15,32 @@ const myMontserrat = Montserrat({
 });
 
 const ViewEvent = (props) => {
-  const [date, setDate] = useState(null);
-  const [time, setTime] = useState(null);
-  const [text, setText] = useState("");
-  const [EditEventpopup, setEditEventpopup] = useState(false);
+  const { eventDetails, onHides, editDetails } = props;
 
-  const [ingredients, setIngredients] = useState([]);
 
-  const onIngredientsChange = (e) => {
-    let _ingredients = [...ingredients];
+  const deleteEvent = async (id) => {
+    if (!id) return
+    try {
+      const response = await fetchAPI(`/event/${id}`, 'DELETE', {}, 'application/json')
 
-    if (e.checked) _ingredients.push(e.value);
-    else _ingredients.splice(_ingredients.indexOf(e.value), 1);
-
-    setIngredients(_ingredients);
-  };
+      if (response) {
+        toast?.current.show({ severity: 'success', detail: 'Event deleted successfully', life: 3000 })
+        onHides(true)
+      }
+    } catch (event) {
+      toast?.current.show({ severity: 'eror', detail: 'Something went wrong', life: 3000 })
+    }
+  }
 
   const toast = useRef(null);
-
-  const onUpload = () => {
-    toast.current.show({
-      severity: "info",
-      summary: "Success",
-      detail: "File Uploaded",
-    });
-  };
-  const chooseOptions = {
-    icon: "autinisd-document-upload",
-    iconOnly: true,
-    className: "w-full upload_icon",
-  };
+  const startTime = eventDetails.start_time ? moment(eventDetails.start_time, 'HH:mm:ss').format('hh:mm A') : null
+  const endTime = eventDetails.end_time ? moment(eventDetails.end_time, 'HH:mm:ss').format('hh:mm A') : null
+  const formatedDate = eventDetails.date ? moment(eventDetails.date).format('dddd, MMMM D, YYYY') : null
 
   return (
     <>
       <div>
+        <Toast ref={toast}></Toast>
         <Sidebar
           visible={props.visible}
           position="right"
@@ -72,42 +67,15 @@ const ViewEvent = (props) => {
               </div>
               <div className="xl:pb-[0.833vw] pb-4">
                 <div className="text-[#374151] xl:text-[1.250vw] text-2xl font-bold leading-normal">
-                  Multilingual Education Advisory Committee Meeting
+                  {eventDetails.title}
                 </div>
                 <div className="text-[#4B586E] xl:text-[0.729vw] text-sm font-normal leading-normal">
-                  Date: Monday, October 2, 2023 - 6:00 pm to 7:45 pm
+                  {formatedDate} - {eventDetails.is_all_day ? 'All Day' : startTime + " to " + endTime}
                 </div>
               </div>
               <div className="xl:space-y-[1.250vw] space-y-6">
-                <div className="text-[#4B586E] xl:text-[0.729vw] font-normal xl:leading-[0.938vw] leading-4 space-y-4 view_event-list">
-                  <p>
-                    Austin ISD s Multilingual Education Advisory Committee
-                    (MEAC) works to inform and advise the school district on
-                    matters related to students who are language learners.
-                  </p>
-                  <p>
-                    The committee has three specific functions:
-                    <ul>
-                      <li>
-                        Help the school district make decisions on program
-                        planning, funding, staffing, designing, and evaluation
-                        of the district s language programs.
-                      </li>
-                      <li>
-                        Consult with Austin ISD about concerns, reports, and
-                        recommendations to be submitted to the Superintendent or
-                        Board of Trustees.
-                      </li>
-                      <li>
-                        Help develop resources that educate parents, the
-                        community, and the district on issues related to
-                        students in the district's language programs.
-                      </li>
-                    </ul>
-                    Meetings are open to all interested persons please see the
-                    Communications and Visitor Guidelines on the Advisory Bodies
-                    page.
-                  </p>
+                <div dangerouslySetInnerHTML={{ __html: eventDetails.meeting_notes }} className="text-[#4B586E] xl:text-[0.729vw] font-normal xl:leading-[0.938vw] leading-4 space-y-4 view_event-list">
+
                 </div>
                 <div className="xl:p-[1.250vw] p-6 border border-[#BECDE3] xl:rounded-[0.417vw] rounded-lg xl:space-y-[0.833vw] space-y-4">
                   <div className={myMontserrat.className}>
@@ -124,29 +92,35 @@ const ViewEvent = (props) => {
             </div>
             {/**Footer**/}
             <div className="flex justify-end">
-              <div className="flex items-center xl:gap-[0.833vw] gap-4">
-                <Link
-                  href={""}
-                  className="text-[#C81E1E] xl:text-[0.833vw] text-base font-normal xl:leading-[1.042vw] leading-5 xl:rounded-[0.521vw] rounded-lg xl:px-[1.042vw] xl:py-[0.625vw]"
-                >
-                  Delete
-                </Link>
-                <Link
-                  href={""}
-                  className="text-white bg-[#1F2A37] xl:text-[0.833vw] text-base font-normal xl:leading-[1.042vw] leading-5 border border-[#BECDE3] xl:rounded-[0.521vw] rounded-lg xl:px-[1.042vw] xl:py-[0.625vw]"
-                  onClick={() => setEditEventpopup(true)}
-                >
-                  Edit
-                </Link>
-              </div>
+              {
+                // Same component is used on user and admin side
+                editDetails ?
+                  <div className="flex items-center xl:gap-[0.833vw] gap-4">
+                    <Link
+                      href={""}
+                      onClick={() => deleteEvent(eventDetails?.id)}
+                      className="text-[#C81E1E] xl:text-[0.833vw] text-base font-normal xl:leading-[1.042vw] leading-5 xl:rounded-[0.521vw] rounded-lg xl:px-[1.042vw] xl:py-[0.625vw]"
+                    >
+                      Delete
+                    </Link>
+                    <Link
+                      href={""}
+                      className="text-white bg-[#1F2A37] xl:text-[0.833vw] text-base font-normal xl:leading-[1.042vw] leading-5 border border-[#BECDE3] xl:rounded-[0.521vw] rounded-lg xl:px-[1.042vw] xl:py-[0.625vw]"
+                      onClick={() => editDetails(eventDetails?.id)}
+                    >
+                      Edit
+                    </Link>
+                  </div> : null
+              }
+
             </div>
           </div>
         </Sidebar>
 
-        <Editevent
+        {/* <Editevent
           visible={EditEventpopup}
           onHides={() => setEditEventpopup(false)}
-        />
+        /> */}
       </div>
     </>
   );

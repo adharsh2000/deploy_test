@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import { Calendar } from 'primereact/calendar';
 import { Sidebar } from "primereact/sidebar";
@@ -12,7 +12,7 @@ import fetchAPI from "@/service/api/fetchAPI";
 import moment from "moment/moment";
 
 const Addnewevent = (props) => {   
-    const {visible, onHides} = props;
+    const {visible, onHides, isEdit, eventDetails} = props;
 
     const [addEventData, setAddEventData] = useState({
         title: '',
@@ -120,7 +120,14 @@ const Addnewevent = (props) => {
                 is_open_for_comunity: addEventData.is_open_for_comunity ? 1 : 0
             }
             
-            const response = await fetchAPI('/event','POST',payload,'application/json')
+            let response 
+
+            if(isEdit){
+                response = await fetchAPI(`/event/${eventDetails.id}`,'PUT', payload, 'application/json')
+            }else{
+                response = await fetchAPI('/event','POST',payload,'application/json')
+            }
+            
             if(response){
                 setSuccessModal(true)
             }
@@ -131,9 +138,18 @@ const Addnewevent = (props) => {
         }
     }
 
+    const converDateObject = (value) => {
+        const providedTime = value;
+        const todayDate = moment().format('YYYY-MM-DD'); // Get today's date in 'YYYY-MM-DD' format
+        const combinedDateTime = moment(`${todayDate}T${providedTime}`);
+
+        return new Date(combinedDateTime.toString());
+    }
+
+
     const closeSuccessModal = () => {
         setSuccessModal(false)
-        onHides()
+        onHides(true)
         setAddEventData({
             title: '',
             date: '',
@@ -152,6 +168,32 @@ const Addnewevent = (props) => {
             is_open_for_comunity: false
         })
     }
+
+    useEffect(() => {
+        if(isEdit){
+
+            setAddEventData({
+                title: eventDetails.title,
+                date: new Date(eventDetails.date),
+                start_time: eventDetails.is_all_day != 1 ? converDateObject(eventDetails.start_time) : '',
+                end_time: eventDetails.is_all_day != 1? converDateObject(eventDetails.end_time) : '',
+                is_all_day: eventDetails.is_all_day == 1 ? true : false,
+                location: eventDetails.is_online != 1 ? eventDetails.location : '',
+                is_online: eventDetails.is_online == 1 ? true : false,
+                meeting_notes: eventDetails.meeting_notes,
+                guests: eventDetails.is_open_for_comunity != 1 ? eventDetails.guests : '',
+                is_open_for_comunity: eventDetails.is_open_for_comunity == 1 ? true : false
+            })
+
+            setDisabled({
+                is_all_day: eventDetails.is_all_day ? true : false,
+                is_online: eventDetails.is_online ? true : false,
+                is_open_for_comunity: eventDetails.is_open_for_comunity ? true : false
+            })
+
+        }
+
+    },[isEdit])
 
     return (
         <>
@@ -251,7 +293,7 @@ const Addnewevent = (props) => {
                     <div className="flex justify-end">
                         <div className="flex items-center xl:gap-[0.833vw] gap-4">
                             <Link href={''} className="text-[#91A5C3] xl:text-[0.833vw] text-base font-normal xl:leading-[1.042vw] leading-5 xl:rounded-[0.521vw] rounded-lg xl:px-[1.042vw] xl:py-[0.625vw]">Cancel</Link>
-                            <Link href={''} className="text-white bg-[#1F2A37] xl:text-[0.833vw] text-base font-normal xl:leading-[1.042vw] leading-5 border border-[#BECDE3] xl:rounded-[0.521vw] rounded-lg xl:px-[1.042vw] xl:py-[0.625vw]" onClick={addEventApiHandler}>Add Event</Link>
+                            <Link href={''} className="text-white bg-[#1F2A37] xl:text-[0.833vw] text-base font-normal xl:leading-[1.042vw] leading-5 border border-[#BECDE3] xl:rounded-[0.521vw] rounded-lg xl:px-[1.042vw] xl:py-[0.625vw]" onClick={addEventApiHandler}>{isEdit ? 'Update Event' : 'Add Event'}</Link>
                         </div>
                     </div>
                 </div>
@@ -261,7 +303,7 @@ const Addnewevent = (props) => {
                 <div className="text-right xl:pt-[0.833vw] pt-3 xl:px-[0.833vw] px-3 text-[#A9B9D0] text-xs cursor-pointer" onClick={closeSuccessModal}><i className="autinisd-cross"></i></div>
                 <div className="flex flex-col items-center justify-center xl:py-[1.042vw] py-5 xl:px-[1.250vw] px-6">
                 <div className="w-[42px] h-[42px] flex items-center justify-center rounded-full bg-[#DEF7EC] text-[#046C4E] text-xs"><i className="autinisd-right-tick"></i></div>
-                <div className="text-[#4B586E] xl:text-[0.833vw] text-base font-normal xl:mt-[0.833vw] mt-4">Event added successfully.</div>
+                <div className="text-[#4B586E] xl:text-[0.833vw] text-base font-normal xl:mt-[0.833vw] mt-4">Event {isEdit ? 'Updated' : 'Added'} successfully.</div>
                 </div>
                 <div className="flex items-center justify-center"><Link href={''} className="bg-[#1F2A37] rounded-lg text-white xl:py-[0.417vw] py-2 xl:px-[0.625vw] px-3 xl:w-[5.625vw] w-[100px] text-center" onClick={closeSuccessModal}>ok</Link></div>
             </div>

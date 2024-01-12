@@ -11,7 +11,7 @@ export default function TrendingCategories() {
             <h2 className="text-[#374151] text-[24px] xl:text-[1.875vw] leading-[1.3]">Trending <span className="text-[#4B586E] font-extrabold">categories</span></h2>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-6 gap-3 xl:gap-[0.833vw]">
-            <Link href={"/website/elibrary/elibrarycatalog"} className="bg-[#fff] border border-[#E5E7EB] rounded-[4px] xl:rounded-[0.417vw] py-[12px] xl:py-[1.25vw] pl-[8px] xl:pl-[0.833vw] pr-[4px] xl:pr-[0.417vw]">
+            <Link href={"/elibrary/elibrarycatalog"} className="bg-[#fff] border border-[#E5E7EB] rounded-[4px] xl:rounded-[0.417vw] py-[12px] xl:py-[1.25vw] pl-[8px] xl:pl-[0.833vw] pr-[4px] xl:pr-[0.417vw]">
                 <div className="flex justify-between items-center">
                     <div className="flex items-center gap-3">
                         <i className="austin-folder-outline text-[20px] xl:text-[1.67vw]"></i>
@@ -24,7 +24,7 @@ export default function TrendingCategories() {
                     </div>
                 </div>                
             </Link>
-            <Link href={"/website/elibrary/elibrarycatalog"} className="bg-[#fff] border border-[#E5E7EB] rounded-[4px] xl:rounded-[0.417vw] py-[12px] xl:py-[1.25vw] pl-[8px] xl:pl-[0.833vw] pr-[4px] xl:pr-[0.417vw]">
+            <Link href={"/elibrary/elibrarycatalog"} className="bg-[#fff] border border-[#E5E7EB] rounded-[4px] xl:rounded-[0.417vw] py-[12px] xl:py-[1.25vw] pl-[8px] xl:pl-[0.833vw] pr-[4px] xl:pr-[0.417vw]">
                 <div className="flex justify-between items-center">
                     <div className="flex items-center gap-3">
                         <i className="austin-folder-outline text-[20px] xl:text-[1.67vw]"></i>
@@ -37,7 +37,7 @@ export default function TrendingCategories() {
                     </div>
                 </div>                
             </Link>
-            <Link href={"/website/elibrary/elibrarycatalog"} className="bg-[#fff] border border-[#E5E7EB] rounded-[4px] xl:rounded-[0.417vw] py-[12px] xl:py-[1.25vw] pl-[8px] xl:pl-[0.833vw] pr-[4px] xl:pr-[0.417vw]">
+            <Link href={"/elibrary/elibrarycatalog"} className="bg-[#fff] border border-[#E5E7EB] rounded-[4px] xl:rounded-[0.417vw] py-[12px] xl:py-[1.25vw] pl-[8px] xl:pl-[0.833vw] pr-[4px] xl:pr-[0.417vw]">
                 <div className="flex justify-between items-center">
                     <div className="flex items-center gap-3">
                         <i className="austin-folder-outline text-[20px] xl:text-[1.67vw]"></i>
@@ -50,7 +50,7 @@ export default function TrendingCategories() {
                     </div>
                 </div>                
             </Link>
-            <Link href={"/website/elibrary/elibrarycatalog"} className="bg-[#fff] border border-[#E5E7EB] rounded-[4px] xl:rounded-[0.417vw] py-[12px] xl:py-[1.25vw] pl-[8px] xl:pl-[0.833vw] pr-[4px] xl:pr-[0.417vw]">
+            <Link href={"/elibrary/elibrarycatalog"} className="bg-[#fff] border border-[#E5E7EB] rounded-[4px] xl:rounded-[0.417vw] py-[12px] xl:py-[1.25vw] pl-[8px] xl:pl-[0.833vw] pr-[4px] xl:pr-[0.417vw]">
                 <div className="flex justify-between items-center">
                     <div className="flex items-center gap-3">
                         <i className="austin-folder-outline text-[20px] xl:text-[1.67vw]"></i>
@@ -63,7 +63,7 @@ export default function TrendingCategories() {
                     </div>
                 </div>                
             </Link>
-            <Link href={"/website/elibrary/elibrarycatalog"} className="bg-[#fff] border border-[#E5E7EB] rounded-[4px] xl:rounded-[0.417vw] py-[12px] xl:py-[1.25vw] pl-[8px] xl:pl-[0.833vw] pr-[4px] xl:pr-[0.417vw]">
+            <Link href={"/elibrary/elibrarycatalog"} className="bg-[#fff] border border-[#E5E7EB] rounded-[4px] xl:rounded-[0.417vw] py-[12px] xl:py-[1.25vw] pl-[8px] xl:pl-[0.833vw] pr-[4px] xl:pr-[0.417vw]">
                 <div className="flex justify-between items-center">
                     <div className="flex items-center gap-3">
                         <i className="austin-folder-outline text-[20px] xl:text-[1.67vw]"></i>
@@ -76,7 +76,7 @@ export default function TrendingCategories() {
                     </div>
                 </div>                
             </Link>
-            <Link href={"/website/elibrary/elibrarycatalog"} className="bg-[#fff] border border-[#E5E7EB] rounded-[4px] xl:rounded-[0.417vw] py-[12px] xl:py-[1.25vw] pl-[8px] xl:pl-[0.833vw] pr-[4px] xl:pr-[0.417vw]">
+            <Link href={"/elibrary/elibrarycatalog"} className="bg-[#fff] border border-[#E5E7EB] rounded-[4px] xl:rounded-[0.417vw] py-[12px] xl:py-[1.25vw] pl-[8px] xl:pl-[0.833vw] pr-[4px] xl:pr-[0.417vw]">
                 <div className="flex justify-between items-center">
                     <div className="flex items-center gap-3">
                         <i className="austin-folder-outline text-[20px] xl:text-[1.67vw]"></i>

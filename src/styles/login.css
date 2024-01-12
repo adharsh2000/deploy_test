@@ -8,6 +8,9 @@
 .contentaddheight{
   min-height: 50px !important;
 }
+/* .p-inputtext{
+  padding: 0rem 0.75rem;
+} */
 @media screen and(max-width:768px) {
   .contentaduj{
    width: 100% !important;
@@ -23,4 +26,18 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+.enrollimg{
+  background-image: url("/assets/images/enrollimg.png");
+  background-size: 100%;
+  background-repeat: no-repeat;
+  /* background-attachment: fixed;
+  background-position: center; */
+}
+.topic-editor .ql-toolbar .ql-image,.topic-editor .ql-toolbar .ql-link,.topic-editor .ql-toolbar .ql-code-block {
+  display: none !important;
+}
+
+.custom_selectdropdown .p-dropdown .p-dropdown-trigger {
+    width: 3rem;
 }

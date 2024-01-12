@@ -7,8 +7,8 @@ import { Dropdown } from "primereact/dropdown";
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 import Link from 'next/link';
-import Rowview from "@/pages/website/elibrary/elibrarycatalog/rowview";
-import Gridview from "@/pages/website/elibrary/elibrarycatalog/gridview";
+import Rowview from "@/pages/elibrary/elibrarycatalog/rowview";
+import Gridview from "@/pages/elibrary/elibrarycatalog/gridview";
 
 export default function Catalog() {
     const [selectedProducts, setSelectedProducts] = useState(null);
@@ -197,7 +197,7 @@ export default function Catalog() {
                         <div className="p-inputgroup custom_search mb-[38px] xl:mb-[1.979vw]">
                             <InputText placeholder="Search" />
                             <span className="p-inputgroup-addon">
-                                <i className="austin-search"></i>
+                                <i className="autinisd-search-outline"></i>
                             </span>
                         </div>
                         <div className="flex items-center gap-2 mb-[24px] xl:mb-[1.25vw]">

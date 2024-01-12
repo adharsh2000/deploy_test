@@ -82,7 +82,7 @@ const elementStyle1 = {
         >
           <div className="xl:px-[6.667vw] px-[20px]">
             <div ref={topTitleRef}>
-              <div className="flex items-center justify-end">
+              <div className="flex items-center justify-center">
                 <Link
                   href={""}
                   onClick={() => {
@@ -116,9 +116,9 @@ const elementStyle1 = {
                   </div>
                   </div>
               <div className="col flex items-center gap-[18px] xl:gap-[0.938vw] iconsList">
-                  <Link href={""} width={""} height={""}>
+                  {/* <Link href={""} width={""} height={""}>
                       <i className="austin-user-search"></i>
-                  </Link>
+                  </Link> */}
                   <Link href={""} width={""} height={""}>
                       <i className="austin-file-download"></i>
                   </Link>

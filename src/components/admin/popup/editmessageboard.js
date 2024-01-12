@@ -12,13 +12,14 @@ import Loader from "@/components/loader";
 import RemoveUser from "./removeUser";
 import adminFetchAPI from "@/service/api/adminFetchApi";
 import { Toast } from "primereact/toast";
+import PublishPost from "./publishPost";
 
 const EditMessageBoard = (props) => {
-  const { post, loading } = props;
+  const { post, loading,sortby,setSortby } = props;
   const [date, setDate] = useState(null);
   const [text, setText] = useState("");
   const [selectedCity, setSelectedCity] = useState(null);
-
+  const [openPublish, setOpenPublish] = useState(false);
   const toast = useRef(null);
 
   const cities = [
@@ -27,6 +28,11 @@ const EditMessageBoard = (props) => {
     { name: "London", code: "LDN" },
     { name: "Istanbul", code: "IST" },
     { name: "Paris", code: "PRS" },
+  ];
+
+  const sortbyOption = [
+    { name: "Relevant" },
+    { name: "Date" },
   ];
   const commentsdata = [
     {
@@ -78,23 +84,43 @@ const EditMessageBoard = (props) => {
     return trimmedDate;
   };
 
-  const handleDelete = async () => {
-    console.log('post id hee',props?.post?.post?.post_id)
-    const id = props?.post?.post?.post_id;
-    await adminFetchAPI(`/messageboard/posts/${id}`, 'DELETE', {}, 'application/json')
-      .then(({ data }) => {
-        props.setEditMessageBoard(false)
-        props.fetchPost();
-        if (data?.message?.includes("not found")) {
-          return toast.current.show({ severity: 'error', detail: data?.message, life: 3000 });
-        }
+  // const handleDelete = async () => {
+  //   console.log('post id hee', props?.post?.post?.post_id)
+  //   const id = props?.post?.post?.post_id;
+  //   await adminFetchAPI(`/messageboard/posts/${id}`, 'DELETE', {}, 'application/json')
+  //     .then(({ data }) => {
+  //       props.setEditMessageBoard(false)
+  //       props.fetchPost();
+  //       if (data?.message?.includes("not found")) {
+  //         return toast.current.show({ severity: 'error', detail: data?.message, life: 3000 });
+  //       }
 
-        toast.current.show({ severity: 'success', detail: "post successfully deleted.", life: 3000 });
+  //       toast.current.show({ severity: 'success', detail: "post successfully deleted.", life: 3000 });
 
+  //     })
+  //     .catch((err) => {
+  //       toast.current.show({ severity: 'error', detail: "something went wrong..", life: 3000 });
+  //       console.log(err)
+  //     })
+  // }
+
+  const handlePublishUnpublish = async () => {
+    const body = post?.topicDetails?.isPublished === 0 ? {
+      "isPublished": 1
+    } : {
+      "isPublished": 0
+    }
+    await adminFetchAPI(`/messageboard/topics/ispublish/${post?.post?.topic_id}`, "PUT", body, 'application/json')
+      .then(({ message }) => {
+        console.log('message', message);
+        toast.current.show({ severity: 'success', detail: message, life: 3000 });
+        setOpenPublish(false);
+        props?.setEditMessageBoard(false);
       })
       .catch((err) => {
         toast.current.show({ severity: 'error', detail: "something went wrong..", life: 3000 });
-        console.log(err)
+        setOpenPublish(false);
+        console.log('err', err)
       })
   }
 
@@ -117,7 +143,7 @@ const EditMessageBoard = (props) => {
                       <div className="flex gap-[20px] xl:gap-[1.042vw] mb-[10px] xl:mb-[0px]">
                         <div>
                           <Image
-                            src={post?.post?.user?.profile_pic}
+                            src={post?.post?.user?.profile_pic === null ? "" : post?.post?.user?.profile_pic}
                             width={60}
                             height={60}
                             alt="active_user"
@@ -135,15 +161,25 @@ const EditMessageBoard = (props) => {
                       </div>
 
                       <div className="flex gap-[20px] xl:gap-[1.042vw] text-[#4B586E] text-[0.752vw] font-light">
-                        <div className="flex items-center font-light xl:text-[0.725vw] text-[16px] bg-[#FDF6B2] px-[16px] xl:px-[0.833vw] py-[0.417vw] xl:py-[8px]  rounded-full leading-none">
+                        {post?.topicDetails?.isPublished === 0 ? (
 
-                          <i className="autinisd-warning  text-[15px]  mr-2"></i>
-                          Unpublish
-                        </div>
-                        <Link href='' onClick={() => handleDelete()} className="flex items-center font-light xl:text-[0.725vw] t text-[16px] bg-[#FDE8E8] px-[16px] xl:px-[0.833vw] py-[0.417vw] xl:py-[8px]  rounded-full leading-none ">
+                          <div onClick={() => setOpenPublish(true)} className="cursor-pointer flex items-center font-light xl:text-[0.725vw] text-[16px] bg-[#FDF6B2] px-[16px] xl:px-[0.833vw] py-[0.417vw] xl:py-[8px]  rounded-full leading-none">
+
+                            <i className="autinisd-warning  text-[15px]  mr-2"></i>
+                            Unpublish
+                          </div>
+                        ) : (
+
+                          <div onClick={() => setOpenPublish(true)} className="cursor-pointer flex items-center font-light xl:text-[0.725vw] text-[16px] bg-[#FDF6B2] px-[16px] xl:px-[0.833vw] py-[0.417vw] xl:py-[8px]  rounded-full leading-none">
+
+                            <i className="autinisd-warning  text-[15px]  mr-2"></i>
+                            Publish
+                          </div>
+                        )}
+                        <div onClick={() => props?.setDeleteUser(true)} className="cursor-pointer flex items-center font-light xl:text-[0.725vw] t text-[16px] bg-[#FDE8E8] px-[16px] xl:px-[0.833vw] py-[0.417vw] xl:py-[8px]  rounded-full leading-none ">
                           {" "}
                           <i className="autinisd-trash  text-[15px]  mr-2"></i> Delete
-                        </Link>
+                        </div>
                       </div>
                     </div>
 
@@ -154,7 +190,7 @@ const EditMessageBoard = (props) => {
                       <div className="flex gap-[20px] xl:gap-[1.042vw] text-[#9CA1AB]">
                         <div className="font-light xl:text-[0.833vw] text-[16px] ">
                           {" "}
-                          <i className="austin-note  text-[20px]  mr-3"></i>{`${post?.post?.commentCount} comments`}
+                          <i className="austin-note  text-[20px]  mr-3"></i>{`${post?.commentCount} comments`}
 
                         </div>
                         <div className="font-light xl:text-[0.833vw] text-[16px] ">
@@ -196,7 +232,7 @@ const EditMessageBoard = (props) => {
                       {post?.post?.description}
                     </p>
 
-                    <div className="flex gap-[20px] xl:gap-[1.25vw]">
+                    {/* <div className="flex gap-[20px] xl:gap-[1.25vw]">
                       <Link
                         href=""
                         className="text-[#4B7E73] text-[18px] xl:text-[0.781vw] font-light"
@@ -215,7 +251,7 @@ const EditMessageBoard = (props) => {
                       >
                         #Lorem Ipsum
                       </Link>
-                    </div>
+                    </div> */}
 
                     <div>
                       <h6 className="text-[#374151] text-[18px] xl:text-[0.781vw] font-medium">
@@ -225,17 +261,21 @@ const EditMessageBoard = (props) => {
                       <div className="mt-[8px] xl:mt-[0.417vw]">
                         <div className="grid grid-cols-3 xl:gap-[1.250vw] gap-5 font-light">
                           {/*col-1*/}
-                          <Link href={''} className="xl:text-[0.729vw] text-xs text-[#4B586E] bg-[#F5F6F7] rounded-lg xl:py-[0.417vw] py-2 xl:px-[0.833vw] px-3 flex items-center justify-between">
-                            <i className="austin-attachment"></i>
-                            <span>LoremIpsumDolorSitAmer.pdf</span>
-                            <i className="austin-close-circle"></i>
-                          </Link>
+                          {
+                            post?.postFilesList?.map(item => (
+                              <Link href={''} className="xl:text-[0.729vw] text-xs text-[#4B586E] bg-[#F5F6F7] rounded-lg xl:py-[0.417vw] py-2 xl:px-[0.833vw] px-3 flex items-center justify-between">
+                                <i className="austin-attachment"></i>
+                                <span>{item?.fileName}</span>
+                                <i className="austin-close-circle"></i>
+                              </Link>
+                            ))
+                          }
                           {/*col-2*/}
-                          <Link href={''} className="xl:text-[0.729vw] text-xs text-[#4B586E] bg-[#F5F6F7] rounded-lg xl:py-[0.417vw] py-2 xl:px-[0.833vw] px-3 flex items-center justify-between">
+                          {/* <Link href={''} className="xl:text-[0.729vw] text-xs text-[#4B586E] bg-[#F5F6F7] rounded-lg xl:py-[0.417vw] py-2 xl:px-[0.833vw] px-3 flex items-center justify-between">
                             <i className="austin-attachment"></i>
                             <span>LoremIpsumDolorSitAmer.pdf</span>
                             <i className="austin-close-circle"></i>
-                          </Link>
+                          </Link> */}
 
                         </div>
                       </div>
@@ -250,9 +290,9 @@ const EditMessageBoard = (props) => {
                       </h2>
                       <div className="chat_dropdown">
                         <Dropdown
-                          value={selectedCity}
-                          onChange={(e) => setSelectedCity(e.value)}
-                          options={cities}
+                          value={sortby}
+                          onChange={(e) => setSortby(e.value)}
+                          options={sortbyOption}
                           optionLabel="name"
                           placeholder="Select Order by"
                           className="w-[200px] xl:w-[18.229vw]"
@@ -260,7 +300,7 @@ const EditMessageBoard = (props) => {
                       </div>
                     </div>
                     <Comments
-                      data={commentsdata}
+                      data={post?.comments}
                     />
 
                   </div>
@@ -270,6 +310,29 @@ const EditMessageBoard = (props) => {
           }
         </Sidebar>
       </div>
+      {/* <RemoveUser
+        visible={openPublish}
+        onHides={() => setOpenPublish(false)}
+        message={`Are you sure you want to ${post?.topicDetails?.isPublished === 0 ? "Unpublish" : "Publish"} this Post?`}
+        icon="autinisd-info-circle-fill"
+        url={`/messageboard/topics/ispublish/${post?.post?.topic_id}`}
+        method="PUT"
+        body={post?.topicDetails?.isPublished === 0 ? {
+          "isPublished": 1
+        } : {
+          "isPublished": 0
+        }}
+      // setId={setId}
+      // fetchPost={fetchPost}
+      // setEditMessageBoard={setEditMessageBoard}
+      /> */}
+      <PublishPost
+        visible={openPublish}
+        onHides={() => setOpenPublish(false)}
+        icon="autinisd-info-circle-fill"
+        message={`Are you sure you want to ${post?.topicDetails?.isPublished === 0 ? "Unpublish" : "Publish"} this Post?`}
+        action={handlePublishUnpublish}
+      />
       <Toast ref={toast}></Toast>
     </>
   );

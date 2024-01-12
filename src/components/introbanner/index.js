@@ -1,12 +1,11 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { Montserrat } from "@next/font/google";
 import Link from "next/link";
 import { InputText } from "primereact/inputtext";
 import { Button } from "primereact/button";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import Createnewtopic from "@/components/popup/createnewtopic";
-
-
+import { useRouter } from "next/router";
 
 const myMontserrat = Montserrat({
   weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
@@ -15,13 +14,31 @@ const myMontserrat = Montserrat({
 });
 
 export default function Index(props) {
+  const router = useRouter();
 
   const [Createnewtopicpopup, setCreatenewtopicpopup] = useState(false);
   const [ClearTopicForm, setClearTopicForm] = useState(false);
-  const {UpdateLatestPosts,setUpdateLatestPosts}=props;
+  const { UpdateLatestPosts, setUpdateLatestPosts, SearchValue, setSearchValue } = props;
 
   const [tabIndex, setTabIndex] = useState(1);
 
+  const handleSearch = () => {
+    setUpdateLatestPosts(true);
+  };
+  const handleClearSearch = () => {
+    setSearchValue('');
+    setUpdateLatestPosts(true);
+  };
+  const handleKeyPress = (event) => {
+    if (event.key === 'Enter') {
+      handleSearch();
+    }
+  };
+  const [IsAuthenticated, setIsAuthenticated] = useState('')
+
+  useEffect(() => {
+    setIsAuthenticated(sessionStorage.getItem('IsAuthenticated'))
+  }, [])
   return (
     <>
       <Tabs defaultIndex={tabIndex} onSelect={(index) => {
@@ -63,9 +80,9 @@ export default function Index(props) {
           <div className="grid grid-cols-12 gap-[24px] xl:gap-[1.250vw] mt-[50px] xl:mt-[2.604vw] xl:max-w-[57.893vw] mx-auto">
             <div className="col-span-6">
               <div className="p-inputgroup flex-1 custmSearch">
-                <Button icon="austin-search" />
-                <InputText placeholder="Search" />
-                <Button icon="austin-close" />
+                <Button icon="austin-search" onClick={() =>{handleSearch()}}/>
+                <InputText value={SearchValue} onChange={(e) => { setSearchValue(e.target.value) }} placeholder="Search" onKeyDown={handleKeyPress}/>
+                <Button icon="austin-close" onClick={() =>{handleClearSearch()}}/>
               </div>
             </div>
             <div className="col-span-6">
@@ -73,8 +90,8 @@ export default function Index(props) {
                 <div className="col">
                   <Link
                     href={""}
-                    className="bg-[#A93439] hover:bg-[#762428] rounded-[8px] xl:rounded-[0.417vw] py-[12px] xl:py-[0.625vw] px-[20px] xl:px-[1.042vw] inline-block text-[18px] xl:text-[0.938vw] text-white"
-                    onClick={() => { setCreatenewtopicpopup(true), setClearTopicForm(true) }}
+                    className="bg-[#A93439] hover:bg-[#762428] rounded-[8px] xl:rounded-[0.417vw] py-[21px] xl:py-[1.1vw] md:py-[1.1vw] px-[20px] xl:px-[1.042vw] inline-block text-[18px] xl:text-[0.938vw] text-white"
+                    onClick={() => { IsAuthenticated?setCreatenewtopicpopup(true):router.push('/'), setClearTopicForm(true) }}
                   >
                     Create New Topic
                   </Link>
@@ -82,7 +99,7 @@ export default function Index(props) {
                 <div className="col">
                   <Link
                     href={""}
-                    className="hover:bg-[#a2a6ac] border border-[#1F3F71] rounded-[8px] xl:rounded-[0.417vw] py-[12px] xl:py-[0.625vw] px-[20px] xl:px-[1.042vw] inline-block text-[18px] xl:text-[0.938vw] text-[#1F3F71]"
+                    className="hover:bg-[#a2a6ac] border border-[#1F3F71] rounded-[8px] xl:rounded-[0.417vw] py-[21px] xl:py-[1.1vw] md:py-[1.1vw] px-[20px] xl:px-[1.042vw] inline-block text-[18px] xl:text-[0.938vw] text-[#1F3F71]"
                   >
                     Filters
                   </Link>

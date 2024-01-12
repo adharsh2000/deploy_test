@@ -11,21 +11,40 @@ import { Checkbox } from "primereact/checkbox";
 import CalenderMonth from "./calendermonth";
 import CalenderListMonth from "./calendarlistmonth";
 import CalenderWeek from "./calendarweek";
+import fetchAPI from "@/service/api/fetchAPI";
+import { useEffect } from "react";
+import { useRef } from "react";
+import { Toast } from 'primereact/toast';
+import moment from "moment";
 
-
+const YearList = [
+  { name: "2024", code: "NY" },
+  { name: "2025", code: "RM" },
+];
 
 export default function Index() {
-    const [year, setYear] = useState(null);
-    
+    const toast = useRef(null);
+    const [year, setYear] = useState(YearList[0]);
+    const [searchValue, setSearchValue] = useState('')
     const [activeTab, setActiveTab] = useState(0);    
-    const handleTabClick = (index) => {
-      setActiveTab(index);
-    };
+    //month filter
+    const [activeMonth, setActiveMonth] = useState(0)
 
-    const YearList = [
-        { name: "2023", code: "NY" },
-        { name: "2024", code: "RM" },
-    ];
+    //event Data
+    const [events, setEvents] = useState([])
+
+    //single event Data
+    const [eventDetails, setEventDetails] = useState({})
+
+    //Edit Event 
+    const [isEdit, setIsEdit] = useState(false)
+
+    const handleTabClick = (index) => {
+      fetchAllEvent(year,0)
+      setActiveTab(index);
+      setActiveMonth(0)
+    };
+    
     const [Addneweventpopup, setAddneweventpopup] = useState(false);
     const [ViewEventpopup, setViewEventpopup] = useState(false);
     const [allEvents, setAllEvents] = useState(false);
@@ -35,14 +54,127 @@ export default function Index() {
     const [staffRecognitions, setStaffRecognitions] = useState(false);
     const [advisoryBodies, setAdvisoryBodies] = useState(false);
 
+    const handleSearch = (event) => {
+      const {value} = event.target;
+      debounce(() => fetchAllEvent(year,activeMonth,value),300)
+      setSearchValue(value)
+
+    }
+
+    let debounceTimer = useRef(null)
+    const debounce = (func, delay) => {
+      if(debounceTimer.current){
+        clearTimeout(debounceTimer.current);
+      }
+      debounceTimer.current = setTimeout(func, delay);
+    }
+
+    const fetchAllEvent = async (newYear, newMonth, search) => {
+      let payload = {
+        year: year.name,
+        search: search != null && search != undefined ? search : searchValue,
+        date: '',
+        month: 1
+      }
+
+      if(newYear){
+        payload = {...payload, year: newYear.name}
+      }
+      if(newMonth){
+        payload = {...payload, month: newMonth + 1}
+      }
+
+
+      try{
+        
+        const response = await fetchAPI('/event/list', 'POST', payload, 'application/json')
+        if(response && response.rows.length > 0){
+          const updatedResponse = response.rows && response.rows.length > 0 ? response.rows.map((item) => {
+            const todayDate = moment(item.date).format('YYYY-MM-DD'); // Get today's date in 'YYYY-MM-DD' format
+            const combinedDateTime = moment(`${todayDate}T${item.start_time}`).format();
+            const combinedEndDateTime = moment(`${todayDate}T${item.end_time}`).format();
+            return {
+              title: item.title,
+              start: item.is_all_day == 1 ? todayDate : combinedDateTime,
+              end: item.is_all_day == 1 ? todayDate : combinedEndDateTime,
+              backgroundColor: '#DEF7EC',
+              borderColor: '#DEF7EC',
+              textColor: '#046C4E',
+              id: item.id,
+              allDay: item.is_all_day,
+            }
+          }) : []
+
+          setEvents([...updatedResponse])
+        }else{
+          toast?.current.show({severity:'info', detail:'No data found', life: 3000})
+          setEvents([])
+        }
+
+      }catch(error){
+        toast?.current.show({severity:'error', detail:'Something went worng', life: 3000})
+      }
+    }
+
+    const fetchsingleEvent = async (id) => {
+      try{
+        const response = await fetchAPI(`/event/${id}`, 'GET', {}, 'application/json')
+        if(response){
+          setEventDetails(response)
+          setViewEventpopup(true)
+        }
+
+      }catch(error){
+
+      }
+    }
+
+    const handleYear = (e) => {
+      setYear(e.value)
+      setActiveMonth(0)
+      fetchAllEvent(e.value)
+    }
+
+    useEffect(() => {
+      fetchAllEvent()
+    },[])
+
+    const handleActiveMonthTab = (monthTag) => {
+      fetchAllEvent(year,monthTag)
+      setActiveMonth(monthTag)
+    }
+
+    const closeAddEventPopup = (isNewEventAdded) => {
+      if(isNewEventAdded){
+        fetchAllEvent(year,activeMonth)
+      }
+      setIsEdit(false)
+      setEventDetails({})
+      setAddneweventpopup(false)
+
+    }
+
+    const closeViewEventPopup = (isUpdate) => {
+      if(isUpdate){
+        fetchAllEvent(year)
+      }
+      setViewEventpopup(false)
+    }
+
+    const handleEditEventDetails = (id) => {
+      setAddneweventpopup(true)
+      setIsEdit(true)
+      setViewEventpopup(false)
+    }
+
     return (
         <>
             <AdminLayout pageTitle="Manage Events">
-              <div className="xl:pt-[0.833vw] pt-4">
+            <Toast ref={toast}></Toast>              <div className="xl:pt-[0.833vw] pt-4">
                   <div className="custom_search_input">
                       <span className="p-input-icon-right">
                           <i className="pi pi-search" />
-                          <InputText placeholder="Quick Search" className="placeholder:text-[#9CA1AB] placeholder:font-[300] xl:text-[0.833vw] text-[16px]  xl:w-[15.625vw] w-[200px]" />
+                          <InputText placeholder="Quick Search" onChange={handleSearch} className="placeholder:text-[#9CA1AB] placeholder:font-[300] xl:text-[0.833vw] text-[16px]  xl:w-[15.625vw] w-[200px]" />
                       </span>
                   </div>
                   <div className="xl:pt-[0.833vw] pt-4">
@@ -57,7 +189,7 @@ export default function Index() {
                                     <Dropdown
                                         placeholder="2023"
                                         value={year}
-                                        onChange={(e) => setYear(e.value)}
+                                        onChange={(e) => handleYear(e)}
                                         options={YearList}
                                         optionLabel="name"
                                         className=" md:w-14rem rounded-full"
@@ -205,13 +337,13 @@ export default function Index() {
                     
                     <div className="xl:mt-[2.083vw] mt-[35px]">
                       <TabPanel>
-                        <CalenderMonth />
+                        <CalenderMonth year={year} activeTab={activeMonth} setActiveTab={handleActiveMonthTab} events={events} setEvents={setEvents} fetchsingleEvent={fetchsingleEvent}/>
                       </TabPanel>
                       <TabPanel>
-                        <CalenderWeek />
+                        <CalenderWeek year={year} activeTab={activeMonth} setActiveTab={handleActiveMonthTab} events={events} setEvents={setEvents} fetchsingleEvent={fetchsingleEvent}/>
                       </TabPanel>
                       <TabPanel>
-                        <CalenderListMonth />
+                        <CalenderListMonth year={year} activeTab={activeMonth} setActiveTab={handleActiveMonthTab} events={events} setEvents={setEvents} fetchsingleEvent={fetchsingleEvent}/>
                       </TabPanel>
                     </div>
                   </Tabs>
@@ -220,11 +352,15 @@ export default function Index() {
 
             <Addnewevent
                 visible={Addneweventpopup}
-                onHides={() => setAddneweventpopup(false)}
+                onHides={closeAddEventPopup}
+                eventDetails={eventDetails}
+                isEdit={isEdit}
             />
             <ViewEvent
                 visible={ViewEventpopup}
-                onHides={() => setViewEventpopup(false)}
+                onHides={closeViewEventPopup}
+                eventDetails={eventDetails}
+                editDetails={handleEditEventDetails}
             />
         </>
     );

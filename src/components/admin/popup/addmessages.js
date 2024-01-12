@@ -63,8 +63,8 @@ const AddMessages = (props) => {
         // };
 
         const formData = new FormData();
-        formData.append('topic_category_id', category?.toString());
-        formData.append('isPublished', '0');
+        formData.append('topic_category_id', category);
+        formData.append('isPublished', '1');
         formData.append('created_by', sessionStorage.getItem("userId"));
         formData.append('post', title);
         formData.append('topic', title);
@@ -76,12 +76,12 @@ const AddMessages = (props) => {
         formData.append('tag_id', tag?.join());
         formData.append('files', "");
         formData.append('published_Date', date);
+        formData.append('category_id', category);
 
         // const body = JSON.stringify(data);
 
         // console.log(formData)
         try {
-            
             await fetchAPI(`/messageboard/posts`, 'POST', formData, 'multipart/form-data');
             toast.current.show({ severity: 'success', detail: 'created successfully..', life: 3000 });
             fetchPost();
@@ -177,7 +177,7 @@ const AddMessages = (props) => {
                     position="right"
                     blockScroll={true}
                     style={{ background: '#FFF', borderRadius: '16px 0 0 16px' }}
-                    className="custmSidebar width960"
+                    className="anpsidebar width960"
                 >
                     <div className="flex flex-col justify-between h-full xl:py-[1.250vw] py-5 xl:px-[1.250vw] px-5">
                         {/**row***/}
@@ -227,7 +227,7 @@ const AddMessages = (props) => {
                                             </div>
                                             <Editor
                                                 value={text}
-                                                onTextChange={(e) => setText(e.htmlValue)}
+                                                onTextChange={(e) => setText(e.textValue)}
                                                 placeholder="Write text here ..."
                                                 style={{ height: '12.656vw' }}
                                             />

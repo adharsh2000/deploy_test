@@ -39,7 +39,7 @@
     font-size: 1.042vw;
 }
 .p-sidebar-right .p-sidebar.width960 {
-    width: 50vw;
+    width: 70vw;
 }
 .p-sidebar-bottom  .p-sidebar.width1920 {
     width: 100vw;
@@ -199,8 +199,98 @@
 }
 .aisdcard 
 {
-box-shadow: 0px 9px 33px 0px rgba(196, 196, 196, 0.10);
+    box-shadow: 0px 9px 33px 0px rgba(196, 196, 196, 0.10);
 }
 
 /**************** department*******************/
 
+/* calender */
+/* .custom_calender .p-datepicker .p-datepicker-header .p-datepicker-prev, .p-datepicker .p-datepicker-header .p-datepicker-next{
+    display: none;
+  } */
+  
+  .custom_calender .p-datepicker-header .p-datepicker-title{
+    margin: 0;
+  }
+  
+   .custom_calender .p-datepicker-weekheader{
+    display: none;
+  }
+  
+  .custom_calender .p-datepicker-weeknumber{
+    display: none;
+  }
+  
+  .custom_calender .p-datepicker {
+
+    background-color: #1F2A37 !important;
+    color: #fff !important;
+    border-color: transparent;
+    border-radius: 16px;
+    
+  }
+
+  .custom_calender .p-datepicker .p-datepicker-header{
+    background-color: #1F2A37 !important;
+    color: #fff;
+    border-bottom: none;
+  }
+
+  .p-datepicker .p-datepicker-header .p-datepicker-title .p-datepicker-year, .p-datepicker .p-datepicker-header .p-datepicker-title .p-datepicker-month{
+    color: #fff;
+  }
+
+  .custom_calender .p-datepicker table td.p-datepicker-today > span{
+     background-color: #A93439;
+     color: #fff;
+  }
+
+  .custom_calender .p-datepicker:not(.p-disabled) table td span:not(.p-highlight):not(.p-disabled):hover{
+    background-color: #A93439;
+    color: #fff;
+  }
+  .custom_calender .p-datepicker .p-datepicker-header .p-datepicker-title .p-datepicker-year,  .custom_calender .p-datepicker .p-datepicker-header .p-datepicker-title .p-datepicker-month
+  {
+    color: #fff;
+    transition: background-color 0.2s, color 0.2s, box-shadow 0.2s;
+    font-weight: 600;
+    padding: 0rem;
+  }
+  .custom_calender .p-datepicker .p-datepicker-header .p-datepicker-prev:enabled:hover,  .custom_calender .p-datepicker .p-datepicker-header .p-datepicker-next:enabled:hover
+  {
+    color: #fff;
+    border-color: transparent;
+    background: #111828;
+  }
+  .custom_calender .p-datepicker .p-datepicker-header .p-datepicker-prev:focus,  
+   .custom_calender .p-datepicker .p-datepicker-header .p-datepicker-next:focus
+  {
+        box-shadow: none;
+  }
+  .custom_calender .p-datepicker table 
+  {
+    font-size: 13px;
+  }
+  .custom_calender .p-datepicker table td > span
+  {
+    width: 2rem;
+    height: 2rem;
+  }
+
+  /* calender end */
+  .stream-bg{
+    position: relative;
+  }
+  .stream-bg:before
+  {
+    content: '';
+    background: url('/assets/website/shadow-right.png');
+    background-repeat: no-repeat;
+    background-position: top center;
+    position: absolute;
+     width: 805px;
+     height: 1400px;
+    top: 0;
+    left: 0;
+    z-index: -1;
+  }

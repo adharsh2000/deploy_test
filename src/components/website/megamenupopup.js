@@ -45,7 +45,7 @@ const MegaMenuPopup = (props) => {
             <div>
              <div className="grid grid-cols-12 gap-[24px] xl:gap-[2.083vw]">
               <div className="xl:col-span-3 col-span-6">
-                  <div className="bg-[#0F1F38] rounded-lg xl:p-[0.833vw] p-[16px] h-full relative">
+                  <Link href={"/enroll"}  className="bg-[#0F1F38] rounded-lg xl:p-[0.833vw] p-[16px] h-full relative block">
                     <div className="xl:p-[1.563vw] p-[20px] border-4 border-[#768FB5] rounded-lg flex flex-col h-full z-[999]">
                       <h2 className="text-[#fff] text-[40px] xl:text-[2.448vw] font-black text-center leading-normal xl:mt-[2.167vw] mt-[60px]">HAVE IT ALL</h2> 
                        <h6 className="xl:mt-[1.146vw] mt-[20px] text-[#D4999C] text-[41px] xl:text-[2.135vw] font-medium text-center">
@@ -53,16 +53,16 @@ const MegaMenuPopup = (props) => {
                        </h6>
 
                        <div className="xl:mt-[3.604vw] mt-[50px] w-full xl:mb-[3.646vw] mb-[50px]">
-                       <Link href={""} className="bg-[#A93439] text-[#fff] w-full flex justify-center  rounded-full py-3 text-[24px] xl:text-[1vw] font-medium text-center" >
+                       <div className="bg-[#A93439] text-[#fff] w-full flex justify-center  rounded-full py-3 text-[24px] xl:text-[1vw] font-medium text-center" >
                           Enroll today
-                       </Link>
+                       </div>
                        </div>
                        <div className="magamenuImg">
                           <Image src="/assets/images/megamenuimg-1.png" width="364" height="218" /> 
                        </div>
                     </div>
                     
-                  </div>
+                  </Link>
                  
               </div>
               <div className="xl:col-span-9 col-span-12">
@@ -75,13 +75,13 @@ const MegaMenuPopup = (props) => {
                     <Link href={""}>Families</Link>
                     </li>
                     <li>
-                    <Link href={""}>   Schools</Link>
+                    <Link href={"/schools"}>   Schools</Link>
                     </li>
                     <li>
                     <Link href={""}>   Programs</Link>
                     </li>
                     <li>
-                    <Link href={""}>   eLibrary</Link>
+                    <Link href={"/elibrary"}>   eLibrary</Link>
                     </li>
                     <li>
                     <Link href={""}>   News</Link>
@@ -90,7 +90,7 @@ const MegaMenuPopup = (props) => {
                     <Link href={""}>  Directory</Link>
                     </li>
                     <li>
-                    <Link href={""}>   Calendar</Link>
+                    <Link href={"/calendar"}>   Calendar</Link>
                     </li>
                     <li>
                     <Link href={""}>  AISD Portal</Link>
@@ -113,10 +113,10 @@ const MegaMenuPopup = (props) => {
                         <div className="mxl:mt-[0.833vw] mt-[16px]">
                           <ul className="list-none xl:space-y-[0.533vw] space-y-[16px] text-[#4B586E] text-[16px] xl:text-[0.833vw] font-light">
                               <li>
-                                  <Link href='/website/aboutus'> About US</Link>
+                                  <Link href='/aboutus'> About US</Link>
                               </li>
                               <li>
-                                  <Link href={""}> Board of Trustees</Link>
+                                  <Link href={"/boardtrustees"}> Board of Trustees</Link>
                               </li>
                               <li>
                                   <Link href={""}>District & Board Policy</Link>
@@ -154,7 +154,7 @@ const MegaMenuPopup = (props) => {
                         <div className="mxl:mt-[0.833vw] mt-[16px]">
                           <ul className="list-none xl:space-y-[0.533vw] space-y-[16px] text-[#4B586E] text-[16px] xl:text-[0.833vw] font-light">
                               <li>
-                                  <Link href={""}> All Schools</Link>
+                                  <Link href={"/schools"}> All Schools</Link>
                               </li>
                               <li>
                                   <Link href={""}> Elementary Schools</Link>
@@ -194,10 +194,10 @@ const MegaMenuPopup = (props) => {
                         <div className="mxl:mt-[0.833vw] mt-[16px]">
                           <ul className="list-none xl:space-y-[0.533vw] space-y-[16px] text-[#4B586E] text-[16px] xl:text-[0.833vw] font-light">
                               <li>
-                                  <Link href='/website/departments'> All Departments</Link>
+                                  <Link href='/departments'> All Departments</Link>
                               </li>
                               <li>
-                                  <Link href={"/website/acadamics"}> Academics</Link>
+                                  <Link href={"/acadamics"}> Academics</Link>
                               </li>
                               <li>
                                   <Link href={""}>Athletics</Link>
@@ -252,13 +252,13 @@ const MegaMenuPopup = (props) => {
                                   <Link href={""}> About US</Link>
                               </li>
                               <li>
-                                  <Link href={""}> AISD.TV</Link>
+                                  <Link href={"/aisdtv"}> AISD.TV</Link>
                               </li>
                               <li>
                                   <Link href={""}>Announcements</Link>
                               </li>
                               <li>
-                                  <Link href={""}>Calendar</Link>
+                                  <Link href={"/calendar"}>Calendar</Link>
                               </li>
                               <li>
                                   <Link href={""}>Community Engagement</Link>

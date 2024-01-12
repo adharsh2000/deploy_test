@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 
 const adminFetchAPI = async (endpoint, method = 'GET', data = {}, contentType = '') => {
     try {
-        const checkEndpoint = endpoint === '/messageboard/posts/list' 
+        const checkEndpoint = endpoint === '/messageboard/posts/list' || endpoint.includes("/messageboard/posts/postdetails")
 
         const token = sessionStorage.getItem('AccessToken');
         let response = {};

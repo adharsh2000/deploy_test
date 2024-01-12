@@ -35,3 +35,28 @@
 .event-dropdown .p-dropdown:not(.p-disabled):hover {
   border-color: #e5e7eb;
 }
+.academicsTabs { height: 100%; }
+.academicsTabs .react-tabs__tab-list { display: flex; align-items: center; height: 100%; }
+.academicsTabs .react-tabs__tab { cursor: pointer;border-radius: 99px 99px 99px 99px; background: white; min-width: 3.542vw; height: 100%; display: flex; justify-content: center; align-items: center; color: #4B586E; }
+.academicsTabs .react-tabs__tab:first-child { border-radius: 99px 99px 99px 99px; }
+.academicsTabs .react-tabs__tab:last-child { border-radius: 99px 99px 99px 99px; }
+.academicsTabs .react-tabs__tab.react-tabs__tab--selected { background: #152C4F; color: white; }
+
+.academics-img img
+{ border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+}
+.academics-img:after
+{
+    content: '';
+    background: url('/assets/website/circle-shadow.svg');
+    background-repeat: no-repeat;
+    position: absolute;
+    background-position: center;
+    height: 150px;
+    background-size: cover;
+    width: 130px;
+    top: 0;
+
+
+}

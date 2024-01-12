@@ -6,6 +6,8 @@ import '@/styles/login.css';
 import { ThemeProvider } from 'next-themes'
 import { Inter } from '@next/font/google'
 import { GoogleOAuthProvider } from '@react-oauth/google';
+import store from "@/redux/store";
+import { Provider } from "react-redux";
 
 import { Montserrat } from '@next/font/google';
 import { useRouter } from "next/router";
@@ -22,18 +24,22 @@ const myMontserrat = Montserrat({
 export default function App({ Component, pageProps }) {
   const router = useRouter();
   useEffect(() => {  
-    if(router.pathname === '/website/aisdtv') 
-    { document.body.classList.add('tvBodyColor'); } 
-    else 
-    { document.body.classList.remove('tvBodyColor');}
-  }, []);
+    if(router.pathname === '/aisdtv') 
+    { 
+      document.body.classList.add('tvBodyColor'); 
+    }else{
+      document.body.classList.remove('tvBodyColor'); 
+    }     
+  }, [router.pathname]);
 
   return <main className={myMontserrat.className}>
+    <Provider store={store}>
     <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}>
       <ThemeProvider attribute="class">
         <Component {...pageProps} />
       </ThemeProvider>
     </GoogleOAuthProvider>
+    </Provider>
   </main>
 }
 

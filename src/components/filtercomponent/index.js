@@ -14,6 +14,7 @@ const myworksans = Work_Sans({
 });
 
 export default function FilterComponent(props) {  
+  const { selectedYear,setSelectedYear } = props;
   const [value, setValue] = useState('');
   const [selectedCity, setSelectedCity] = useState(null);
   const cities = [
@@ -28,7 +29,7 @@ export default function FilterComponent(props) {
   const [selectedGeography, setSelectedGeography] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [selectedType, setSelectedType] = useState(null);
-  const [selectedYear, setSelectedYear] = useState(null);
+  // const [selectedYear, setSelectedYear] = useState(null);
   const [selectedHalfYear, setSelectedHalfYear] = useState(null);
   const [selectedQuarter, setSelectedQuarter] = useState(null);
   const dataSource = [
@@ -52,9 +53,11 @@ export default function FilterComponent(props) {
     { name: "Data 2",},
   ];
   const year = [
-    { name: "All",},
-    { name: "Data 1",},
-    { name: "Data 2",},
+    { name: "All", value:""},
+    { name: "2023-2024", value:"2023-2024"},
+    { name: "2024-2025", value:"2024-2025"},
+    { name: "2025-2026", value:"2025-2026"},
+    { name: "2026-2027", value:"2026-2027"},
   ];
   const halfYear = [
     { name: "All",},
@@ -81,11 +84,12 @@ export default function FilterComponent(props) {
                   </span>
                   <div className="custDropdown">
                     <Dropdown
-                      value={selectedCategory}
-                      onChange={(e) => setSelectedCategory(e.value)}
-                      options={category}
+                      value={selectedYear}
+                      onChange={(e) => setSelectedYear(e.value)}
+                      options={year}
                       optionLabel="name"
-                      placeholder="2022 - 2023"
+                      optionValue="value"
+                      placeholder="select.."
                       className="min-w-[70px]"
                     />
                   </div>

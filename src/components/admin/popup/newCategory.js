@@ -9,20 +9,39 @@ import { Calendar } from "primereact/calendar";
 import { Toast } from "primereact/toast";
 import { FileUpload } from "primereact/fileupload";
 import Savesuccesfull from "@/components/admin/popup/savesuccesfull";
+import { GetApiFetching } from "@/Api/GetData";
 
 const NewCategory = (props) => {
   const [date, setDate] = useState(null);
   const [text, setText] = useState("");
   const [visible, setVisible] = useState(false);
 
-  const [selectedCity, setSelectedCity] = useState(null);
-  const cities = [
-    { name: "New York", code: "NY" },
-    { name: "Rome", code: "RM" },
-    { name: "London", code: "LDN" },
-    { name: "Istanbul", code: "IST" },
-    { name: "Paris", code: "PRS" },
-  ];
+  const [selectedCategories, setSeleCategories] = useState(null);
+  const [data,setData]=useState([])
+  const [error, setError] = useState('');
+  const url=`${process.env.BASE_URL}/elibrary/elcategory`
+  
+  useEffect(()=>{
+    getdata(url)
+  },[])
+  
+  const getdata=async(url)=>{
+  let response=await GetApiFetching(url)
+  setData(response?.data?.rows)
+  }
+
+  const get=data.map((item)=>({el_category:item.el_category}))
+
+ console.log("get--<",get);
+
+const handleAddrecords=()=>{
+  //setVisible(true)
+  if (!selectedCategories) {
+    setError('Please select a category .');
+    return; // Don't proceed with adding records
+  }
+  setError('')
+}
 
   return (
     <>
@@ -73,13 +92,14 @@ const NewCategory = (props) => {
                           Category
                         </label>
                         <Dropdown
-                          value={selectedCity}
-                          onChange={(e) => setSelectedCity(e.value)}
-                          options={cities}
-                          optionLabel="name"
+                          value={selectedCategories}
+                          onChange={(e) =>(setSeleCategories(e.value),setError(''))}
+                          options={get}
+                          optionLabel="el_category"
                           placeholder="Select new category"
                           className="w-full"
                         />
+                          {error && <div style={{ color: 'red' }}>{error}</div>}
                       </div>
                     </div>
                   </div>
@@ -92,14 +112,14 @@ const NewCategory = (props) => {
               <div className="flex items-center xl:gap-[0.833vw] gap-4">
                 <Link
                   href={""}
-                  onClick={() => props.onHides(false)}
+                  onClick={() => (props.onHides(false), setError(''))}
                   className="text-[#4B586E] text-[16px] xl:text-[0.833vw] text-base font-normal xl:leading-[1.042vw] leading-5 border border-[#BECDE3] xl:rounded-[0.521vw] rounded-lg px-[20px] xl:px-[1.042vw] py-[12px] xl:py-[0.625vw]"
                 >
                   Cancel
                 </Link>
                 <Link
                   href={""}
-                  onClick={() => setVisible(true)}
+                  onClick={handleAddrecords}
                   className="text-white bg-[#1F2A37] xl:text-[0.833vw] text-base font-normal xl:leading-[1.042vw] leading-5 border border-[#1F2A37] xl:rounded-[0.521vw] rounded-lg px-[20px] xl:px-[1.042vw] py-[12px] xl:py-[0.625vw]"
                 >
                   Save

@@ -11,12 +11,12 @@ export default function RemoveUser(props) {
 
     const handleDelete = async () => {
         console.log(props?.id)
-        await fetchAPI(`/messageboard/posts/${props?.id}`, 'DELETE', {}, 'application/json')
+        await fetchAPI(`${props.url}${props?.id}`, 'DELETE', {}, 'application/json')
             .then(({ data }) => {
                 console.log(data);
                 props.onHides(false)
                 props.setId(null)
-                props.fetchPost();
+                props?.fetchPost();
                 if (data?.message?.includes("not found")) {
                     return toast.current.show({ severity: 'error', detail: data?.message, life: 3000 });
                 }

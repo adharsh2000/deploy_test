@@ -1,175 +1,27 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Tab, TabList, TabPanel, Tabs } from "react-tabs";
 import FullCalendar from '@fullcalendar/react';
-import dayGridPlugin from '@fullcalendar/daygrid';
-import timeGridPlugin from '@fullcalendar/timegrid';
 import listPlugin from '@fullcalendar/list';
+import moment from "moment";
 
-export default function Index() {
-    const [activeTab, setActiveTab] = useState(0);
+export default function Index(props) {
+    const {activeTab, setActiveTab,events, fetchsingleEvent, year} = props;
+    const [updateMonth, setUpdateMonth] = useState(false)
+
     const handleTabClick = (index) => {
       setActiveTab(index);
     };
-    const [events, setEvents] = useState([
-      {
-        title: '6pm Multilingual Education',
-        start: '2024-01-01',
-        backgroundColor: '#DEF7EC',
-        borderColor: '#DEF7EC',
-        textColor: '#046C4E'      
-      },
-      {
-        title: '6pm Marshal Middle School Grand Opening Celebration',
-        start: '2024-01-02',
-        backgroundColor: '#FDF6B2',
-        borderColor: '#FDF6B2',
-        textColor: '#8E4B10'      
-      },
-      {
-        title: '7pm Indigenous People’s Day',
-        start: '2024-01-02',
-        backgroundColor: '#E8EBF0',
-        borderColor: '#E8EBF0',
-        textColor: '#152C4F'
-      },
-      {
-        title: '2:45pm Staff Development/Students',
-        start: '2024-01-02',
-        backgroundColor: '#F9EDE7',
-        borderColor: '#F9EDE7',
-        textColor: '#9D5A38'
-      },
-      {
-        title: '6pm Indigenous People’s Day',
-        start: '2024-01-03',
-        backgroundColor: '#E8EBF0',
-        borderColor: '#E8EBF0',
-        textColor: '#152C4F'
-      },
-      {
-        title: '2:45pm Staff Development/Students',
-        start: '2024-01-04',
-        backgroundColor: '#F9EDE7',
-        borderColor: '#F9EDE7',
-        textColor: '#9D5A38'
-      },
-      {
-        title: '6pm Indigenous People’s Day',
-        start: '2024-01-10',
-        backgroundColor: '#E8EBF0',
-        borderColor: '#E8EBF0',
-        textColor: '#152C4F'
-      },
-      {
-        title: '6pm Multilingual Education',
-        start: '2024-01-15',
-        backgroundColor: '#DEF7EC',
-        borderColor: '#DEF7EC',
-        textColor: '#046C4E'      
-      },
-      {
-        title: '6pm Indigenous People’s Day',
-        start: '2024-01-17',
-        backgroundColor: '#E8EBF0',
-        borderColor: '#E8EBF0',
-        textColor: '#152C4F'
-      },
-      {
-        title: '2:45pm Staff Development/Students',
-        start: '2024-01-18',
-        backgroundColor: '#F9EDE7',
-        borderColor: '#F9EDE7',
-        textColor: '#9D5A38'
-      },
-  
-      {
-        title: '6pm Multilingual Education',
-        start: '2024-02-01',
-        backgroundColor: '#DEF7EC',
-        borderColor: '#DEF7EC',
-        textColor: '#046C4E'      
-      },
-      {
-        title: '6pm Marshal Middle School Grand Opening Celebration',
-        start: '2024-02-02',
-        backgroundColor: '#FDF6B2',
-        borderColor: '#FDF6B2',
-        textColor: '#8E4B10'      
-      },
-      {
-        title: '7pm Indigenous People’s Day',
-        start: '2024-02-02',
-        backgroundColor: '#E8EBF0',
-        borderColor: '#E8EBF0',
-        textColor: '#152C4F'
-      },
-      {
-        title: '2:45pm Staff Development/Students',
-        start: '2024-02-02',
-        backgroundColor: '#F9EDE7',
-        borderColor: '#F9EDE7',
-        textColor: '#9D5A38'
-      },
-      {
-        title: '6pm Indigenous People’s Day',
-        start: '2024-02-03',
-        backgroundColor: '#E8EBF0',
-        borderColor: '#E8EBF0',
-        textColor: '#152C4F'
-      },
-      {
-        title: '2:45pm Staff Development/Students',
-        start: '2024-02-04',
-        backgroundColor: '#F9EDE7',
-        borderColor: '#F9EDE7',
-        textColor: '#9D5A38'
-      },
-      {
-        title: '6pm Indigenous People’s Day',
-        start: '2024-02-10',
-        backgroundColor: '#E8EBF0',
-        borderColor: '#E8EBF0',
-        textColor: '#152C4F'
-      },
-      {
-        title: '6pm Multilingual Education',
-        start: '2024-02-15',
-        backgroundColor: '#DEF7EC',
-        borderColor: '#DEF7EC',
-        textColor: '#046C4E'      
-      },
-      {
-        title: '6pm Indigenous People’s Day',
-        start: '2024-02-17',
-        backgroundColor: '#E8EBF0',
-        borderColor: '#E8EBF0',
-        textColor: '#152C4F'
-      },
-      {
-        title: '2:45pm Staff Development/Students',
-        start: '2024-02-18',
-        backgroundColor: '#F9EDE7',
-        borderColor: '#F9EDE7',
-        textColor: '#9D5A38'
-      },
-    ]);
 
-    const [events1, setEvents1] = useState([
-        {
-            title: '6pm Multilingual Education',
-            start: '2024-01-03',
-            backgroundColor: '#DEF7EC',
-            borderColor: '#DEF7EC',
-            textColor: '#046C4E'      
-          },
-          {
-            title: '6pm Marshal Middle School Grand Opening Celebration',
-            start: '2024-01-05',
-            backgroundColor: '#FDF6B2',
-            borderColor: '#FDF6B2',
-            textColor: '#8E4B10'      
-          },
-      ]);
+    const getFullDetials = (event) => {
+        fetchsingleEvent(event.event.id)
+    }
+
+    useEffect(() => {
+        setUpdateMonth(!updateMonth)
+    },[year])
+
+    const currentYear = moment().format('YYYY')
+    const firstDate = moment([year?.name ?? currentYear,activeTab]).format('YYYY-MM-DD');
 
     return (
         <Tabs selectedIndex={activeTab} onSelect={handleTabClick}>
@@ -325,8 +177,10 @@ export default function Index() {
                 <TabPanel>
                 <div className="full-calendar-sec bg-white py-[16px] xl:py-[1.25vw] px-[12px] xl:px-[0.833vw]">
                     <FullCalendar 
+                        key={updateMonth}
                         plugins={[listPlugin]}
                         initialView="listMonth" 
+                        initialDate={firstDate}
                         headerToolbar={{
                             left: '',
                             center: '',
@@ -336,6 +190,7 @@ export default function Index() {
                         weekends= {true}
                         events={events}
                         editable={true}
+                        eventClick={(e) => getFullDetials(e)}
                     />
                 </div>
                 </TabPanel>
@@ -343,24 +198,8 @@ export default function Index() {
                 <div className="full-calendar-sec bg-white py-[16px] xl:py-[1.25vw] px-[12px] xl:px-[0.833vw]">
                     <FullCalendar 
                         plugins={[listPlugin]}
-                        initialView="listMonth" 
-                        headerToolbar={{
-                            left: '',
-                            center: '',
-                            right: '',
-                        }}
-                        showNonCurrentDates= {true}
-                        weekends= {true}
-                        events={events1}
-                        editable={true}
-                    />
-                </div>
-                </TabPanel>
-                <TabPanel>
-                <div className="full-calendar-sec bg-white py-[16px] xl:py-[1.25vw] px-[12px] xl:px-[0.833vw]">
-                    <FullCalendar 
-                        plugins={[listPlugin]}
-                        initialView="listMonth" 
+                        initialView="listMonth"
+                        initialDate={firstDate}
                         headerToolbar={{
                             left: '',
                             center: '',
@@ -370,6 +209,7 @@ export default function Index() {
                         weekends= {true}
                         events={events}
                         editable={true}
+                        eventClick={(e) => getFullDetials(e)}
                     />
                 </div>
                 </TabPanel>
@@ -378,23 +218,7 @@ export default function Index() {
                     <FullCalendar 
                         plugins={[listPlugin]}
                         initialView="listMonth" 
-                        headerToolbar={{
-                            left: '',
-                            center: '',
-                            right: '',
-                        }}
-                        showNonCurrentDates= {true}
-                        weekends= {true}
-                        events={events1}
-                        editable={true}
-                    />
-                </div>
-                </TabPanel>
-                <TabPanel>
-                <div className="full-calendar-sec bg-white py-[16px] xl:py-[1.25vw] px-[12px] xl:px-[0.833vw]">
-                    <FullCalendar 
-                        plugins={[listPlugin]}
-                        initialView="listMonth" 
+                        initialDate={firstDate}
                         headerToolbar={{
                             left: '',
                             center: '',
@@ -404,6 +228,7 @@ export default function Index() {
                         weekends= {true}
                         events={events}
                         editable={true}
+                        eventClick={(e) => getFullDetials(e)}
                     />
                 </div>
                 </TabPanel>
@@ -412,23 +237,7 @@ export default function Index() {
                     <FullCalendar 
                         plugins={[listPlugin]}
                         initialView="listMonth" 
-                        headerToolbar={{
-                            left: '',
-                            center: '',
-                            right: '',
-                        }}
-                        showNonCurrentDates= {true}
-                        weekends= {true}
-                        events={events1}
-                        editable={true}
-                    />
-                </div>
-                </TabPanel>
-                <TabPanel>
-                <div className="full-calendar-sec bg-white py-[16px] xl:py-[1.25vw] px-[12px] xl:px-[0.833vw]">
-                    <FullCalendar 
-                        plugins={[listPlugin]}
-                        initialView="listMonth" 
+                        initialDate={firstDate}
                         headerToolbar={{
                             left: '',
                             center: '',
@@ -438,6 +247,7 @@ export default function Index() {
                         weekends= {true}
                         events={events}
                         editable={true}
+                        eventClick={(e) => getFullDetials(e)}
                     />
                 </div>
                 </TabPanel>
@@ -446,23 +256,7 @@ export default function Index() {
                     <FullCalendar 
                         plugins={[listPlugin]}
                         initialView="listMonth" 
-                        headerToolbar={{
-                            left: '',
-                            center: '',
-                            right: '',
-                        }}
-                        showNonCurrentDates= {true}
-                        weekends= {true}
-                        events={events1}
-                        editable={true}
-                    />
-                </div>
-                </TabPanel>
-                <TabPanel>
-                <div className="full-calendar-sec bg-white py-[16px] xl:py-[1.25vw] px-[12px] xl:px-[0.833vw]">
-                    <FullCalendar 
-                        plugins={[listPlugin]}
-                        initialView="listMonth" 
+                        initialDate={firstDate}
                         headerToolbar={{
                             left: '',
                             center: '',
@@ -472,6 +266,7 @@ export default function Index() {
                         weekends= {true}
                         events={events}
                         editable={true}
+                        eventClick={(e) => getFullDetials(e)}
                     />
                 </div>
                 </TabPanel>
@@ -480,23 +275,7 @@ export default function Index() {
                     <FullCalendar 
                         plugins={[listPlugin]}
                         initialView="listMonth" 
-                        headerToolbar={{
-                            left: '',
-                            center: '',
-                            right: '',
-                        }}
-                        showNonCurrentDates= {true}
-                        weekends= {true}
-                        events={events1}
-                        editable={true}
-                    />
-                </div>
-                </TabPanel>
-                <TabPanel>
-                <div className="full-calendar-sec bg-white py-[16px] xl:py-[1.25vw] px-[12px] xl:px-[0.833vw]">
-                    <FullCalendar 
-                        plugins={[listPlugin]}
-                        initialView="listMonth" 
+                        initialDate={firstDate}
                         headerToolbar={{
                             left: '',
                             center: '',
@@ -506,6 +285,7 @@ export default function Index() {
                         weekends= {true}
                         events={events}
                         editable={true}
+                        eventClick={(e) => getFullDetials(e)}
                     />
                 </div>
                 </TabPanel>
@@ -514,6 +294,7 @@ export default function Index() {
                     <FullCalendar 
                         plugins={[listPlugin]}
                         initialView="listMonth" 
+                        initialDate={firstDate}
                         headerToolbar={{
                             left: '',
                             center: '',
@@ -521,8 +302,104 @@ export default function Index() {
                         }}
                         showNonCurrentDates= {true}
                         weekends= {true}
-                        events={events1}
+                        events={events}
                         editable={true}
+                        eventClick={(e) => getFullDetials(e)}
+                    />
+                </div>
+                </TabPanel>
+                <TabPanel>
+                <div className="full-calendar-sec bg-white py-[16px] xl:py-[1.25vw] px-[12px] xl:px-[0.833vw]">
+                    <FullCalendar 
+                        plugins={[listPlugin]}
+                        initialView="listMonth" 
+                        initialDate={firstDate}
+                        headerToolbar={{
+                            left: '',
+                            center: '',
+                            right: '',
+                        }}
+                        showNonCurrentDates= {true}
+                        weekends= {true}
+                        events={events}
+                        editable={true}
+                        eventClick={(e) => getFullDetials(e)}
+                    />
+                </div>
+                </TabPanel>
+                <TabPanel>
+                <div className="full-calendar-sec bg-white py-[16px] xl:py-[1.25vw] px-[12px] xl:px-[0.833vw]">
+                    <FullCalendar 
+                        plugins={[listPlugin]}
+                        initialView="listMonth" 
+                        initialDate={firstDate}
+                        headerToolbar={{
+                            left: '',
+                            center: '',
+                            right: '',
+                        }}
+                        showNonCurrentDates= {true}
+                        weekends= {true}
+                        events={events}
+                        editable={true}
+                        eventClick={(e) => getFullDetials(e)}
+                    />
+                </div>
+                </TabPanel>
+                <TabPanel>
+                <div className="full-calendar-sec bg-white py-[16px] xl:py-[1.25vw] px-[12px] xl:px-[0.833vw]">
+                    <FullCalendar 
+                        plugins={[listPlugin]}
+                        initialView="listMonth" 
+                        initialDate={firstDate}
+                        headerToolbar={{
+                            left: '',
+                            center: '',
+                            right: '',
+                        }}
+                        showNonCurrentDates= {true}
+                        weekends= {true}
+                        events={events}
+                        editable={true}
+                        eventClick={(e) => getFullDetials(e)}
+                    />
+                </div>
+                </TabPanel>
+                <TabPanel>
+                <div className="full-calendar-sec bg-white py-[16px] xl:py-[1.25vw] px-[12px] xl:px-[0.833vw]">
+                    <FullCalendar 
+                        plugins={[listPlugin]}
+                        initialView="listMonth" 
+                        initialDate={firstDate}
+                        headerToolbar={{
+                            left: '',
+                            center: '',
+                            right: '',
+                        }}
+                        showNonCurrentDates= {true}
+                        weekends= {true}
+                        events={events}
+                        editable={true}
+                        eventClick={(e) => getFullDetials(e)}
+                    />
+                </div>
+                </TabPanel>
+                <TabPanel>
+                <div className="full-calendar-sec bg-white py-[16px] xl:py-[1.25vw] px-[12px] xl:px-[0.833vw]">
+                    <FullCalendar 
+                        plugins={[listPlugin]}
+                        initialView="listMonth" 
+                        initialDate={firstDate}
+                        headerToolbar={{
+                            left: '',
+                            center: '',
+                            right: '',
+                        }}
+                        showNonCurrentDates= {true}
+                        weekends= {true}
+                        events={events}
+                        editable={true}
+                        eventClick={(e) => getFullDetials(e)}
                     />
                 </div>
                 </TabPanel>

@@ -12,7 +12,10 @@ body{
 
 /* Message board start */
 .pg-message-board{
-    background: url(/assets/images/message-board-bg.png) no-repeat center 2.604vw;
+    background: url(/assets/images/message-board-bg.png) no-repeat center 4vw;
+    background-size: contain;
+    background-position: top center left;
+
 }
 .pg-discussion-details{
     background: url(/assets/images/discussion-bg.png) no-repeat center top;
@@ -459,25 +462,131 @@ body{
 }
 /* Calendar end */
 
-/* About */
-.about-banner-sec{}
+/* About start */
+.about-slick-slider {
+    position: relative;
+}
+.about-slick-slider .slick-slide{
+    transform: scale(0.83);
+    transition: all 300ms;
+}
+.about-slick-slider .slick-center{
+    transform: scale(1);
+} 
+.about-slick-slider .about-slick-item {
+    box-shadow: 0px 2.8px 4.2px 0px rgba(0, 0, 0, 0.05), 0px 7px 10.5px -2.1px rgba(0, 0, 0, 0.10);
+}
+.about-slick-slider .slick-center .about-slick-item {
+    box-shadow: 0px 25px 50px -12px rgba(0, 0, 0, 0.25);
+}
+/* .about-slick-slider .slick-slide{
+    opacity: 0;
+}
+.about-slick-slider .slick-active{
+    opacity: 1;
+} */
+.about-slick-slider .slick-prev{
+    width: 24px;
+    height: 24px;
+    left: 35%;
+    top: auto;
+    bottom: -13px;
+    z-index: 1;
+}
+.about-slick-slider .slick-next{
+    width: 24px;
+    height: 24px;
+    right: 35%;
+    top: auto;
+    bottom: -13px;
+    z-index: 1;
+}
+.about-slick-slider .slick-prev:before {
+    display: block;
+    background: url(/assets/website/slick-circle-left1.svg) !important;
+    width: 24px;
+    height: 24px;
+    background-size: 100%;
+    opacity: 1 !important;
+    color: #fff0 !important;
+  }
+.about-slick-slider .slick-next:before {
+    display: block;
+    background: url(/assets/website/slick-circle-right1.svg) !important;
+    width: 24px;
+    height: 24px;
+    background-size: 100%;
+    opacity: 1 !important;
+    color: #fff0 !important;
+}
+.about-slick-slider .slick-dots{
+    bottom: 0;
+}
+.about-slick-slider .slick-dots li button:before {
+    text-align: center;
+    opacity:1;
+    color: #9CA1AB;
+    font-size: 14px;
+    }
+.about-slick-slider .slick-dots li.slick-active button:before {
+    opacity:1;
+    color: #A93439;
+    font-size: 18px;
+}
+/* About end */
 
+.aisd-district-profile-wrap{
+    background: url('/assets/website/aisd-district-profile-bg.svg') no-repeat center top;
+}  
+
+.enroll-bg {
+    background-image: url(/assets/website/enroll-bg.png);
+    height: auto;
+    background-size: cover;
+    background-position: center;
+    width: 100%;
+    overflow-x: hidden;
+}
 
 /***********************************************
             Responsive
 ***********************************************/
 
 
-@media (min-width:1700px){
-  
+@media (max-width:1599px){
+    /* .about-banner-info{
+        width: 100% !important;
+    }
+    .about-banner-left{
+        width: 100% !important;
+        margin-left: 0 !important;
+    }
+    .about-banner-right{
+        position: static !important;
+    } */
+    .about-banner-sec{
+        min-height: auto !important;
+    }
+    .about-banner-left{
+        width: 70% !important;
+    }
+    .about-banner-right{ width: 80% !important; top: -180px !important; right: -180px !important;}
 }
 
 @media (max-width:1366px){
   
 }
 
-@media (max-width:1280px){
-
+@media (max-width:1279px){
+    .about-banner-right{        
+        width: 50% !important;
+        right: 0 !important;
+        top: 0 !important;
+    }
+    .about-banner-left{
+        width: 100% !important;
+        margin-left: 0 !important;
+    }    
 }
 
 
@@ -570,10 +679,19 @@ body{
 /* eLibrary end */
 }
 
+
+
 @media (max-width:991px){
 }
 
 @media (max-width:767px){
+.about-banner-right{     
+    position: static !important;   
+    width: 100% !important;
+} 
+.about-banner-left{
+    margin-top: -50px !important;
+} 
 }
 
 @media (max-width:680px){

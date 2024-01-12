@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import SimpleBar from 'simplebar-react';
@@ -22,13 +22,35 @@ const myMontserrat = Montserrat({
 
 export default function Footer({ ...pageProps }) {
     const notificatio = useRef(null);
+
+    const [enrollBg, setEnrollBg] = useState(false);
+    const [aisdtvBg, setAisdtvBg] = useState(false);
+    const [defaultBg, setDefaultBG] = useState(false);
+
     const router = useRouter();
+
+    useEffect(() => {  
+        if(router.pathname === '/enroll') 
+        { 
+            setEnrollBg(true);
+            setAisdtvBg(false);
+            setDefaultBG(false);
+        }else if(router.pathname === '/aisdtv') {
+            setEnrollBg(false);
+            setAisdtvBg(true);
+            setDefaultBG(false);
+        }else{
+            setEnrollBg(false);
+            setAisdtvBg(false);
+            setDefaultBG(true)
+        }     
+    }, [router.pathname]);
 
     return (
         <div className="relative pt-[150px]">            
-            <footer className="bg-[#1F2A37] pt-[164px] pb-[58px] px-[15px] lg:px-[20px] xl:px-[1.04vw] relative" >
-                <span className="absolute bottom-[0px] right-0 left-0 mx-auto z-[-1] flex justify-center">
-                {router.pathname === '/website/aisdtv' ? 
+            <footer className={`${enrollBg && 'bg-[#090E14]'} ${aisdtvBg && 'bg-[#111928]'} ${defaultBg && 'bg-[#1F2A37]'} pt-[164px] pb-[58px] px-[15px] lg:px-[20px] xl:px-[1.04vw] relative`} >
+                <span className="absolute bottom-[70px] right-0 left-0 mx-auto z-[-1] flex justify-center">
+                {router.pathname === '/aisdtv' ? 
                 <Image
                     src="/assets/images/footer-round-dark.svg"
                     width="1921"
@@ -77,7 +99,7 @@ export default function Footer({ ...pageProps }) {
                             <li>
                                 <Link
                                     href={""}
-                                    className="block text-[12px] text-[#D1D5DB] hover:text-[#fff] hover:underline ease-linear duration-300"
+                                    className="block text-[12px]   xl:text-[0.677vw] text-[#D1D5DB] hover:text-[#fff] hover:underline ease-linear duration-300"
                                 >
                                     Accessibility
                                 </Link>
@@ -85,7 +107,7 @@ export default function Footer({ ...pageProps }) {
                             <li>
                                 <Link
                                     href={""}
-                                    className="block text-[12px] text-[#D1D5DB] hover:text-[#fff] hover:underline ease-linear duration-300"
+                                    className="block text-[12px]  xl:text-[0.677vw] text-[#D1D5DB] hover:text-[#fff] hover:underline ease-linear duration-300"
                                 >
                                     Acceptable Use Policy
                                 </Link>
@@ -93,7 +115,7 @@ export default function Footer({ ...pageProps }) {
                             <li>
                                 <Link
                                     href={""}
-                                    className="block text-[12px] text-[#D1D5DB] hover:text-[#fff] hover:underline ease-linear duration-300"
+                                    className="block text-[12px]  xl:text-[0.677vw] text-[#D1D5DB] hover:text-[#fff] hover:underline ease-linear duration-300"
                                 >
                                     (en Español)
                                 </Link>
@@ -101,7 +123,7 @@ export default function Footer({ ...pageProps }) {
                             <li>
                                 <Link
                                     href={""}
-                                    className="block text-[12px] text-[#D1D5DB] hover:text-[#fff] hover:underline ease-linear duration-300"
+                                    className="block text-[12px] xl:text-[0.677vw] text-[#D1D5DB] hover:text-[#fff] hover:underline ease-linear duration-300"
                                 >
                                     Non Discrimination Policy
                                 </Link>
@@ -109,7 +131,7 @@ export default function Footer({ ...pageProps }) {
                             <li>
                                 <Link
                                     href={""}
-                                    className="block text-[12px] text-[#D1D5DB] hover:text-[#fff] hover:underline ease-linear duration-300"
+                                    className="block text-[12px]   xl:text-[0.677vw] text-[#D1D5DB] hover:text-[#fff] hover:underline ease-linear duration-300"
                                 >
                                     Privacy Policy
                                 </Link>
@@ -117,7 +139,7 @@ export default function Footer({ ...pageProps }) {
                             <li>
                                 <Link
                                     href={""}
-                                    className="block text-[12px] text-[#D1D5DB] hover:text-[#fff] hover:underline ease-linear duration-300"
+                                    className="block text-[12px]   xl:text-[0.677vw] text-[#D1D5DB] hover:text-[#fff] hover:underline ease-linear duration-300"
                                 >
                                     DMCA Notice
                                 </Link>
@@ -125,7 +147,7 @@ export default function Footer({ ...pageProps }) {
                             <li>
                                 <Link
                                     href={""}
-                                    className="block text-[12px] text-[#D1D5DB] hover:text-[#fff] hover:underline ease-linear duration-300"
+                                    className="block text-[12px] xl:text-[0.677vw] text-[#D1D5DB] hover:text-[#fff] hover:underline ease-linear duration-300"
                                 >
                                     Sitemap
                                 </Link>

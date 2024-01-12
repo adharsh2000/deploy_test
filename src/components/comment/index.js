@@ -24,12 +24,12 @@ const Comments = (props) => {
                     alt="active_user"
                     onError={handleImageError}
                   /> :
-                    <div className="text-xl rounded-full w-11 h-11 flex items-center justify-center bg-gray-500 text-white">
+                    <div className="capitalize text-xl rounded-full w-11 h-11 flex items-center justify-center bg-gray-500 text-white">
                       {item?.user?.firstName?.charAt(0)}
                     </div>
                   }
-                  <h6 className="text-[#374151] text-[16px] xl:text-[0.938vw] font-semibold">
-                    {item?.user?.firstName + item?.user?.lastName}
+                  <h6 className="capitalize text-[#374151] text-[16px] xl:text-[0.938vw] font-semibold">
+                    {item?.user?.firstName +' '+ item?.user?.lastName}
                   </h6>
                   {/* <span className="austin-dot text-[#A93439] text-[7px]"></span> */}
                   <p className="text-[#9CA1AB] text-[14px] xl:text-[0.729vw] font-light">
@@ -37,10 +37,10 @@ const Comments = (props) => {
                   </p>
                 </div>
                 <div className="flex justify-end xl:w-[9.813vw] w-[230px]">
-                  <div className="px-[18px] xl:px-[1.042vw] py-[12px] xl:py-[0.433vw] bg-[#1F3F71] text-[#fff] rounded-l-full cursor-pointer">
-                    <i className="austin-like text-[20px]"></i>
+                  <div className={`px-4 py-[12px] xl:py-[0.433vw] ${item?.isLiked==1?'bg-[#1F3F71]':'bg-[#E8EBF0]'} text-[#fff] rounded-l-full cursor-pointer`}>
+                    <i onClick={()=>props?.like(item?.post_id,'comment')} className={`${item?.isLiked==1?'text-[#fff]':'cursor-pointer text-[#1B3865]'} austin-like  text-[20px]`}></i>
                   </div>
-                  <div className="px-[18px] xl:px-[1.042vw] py-[12px] xl:py-[0.433vw] bg-[#E8EBF0] text-[#1F3F71] rounded-r-full ">
+                  <div className="px-4 py-[12px] xl:py-[0.433vw] bg-[#E8EBF0] text-[#1F3F71] rounded-r-full ">
                     {item?.commentLikes} likes
                   </div>
                 </div>

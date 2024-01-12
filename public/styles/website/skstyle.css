@@ -95,6 +95,8 @@
 .autinisd-monitor:before {content: "\e943";}
 .autinisd-check-task:before {content: "\e944";}
 .autinisd-arrow-down-line:before {content: "\e945";}
+.autinisd-play-circle:before {content: "\e946";}
+.autinisd-translate-tow:before {content: "\e947";}
 
 .p-sidebar.width768 {
   width: 40vw;
@@ -473,6 +475,117 @@
   background-image: url('/assets/website/departments_banner_warp.png');
   background-size: 100%;
   background-position: 50% 15%;
+}
+
+.breadCrumb_style a, .breadCrumb_style i {
+  color: #E5E7EB !important;
+}
+
+
+.feat_prog_box{
+  min-height: 360px;
+}
+.feat_prog_box .list_content_box {
+  display: flex;
+  flex-direction: column;  
+  gap: 5px;
+  /* background: rgba(255, 255, 255, 0.05); */
+  background: #1c2533;
+  border-radius: 0 0 16px 16px;
+  transition-timing-function: ease;
+  transition: 0.3s;
+}
+
+.feat_prog_box:hover .list_content_box {
+  /* background: rgba(255, 255, 255, 0.15); */
+  background: #1c2533;
+  display: flex;
+  flex-direction: column;
+  transition-property:all;
+  transition-timing-function: ease;
+  transition: 0.3s;
+  gap: 12px;
+}
+
+.feat_prog_box:hover .list_content_box .heading_one {
+  font-size: 1.042vw;
+  line-height: 1.406vw;
+  -webkit-transition:0.3s;
+  transition-timing-function: ease;
+  transition-delay: 0.3s;
+}
+
+.feat_prog_box:hover .list_content_box .heading_tow {
+  font-size: 0.833vw;
+  line-height: 1.042vw;
+  -webkit-transition:0.3s;
+  transition-timing-function:ease-out;
+  transition-delay: 0.3s;
+}
+
+.list_content_box .heading_one {
+  color: #FFFFFF;
+  font-size: 0.833vw;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 1.406vw;
+  transition-property: all;
+  transition-timing-function: ease-out;
+  transition-delay: 0.3s;
+}
+
+.list_content_box .heading_tow {
+  color: #D1D5DB;
+  font-size: 0.625vw;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 0.729vw;
+  word-break: break-all;
+  transition-timing-function: ease;
+  transition-delay: 0.3s;
+}
+
+.list_content_box a {
+  border-radius: var(--rounded-lg, 8px);
+  background: var(--interface-surface-hc-primary, #A93439);
+  padding: 0.625vw 1.042vw;
+  display: none;
+  font-size: 0.833vw;
+  line-height: 1.042vw;
+  color: white;
+  align-items: center;
+  gap: 8px;
+}
+
+.feat_prog_box:hover .list_content_box a {
+  display: inline-flex;
+  -webkit-transition:50s;
+  transition-timing-function: ease;
+  transition-delay: 50s;
+}
+
+
+.aisd-banner-slide video{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  min-width: 100%;
+  min-height: 100%;
+  width: auto;
+  height: auto;
+  z-index: -1;
+}
+.aisd-banner-slide:after{
+  content: "";
+  background: url('/assets/website/aisdtv-video-overlay3.svg') no-repeat center;
+  background-size: cover;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+
 }
 
 /***********************************************

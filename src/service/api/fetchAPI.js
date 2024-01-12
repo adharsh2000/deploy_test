@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 
 const fetchAPI = async (endpoint, method = 'GET', data = {}, contentType = '') => {
     try {
-        const checkEndpoint = endpoint === '/messageboard/posts/list' || endpoint === '/messageboard/posts/topcontibotor' || endpoint === '/messageboard/posts/unansweredtopics' || endpoint.includes('/messageboard/posts/postdetails')
+        const checkEndpoint = endpoint === '/messageboard/posts/list' || endpoint === '/messageboard/posts/topcontibotor' || endpoint === '/messageboard/posts/unansweredtopics' || endpoint === '/messageboard/posts/relatedTopics' || endpoint.includes('/messageboard/posts/postdetails')
 
         const token = sessionStorage.getItem('AccessToken');
         let response = {};
@@ -16,6 +16,7 @@ const fetchAPI = async (endpoint, method = 'GET', data = {}, contentType = '') =
                 "Content-Type": contentType
             },
         });
+
         return response.data;
     } catch (error) {
         if (error.response && error.response.status === 401) {
@@ -27,9 +28,7 @@ const fetchAPI = async (endpoint, method = 'GET', data = {}, contentType = '') =
             console.log('Error fetching API data:', error);
             return error?.response
         }
-
-        // throw error;
     }
 };
-export default fetchAPI
 
+export default fetchAPI;

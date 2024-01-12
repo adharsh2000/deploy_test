@@ -68,7 +68,7 @@ function Departmentsbanner() {
               </div>
                 </div>
                 <div>
-                <div className="bg-[#A93439] hover:bg-[#762428] rounded-[8px] xl:rounded-[0.417vw] py-[12px] xl:py-[0.625vw] px-[20px] xl:px-[1.042vw] text-[14px] xl:text-[0.938vw] text-white flex justify-center min-h-full items-center h-[54px] cursor-pointer whitespace-nowrap" onClick={() => setVisible(true)}>Advanced School Search</div>
+                <div className="bg-[#A93439] hover:bg-[#762428] rounded-[8px] xl:rounded-[0.417vw] py-[12px] xl:py-[0.625vw] px-[20px] xl:px-[1.042vw] text-[14px] xl:text-[0.938vw] text-white flex justify-center min-h-full items-center h-[54px] cursor-pointer whitespace-nowrap" >Search Department</div>
                 </div>
             </div>
         </div>

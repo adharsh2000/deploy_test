@@ -1,156 +1,58 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Tab, TabList, TabPanel, Tabs } from "react-tabs";
 import FullCalendar from '@fullcalendar/react' // must go before plugins
-import multiMonthPlugin from '@fullcalendar/multimonth'
+import dayGridplugin from '@fullcalendar/daygrid'
+import moment from "moment";
 
-export default function Index() {
-    const [activeTab, setActiveTab] = useState(0);
+export default function Index(props) {
+    const {activeTab, setActiveTab, events, setEvents,fetchsingleEvent, year} = props;
+    const [updateMonth, setUpdateMonth] = useState(false)
+    
     const handleTabClick = (index) => {
       setActiveTab(index);
     };
-    const [events, setEvents] = useState([
-      {
-        title: '6pm Multilingual Education',
-        start: '2024-01-01',
-        backgroundColor: '#DEF7EC',
-        borderColor: '#DEF7EC',
-        textColor: '#046C4E'      
-      },
-      {
-        title: '6pm Marshal Middle School Grand Opening Celebration',
-        start: '2024-01-02',
-        backgroundColor: '#FDF6B2',
-        borderColor: '#FDF6B2',
-        textColor: '#8E4B10'      
-      },
-      {
-        title: '7pm Indigenous People’s Day',
-        start: '2024-01-02',
-        backgroundColor: '#E8EBF0',
-        borderColor: '#E8EBF0',
-        textColor: '#152C4F'
-      },
-      {
-        title: '2:45pm Staff Development/Students',
-        start: '2024-01-02',
-        backgroundColor: '#F9EDE7',
-        borderColor: '#F9EDE7',
-        textColor: '#9D5A38'
-      },
-      {
-        title: '6pm Indigenous People’s Day',
-        start: '2024-01-03',
-        backgroundColor: '#E8EBF0',
-        borderColor: '#E8EBF0',
-        textColor: '#152C4F'
-      },
-      {
-        title: '2:45pm Staff Development/Students',
-        start: '2024-01-04',
-        backgroundColor: '#F9EDE7',
-        borderColor: '#F9EDE7',
-        textColor: '#9D5A38'
-      },
-      {
-        title: '6pm Indigenous People’s Day',
-        start: '2024-01-10',
-        backgroundColor: '#E8EBF0',
-        borderColor: '#E8EBF0',
-        textColor: '#152C4F'
-      },
-      {
-        title: '6pm Multilingual Education',
-        start: '2024-01-15',
-        backgroundColor: '#DEF7EC',
-        borderColor: '#DEF7EC',
-        textColor: '#046C4E'      
-      },
-      {
-        title: '6pm Indigenous People’s Day',
-        start: '2024-01-17',
-        backgroundColor: '#E8EBF0',
-        borderColor: '#E8EBF0',
-        textColor: '#152C4F'
-      },
-      {
-        title: '2:45pm Staff Development/Students',
-        start: '2024-01-18',
-        backgroundColor: '#F9EDE7',
-        borderColor: '#F9EDE7',
-        textColor: '#9D5A38'
-      },
-  
-      {
-        title: '6pm Multilingual Education',
-        start: '2024-02-01',
-        backgroundColor: '#DEF7EC',
-        borderColor: '#DEF7EC',
-        textColor: '#046C4E'      
-      },
-      {
-        title: '6pm Marshal Middle School Grand Opening Celebration',
-        start: '2024-02-02',
-        backgroundColor: '#FDF6B2',
-        borderColor: '#FDF6B2',
-        textColor: '#8E4B10'      
-      },
-      {
-        title: '7pm Indigenous People’s Day',
-        start: '2024-02-02',
-        backgroundColor: '#E8EBF0',
-        borderColor: '#E8EBF0',
-        textColor: '#152C4F'
-      },
-      {
-        title: '2:45pm Staff Development/Students',
-        start: '2024-02-02',
-        backgroundColor: '#F9EDE7',
-        borderColor: '#F9EDE7',
-        textColor: '#9D5A38'
-      },
-      {
-        title: '6pm Indigenous People’s Day',
-        start: '2024-02-03',
-        backgroundColor: '#E8EBF0',
-        borderColor: '#E8EBF0',
-        textColor: '#152C4F'
-      },
-      {
-        title: '2:45pm Staff Development/Students',
-        start: '2024-02-04',
-        backgroundColor: '#F9EDE7',
-        borderColor: '#F9EDE7',
-        textColor: '#9D5A38'
-      },
-      {
-        title: '6pm Indigenous People’s Day',
-        start: '2024-02-10',
-        backgroundColor: '#E8EBF0',
-        borderColor: '#E8EBF0',
-        textColor: '#152C4F'
-      },
-      {
-        title: '6pm Multilingual Education',
-        start: '2024-02-15',
-        backgroundColor: '#DEF7EC',
-        borderColor: '#DEF7EC',
-        textColor: '#046C4E'      
-      },
-      {
-        title: '6pm Indigenous People’s Day',
-        start: '2024-02-17',
-        backgroundColor: '#E8EBF0',
-        borderColor: '#E8EBF0',
-        textColor: '#152C4F'
-      },
-      {
-        title: '2:45pm Staff Development/Students',
-        start: '2024-02-18',
-        backgroundColor: '#F9EDE7',
-        borderColor: '#F9EDE7',
-        textColor: '#9D5A38'
-      },
-    ]);
+
+    const getFullDetials = (event) => {
+        fetchsingleEvent(event.event.id)
+    }
+
+    const currentYear = moment().format('YYYY')
+    const firstDate = moment([year?.name ?? currentYear,activeTab]).format('YYYY-MM-DD');
+   
+    useEffect(() => {
+        setUpdateMonth(!updateMonth)
+    },[year])
+
+    const [loadCalendar, setLoadCalendar] = useState(false);
+    useEffect(() => {
+
+        let timeoutId = setTimeout(() => {  
+        setLoadCalendar(true);
+        }, 200);
+
+        return () => {
+        clearTimeout(timeoutId);
+        };   
+    
+    }, []);
+
+    const eventRender = ({ event, timeText }) => {
+        let formattedTime = event.start.toLocaleTimeString('en-US', {
+          hour: 'numeric',
+          minute: 'numeric',
+          hour12: true, // To use 12-hour format
+        });
+    
+        formattedTime = formattedTime.replace('p.m.', 'PM').replace('a.m.', 'AM');
+        const returnConcatedText = event.title.length > 15 ? event.title.substring(0,15) + '...' : event.title
+        return (
+          <div>
+            {!event.allDay && <span>{formattedTime} </span>}
+            <span>{returnConcatedText}</span>
+          </div>
+        );
+      };
+    
     return (
         <Tabs selectedIndex={activeTab} onSelect={handleTabClick}>
             <TabList>
@@ -304,21 +206,12 @@ export default function Index() {
             <div>
                 <TabPanel>
                 <div className="full-calendar-sec bg-white py-[16px] xl:py-[1.25vw] px-[12px] xl:px-[0.833vw]">
+                {loadCalendar && 
                     <FullCalendar
-                    plugins={[multiMonthPlugin]}
-                    initialView="multiMonthYear"
-                    multiMonthMaxColumns= '1'   
-                    views= {{
-                        multiMonthYear: {
-                        type: 'multiMonthYear',
-                        duration: { months: 2 },
-                        titleFormat: { year: 'numeric', month: 'long' },
-                        visibleRange: {
-                            start: '2024-01-01', // March 1, 2023
-                            end: '2024-02-29',   // April 30, 2023
-                        },
-                        }
-                    }}
+                    key={updateMonth}
+                    plugins={[dayGridplugin]}
+                    initialView="dayGridMonth"
+                    initialDate={firstDate}
                     headerToolbar={{
                         left: '',
                         center: '',
@@ -328,54 +221,20 @@ export default function Index() {
                     weekends= {true}
                     events={events}
                     editable={true}
+                    eventClick={(e) => getFullDetials(e)}
+                    eventContent={eventRender}
                     />
+                }
                 </div>
                 </TabPanel>
                 <TabPanel>
                 <div className="full-calendar-sec bg-white py-[16px] xl:py-[1.25vw] px-[12px] xl:px-[0.833vw]">
+                {loadCalendar && 
                     <FullCalendar
-                    plugins={[multiMonthPlugin]}
-                    initialView="multiMonthYear"
-                    multiMonthMaxColumns= '1'   
-                    views= {{
-                        multiMonthYear: {
-                        type: 'multiMonthYear',
-                        duration: { months: 2 },
-                        titleFormat: { year: 'numeric', month: 'long' },
-                        visibleRange: {
-                            start: '2024-03-01', // March 1, 2023
-                            end: '2024-04-30',   // April 30, 2023
-                        },
-                        }
-                    }}
-                    headerToolbar={{
-                        left: '',
-                        center: '',
-                        right: '',
-                    }}
-                    showNonCurrentDates= {true}
-                    weekends= {true}
-                    editable={true}
-                    />
-                </div>
-                </TabPanel>
-                <TabPanel>
-                <div className="full-calendar-sec bg-white py-[16px] xl:py-[1.25vw] px-[12px] xl:px-[0.833vw]">
-                    <FullCalendar
-                    plugins={[multiMonthPlugin]}
-                    initialView="multiMonthYear"
-                    multiMonthMaxColumns= '1'   
-                    views= {{
-                        multiMonthYear: {
-                        type: 'multiMonthYear',
-                        duration: { months: 2 },
-                        titleFormat: { year: 'numeric', month: 'long' },
-                        visibleRange: {
-                            start: '2024-05-01', // March 1, 2023
-                            end: '2024-06-30',   // April 30, 2023
-                        },
-                        }
-                    }}
+                    plugins={[dayGridplugin]}
+                    initialView="dayGridMonth"
+                    initialDate={firstDate}
+                    multiMonthMaxColumns= '1'
                     headerToolbar={{
                         left: '',
                         center: '',
@@ -385,54 +244,20 @@ export default function Index() {
                     weekends= {true}
                     events={events}
                     editable={true}
+                    eventClick={(e) => getFullDetials(e)}
+                    eventContent={eventRender}
                     />
+                }
                 </div>
                 </TabPanel>
                 <TabPanel>
                 <div className="full-calendar-sec bg-white py-[16px] xl:py-[1.25vw] px-[12px] xl:px-[0.833vw]">
+                {loadCalendar && 
                     <FullCalendar
-                    plugins={[multiMonthPlugin]}
-                    initialView="multiMonthYear"
+                    plugins={[dayGridplugin]}
+                    initialView="dayGridMonth"
+                    initialDate={firstDate}
                     multiMonthMaxColumns= '1'   
-                    views= {{
-                        multiMonthYear: {
-                        type: 'multiMonthYear',
-                        duration: { months: 2 },
-                        titleFormat: { year: 'numeric', month: 'long' },
-                        visibleRange: {
-                            start: '2024-07-01', // March 1, 2023
-                            end: '2024-08-30',   // April 30, 2023
-                        },
-                        }
-                    }}
-                    headerToolbar={{
-                        left: '',
-                        center: '',
-                        right: '',
-                    }}
-                    showNonCurrentDates= {true}
-                    weekends= {true}
-                    editable={true}
-                    />
-                </div>
-                </TabPanel>
-                <TabPanel>
-                <div className="full-calendar-sec bg-white py-[16px] xl:py-[1.25vw] px-[12px] xl:px-[0.833vw]">
-                    <FullCalendar
-                    plugins={[multiMonthPlugin]}
-                    initialView="multiMonthYear"
-                    multiMonthMaxColumns= '1'   
-                    views= {{
-                        multiMonthYear: {
-                        type: 'multiMonthYear',
-                        duration: { months: 2 },
-                        titleFormat: { year: 'numeric', month: 'long' },
-                        visibleRange: {
-                            start: '2024-09-01', // March 1, 2023
-                            end: '2024-10-30',   // April 30, 2023
-                        },
-                        }
-                    }}
                     headerToolbar={{
                         left: '',
                         center: '',
@@ -442,54 +267,20 @@ export default function Index() {
                     weekends= {true}
                     events={events}
                     editable={true}
+                    eventClick={(e) => getFullDetials(e)}
+                    eventContent={eventRender}
                     />
+                }
                 </div>
                 </TabPanel>
                 <TabPanel>
                 <div className="full-calendar-sec bg-white py-[16px] xl:py-[1.25vw] px-[12px] xl:px-[0.833vw]">
+                {loadCalendar && 
                     <FullCalendar
-                    plugins={[multiMonthPlugin]}
-                    initialView="multiMonthYear"
+                    plugins={[dayGridplugin]}
+                    initialView="dayGridMonth"
+                    initialDate={firstDate}
                     multiMonthMaxColumns= '1'   
-                    views= {{
-                        multiMonthYear: {
-                        type: 'multiMonthYear',
-                        duration: { months: 2 },
-                        titleFormat: { year: 'numeric', month: 'long' },
-                        visibleRange: {
-                            start: '2024-11-01', // March 1, 2023
-                            end: '2024-12-30',   // April 30, 2023
-                        },
-                        }
-                    }}
-                    headerToolbar={{
-                        left: '',
-                        center: '',
-                        right: '',
-                    }}
-                    showNonCurrentDates= {true}
-                    weekends= {true}
-                    editable={true}
-                    />
-                </div>
-                </TabPanel>
-                <TabPanel>
-                <div className="full-calendar-sec bg-white py-[16px] xl:py-[1.25vw] px-[12px] xl:px-[0.833vw]">
-                    <FullCalendar
-                    plugins={[multiMonthPlugin]}
-                    initialView="multiMonthYear"
-                    multiMonthMaxColumns= '1'   
-                    views= {{
-                        multiMonthYear: {
-                        type: 'multiMonthYear',
-                        duration: { months: 2 },
-                        titleFormat: { year: 'numeric', month: 'long' },
-                        visibleRange: {
-                            start: '2024-01-01', // March 1, 2023
-                            end: '2024-02-29',   // April 30, 2023
-                        },
-                        }
-                    }}
                     headerToolbar={{
                         left: '',
                         center: '',
@@ -499,54 +290,20 @@ export default function Index() {
                     weekends= {true}
                     events={events}
                     editable={true}
+                    eventClick={(e) => getFullDetials(e)}
+                    eventContent={eventRender}
                     />
+                }
                 </div>
                 </TabPanel>
                 <TabPanel>
                 <div className="full-calendar-sec bg-white py-[16px] xl:py-[1.25vw] px-[12px] xl:px-[0.833vw]">
+                {loadCalendar && 
                     <FullCalendar
-                    plugins={[multiMonthPlugin]}
-                    initialView="multiMonthYear"
+                    plugins={[dayGridplugin]}
+                    initialView="dayGridMonth"
+                    initialDate={firstDate}
                     multiMonthMaxColumns= '1'   
-                    views= {{
-                        multiMonthYear: {
-                        type: 'multiMonthYear',
-                        duration: { months: 2 },
-                        titleFormat: { year: 'numeric', month: 'long' },
-                        visibleRange: {
-                            start: '2024-03-01', // March 1, 2023
-                            end: '2024-04-30',   // April 30, 2023
-                        },
-                        }
-                    }}
-                    headerToolbar={{
-                        left: '',
-                        center: '',
-                        right: '',
-                    }}
-                    showNonCurrentDates= {true}
-                    weekends= {true}
-                    editable={true}
-                    />
-                </div>
-                </TabPanel>
-                <TabPanel>
-                <div className="full-calendar-sec bg-white py-[16px] xl:py-[1.25vw] px-[12px] xl:px-[0.833vw]">
-                    <FullCalendar
-                    plugins={[multiMonthPlugin]}
-                    initialView="multiMonthYear"
-                    multiMonthMaxColumns= '1'   
-                    views= {{
-                        multiMonthYear: {
-                        type: 'multiMonthYear',
-                        duration: { months: 2 },
-                        titleFormat: { year: 'numeric', month: 'long' },
-                        visibleRange: {
-                            start: '2024-05-01', // March 1, 2023
-                            end: '2024-06-30',   // April 30, 2023
-                        },
-                        }
-                    }}
                     headerToolbar={{
                         left: '',
                         center: '',
@@ -556,54 +313,20 @@ export default function Index() {
                     weekends= {true}
                     events={events}
                     editable={true}
+                    eventClick={(e) => getFullDetials(e)}
+                    eventContent={eventRender}
                     />
+                }
                 </div>
                 </TabPanel>
                 <TabPanel>
                 <div className="full-calendar-sec bg-white py-[16px] xl:py-[1.25vw] px-[12px] xl:px-[0.833vw]">
+                {loadCalendar && 
                     <FullCalendar
-                    plugins={[multiMonthPlugin]}
-                    initialView="multiMonthYear"
+                    plugins={[dayGridplugin]}
+                    initialView="dayGridMonth"
+                    initialDate={firstDate}
                     multiMonthMaxColumns= '1'   
-                    views= {{
-                        multiMonthYear: {
-                        type: 'multiMonthYear',
-                        duration: { months: 2 },
-                        titleFormat: { year: 'numeric', month: 'long' },
-                        visibleRange: {
-                            start: '2024-07-01', // March 1, 2023
-                            end: '2024-08-30',   // April 30, 2023
-                        },
-                        }
-                    }}
-                    headerToolbar={{
-                        left: '',
-                        center: '',
-                        right: '',
-                    }}
-                    showNonCurrentDates= {true}
-                    weekends= {true}
-                    editable={true}
-                    />
-                </div>
-                </TabPanel>
-                <TabPanel>
-                <div className="full-calendar-sec bg-white py-[16px] xl:py-[1.25vw] px-[12px] xl:px-[0.833vw]">
-                    <FullCalendar
-                    plugins={[multiMonthPlugin]}
-                    initialView="multiMonthYear"
-                    multiMonthMaxColumns= '1'   
-                    views= {{
-                        multiMonthYear: {
-                        type: 'multiMonthYear',
-                        duration: { months: 2 },
-                        titleFormat: { year: 'numeric', month: 'long' },
-                        visibleRange: {
-                            start: '2024-09-01', // March 1, 2023
-                            end: '2024-10-30',   // April 30, 2023
-                        },
-                        }
-                    }}
                     headerToolbar={{
                         left: '',
                         center: '',
@@ -613,26 +336,20 @@ export default function Index() {
                     weekends= {true}
                     events={events}
                     editable={true}
+                    eventClick={(e) => getFullDetials(e)}
+                    eventContent={eventRender}
                     />
+                }
                 </div>
                 </TabPanel>
                 <TabPanel>
                 <div className="full-calendar-sec bg-white py-[16px] xl:py-[1.25vw] px-[12px] xl:px-[0.833vw]">
+                {loadCalendar && 
                     <FullCalendar
-                    plugins={[multiMonthPlugin]}
-                    initialView="multiMonthYear"
+                    plugins={[dayGridplugin]}
+                    initialView="dayGridMonth"
+                    initialDate={firstDate}
                     multiMonthMaxColumns= '1'   
-                    views= {{
-                        multiMonthYear: {
-                        type: 'multiMonthYear',
-                        duration: { months: 2 },
-                        titleFormat: { year: 'numeric', month: 'long' },
-                        visibleRange: {
-                            start: '2024-11-01', // March 1, 2023
-                            end: '2024-12-30',   // April 30, 2023
-                        },
-                        }
-                    }}
                     headerToolbar={{
                         left: '',
                         center: '',
@@ -640,8 +357,127 @@ export default function Index() {
                     }}
                     showNonCurrentDates= {true}
                     weekends= {true}
+                    events={events}
                     editable={true}
+                    eventClick={(e) => getFullDetials(e)}
+                    eventContent={eventRender}
                     />
+                }
+                </div>
+                </TabPanel>
+                <TabPanel>
+                <div className="full-calendar-sec bg-white py-[16px] xl:py-[1.25vw] px-[12px] xl:px-[0.833vw]">
+                {loadCalendar && 
+                    <FullCalendar
+                    plugins={[dayGridplugin]}
+                    initialView="dayGridMonth"
+                    initialDate={firstDate}
+                    multiMonthMaxColumns= '1'  
+                    headerToolbar={{
+                        left: '',
+                        center: '',
+                        right: '',
+                    }}
+                    showNonCurrentDates= {true}
+                    weekends= {true}
+                    events={events}
+                    editable={true}
+                    eventClick={(e) => getFullDetials(e)}
+                    eventContent={eventRender}
+                    />
+                }
+                </div>
+                </TabPanel>
+                <TabPanel>
+                <div className="full-calendar-sec bg-white py-[16px] xl:py-[1.25vw] px-[12px] xl:px-[0.833vw]">
+                {loadCalendar && 
+                    <FullCalendar
+                    plugins={[dayGridplugin]}
+                    initialView="dayGridMonth"
+                    initialDate={firstDate}
+                    multiMonthMaxColumns= '1' 
+                    headerToolbar={{
+                        left: '',
+                        center: '',
+                        right: '',
+                    }}
+                    showNonCurrentDates= {true}
+                    weekends= {true}
+                    events={events}
+                    editable={true}
+                    eventClick={(e) => getFullDetials(e)}
+                    eventContent={eventRender}
+                    />
+                }
+                </div>
+                </TabPanel>
+                <TabPanel>
+                <div className="full-calendar-sec bg-white py-[16px] xl:py-[1.25vw] px-[12px] xl:px-[0.833vw]">
+                {loadCalendar && 
+                    <FullCalendar
+                    plugins={[dayGridplugin]}
+                    initialView="dayGridMonth"
+                    initialDate={firstDate}
+                    multiMonthMaxColumns= '1'  
+                    headerToolbar={{
+                        left: '',
+                        center: '',
+                        right: '',
+                    }}
+                    showNonCurrentDates= {true}
+                    weekends= {true}
+                    events={events}
+                    editable={true}
+                    eventClick={(e) => getFullDetials(e)}
+                    eventContent={eventRender}
+                    />
+                }
+                </div>
+                </TabPanel>
+                <TabPanel>
+                <div className="full-calendar-sec bg-white py-[16px] xl:py-[1.25vw] px-[12px] xl:px-[0.833vw]">
+                {loadCalendar && 
+                    <FullCalendar
+                    plugins={[dayGridplugin]}
+                    initialView="dayGridMonth"
+                    initialDate={firstDate}
+                    multiMonthMaxColumns= '1'   
+                    headerToolbar={{
+                        left: '',
+                        center: '',
+                        right: '',
+                    }}
+                    showNonCurrentDates= {true}
+                    weekends= {true}
+                    events={events}
+                    editable={true}
+                    eventClick={(e) => getFullDetials(e)}
+                    eventContent={eventRender}
+                    />
+                }
+                </div>
+                </TabPanel>
+                <TabPanel>
+                <div className="full-calendar-sec bg-white py-[16px] xl:py-[1.25vw] px-[12px] xl:px-[0.833vw]">
+                {loadCalendar && 
+                    <FullCalendar
+                    plugins={[dayGridplugin]}
+                    initialView="dayGridMonth"
+                    initialDate={firstDate}
+                    multiMonthMaxColumns= '1'   
+                    headerToolbar={{
+                        left: '',
+                        center: '',
+                        right: '',
+                    }}
+                    showNonCurrentDates= {true}
+                    weekends= {true}
+                    events={events}
+                    editable={true}
+                    eventClick={(e) => getFullDetials(e)}
+                    eventContent={eventRender}
+                    />
+                }
                 </div>
                 </TabPanel>
             </div>

@@ -49,7 +49,7 @@ export default function AdminTop({ ...pageProps }) {
                             <i className="autinisd-right text-[8px] xl:text-[0.417vw]"></i>
                             <div className="text-[#262626]">{pageProps.pageName}</div>
                         </div>
-                        <div className={`${myInter.className} text-[#262626] xl:text-[1.250vw] text-[24px] leading-7 dark:text-[#fff]`}>{pageProps.pageTitle}</div>
+                        <div className={`${myInter.className} text-[#374151] xl:text-[1.250vw] text-[24px] leading-7 dark:text-[#fff] font-semibold`}>{pageProps.pageTitle}</div>
                     </div>
                     <div className="flex items-center xl:gap-[1.250vw] gap-5">
                         <div className="flex items-center gap-4 xl:gap-[0.833vw]">

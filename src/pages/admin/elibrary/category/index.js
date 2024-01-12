@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Dropdown } from "primereact/dropdown";
 import { InputText } from "primereact/inputtext";
 import Link from "next/link";
@@ -10,6 +10,7 @@ import EditMessageBoard from "@/components/admin/popup/editmessageboard";
 import AddMessages from "@/components/admin/popup/addmessages";
 import NewCategory from "@/components/admin/popup/newCategory";
 import Deletesuccesfull from "@/components/admin/popup/deletesuccesfull";
+import {GetApiFetching} from '../../../../Api/GetData'
 // import Deletesuccesfull from "@/components/admin/popup/deletesuccesfull";
 
 export default function Index() {
@@ -206,15 +207,65 @@ export default function Index() {
     );
   };
   const CategoryBody = (rowData) => {
+      console.log("rowData",rowData);
+      const{el_category}=rowData
+
     return (
       <>
         <div className="w-auto bg-[#1F3F71] rounded-md text-[#fff] text-[10px] xl:text-[0.625vw] px-[8px] py-[2px]">
-          {rowData.Category}
+          {el_category}
         </div>
       </>
     );
   };
   /******** table ***********/
+
+//////////////////////-----------------------////////////////////////////////////
+const [data,setData]=useState([])
+const url=`${process.env.BASE_URL}/elibrary/elcategory`
+
+useEffect(()=>{
+  getdata(url)
+},[])
+
+const getdata=async(url)=>{
+let response=await GetApiFetching(url)
+setData(response?.data?.rows)
+}
+
+/////change date function/////
+
+const formatDate = (dateStrings) => {
+    const date = new Date(dateStrings);
+    return date.toLocaleDateString('en-US', {
+      day: 'numeric',
+      month: 'numeric',
+      year: 'numeric',
+    });
+ 
+};
+
+
+/////updated data////////
+const updateddata=data.map((item)=>({
+el_category_id: item.el_category_id,
+el_category: item.el_category,
+el_document_id: item.el_document_id,
+created_by: item.created_by,
+createdAt: formatDate(item.createdAt),
+updated_by: item.updated_by,
+updated_At: formatDate(item.updated_At)
+}))
+
+
+
+
+
+
+
+
+
+
 
   return (
     <>
@@ -243,14 +294,14 @@ export default function Index() {
                 onClick={() => setAddNewCategory(true)}
                 className="bg-[#A93439] hover:bg-[#762428] hover:text-white rounded-md text-[#fff] text-[14px] xl:text-[0.833vw] font-medium px-[20px] xl:px-[1.042vw] py-[16px] xl:py-[0.733vw] leading-5"
               >
-                New Category
+                New Category 
               </Link>
             </div>
           </div>
 
           <div className="bg-white  xl:mt-[0.938vw] mt-[18px] rounded-md ">
             <DataTable
-              value={products}
+              value={updateddata}
               className="custTable tableCust custCheckBox"
               scrollable
               responsiveLayout="scroll"
@@ -282,25 +333,25 @@ export default function Index() {
                 style={{ minWidth: "2.5rem" }}
               ></Column> */}
               <Column
-                field="Title"
-                header="Title"
+                field="el_category_id"
+                header="Category Id"
                 style={{ minWidth: "26rem" }}
               ></Column>
 
               <Column
-                field="CreateDate"
+                field="createdAt"
                 header="Create Date"
                 style={{ minWidth: "12rem" }}
                 sortable
               ></Column>
               <Column
-                field="ReleaseDate"
-                header="Release Date"
+                field="updated_At"
+                header="Update Date"
                 style={{ minWidth: "12rem" }}
                 sortable
               ></Column>
               <Column
-                field="Category"
+                field="el_category"
                 header="Category"
                 style={{ minWidth: "12rem" }}
                 body={CategoryBody}

@@ -1,10 +1,13 @@
 import { InputText } from "primereact/inputtext";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Dropdown } from "primereact/dropdown";
 import { Tab, TabList, TabPanel, Tabs } from "react-tabs";
 import { Checkbox } from "primereact/checkbox";
-import CalenderPage from "@/pages/website/calendar/calender";
-import ListMonth from "@/pages/website/calendar/listmonth";
+import CalenderPage from "@/pages/calendar/calender";
+import ListMonth from "@/pages/calendar/listmonth";
+import fetchAPI from "@/service/api/fetchAPI";
+import moment from "moment";
+import ViewEvent from "@/components/popup/viewevent"
 
 export default function EventCalenderFilter(props) {
   const [activeTab, setActiveTab] = useState(0);
@@ -15,11 +18,18 @@ export default function EventCalenderFilter(props) {
   const [religion, setReligion] = useState(false);
   const [staffRecognitions, setStaffRecognitions] = useState(false);
   const [advisoryBodies, setAdvisoryBodies] = useState(false);
-  const [year, setYear] = useState(null);
+  const [year, setYear] = useState(moment().year().toString());
+  const [searchEvent, setSearchEvent] = useState("");
+  const [ViewEventpopup, setViewEventpopup] = useState(false);
+  const [eventDetails, setEventDetails] = useState({})
+
+  // const [year, setYear] = useState('2024');
   const YearList = [
-    { name: "2023", code: "NY" },
-    { name: "2024", code: "RM" },
+    { name: "2023", value: "2023" },
+    { name: "2024", value: "2024" },
   ];
+
+  const [events, setEvents] = useState([]);
 
   const handleTabClick = (index) => {
     setActiveTab(index);
@@ -27,6 +37,60 @@ export default function EventCalenderFilter(props) {
   const handleMonthClick = (index) => {
     setMonthTab(index);
   };
+
+  const featchApi = async () => {
+    let payload = {
+      year: year,
+      search: searchEvent,
+      date: '',
+      month: ''
+    }
+    const response = await fetchAPI('/event/list', 'POST', payload, 'application/json')
+
+    if (response && response.rows.length > 0) {
+      const updatedResponse = response.rows ? response.rows.map((item) => {
+        const todayDate = moment(item.date).format('YYYY-MM-DD'); // Get today's date in 'YYYY-MM-DD' format
+        const combinedDateTime = moment(`${todayDate}T${item.start_time}`).format();
+        const combinedEndDateTime = moment(`${todayDate}T${item.end_time}`).format();
+        return {
+          title: item.title,
+          start: item.is_all_day == 1 ? todayDate : combinedDateTime,
+          end: item.is_all_day == 1 ? todayDate : combinedEndDateTime,
+          backgroundColor: '#DEF7EC',
+          borderColor: '#DEF7EC',
+          textColor: '#046C4E',
+          id: item.id,
+          allDay: item.is_all_day,
+        }
+      }) : []
+      setEvents([...updatedResponse])
+    } else {
+      setEvents([])
+    }
+
+  };
+
+  const fetchsingleEvent = async (id) => {
+    try {
+      const response = await fetchAPI(`/event/${id}`, 'GET', {}, 'application/json')
+      if (response) {
+        setEventDetails(response)
+        setViewEventpopup(true)
+      }
+
+    } catch (error) {
+
+    }
+  }
+
+
+  const closeViewEventPopup = () => {
+    setViewEventpopup(false)
+  }
+
+  useEffect(() => {
+    featchApi();
+  }, [year, searchEvent]);
 
   return (
     <div className="grid px-[60px] xl:px-[3.125vw] py-[40px] xl:py-[2.083vw] gap-[29px] xl:gap-[1.510vw]">
@@ -42,6 +106,7 @@ export default function EventCalenderFilter(props) {
                 <div className="">
                   <span className="custam-search p-input-icon-right flex items-center">
                     <InputText
+                      onChange={(e) => setSearchEvent(e.target.value)}
                       placeholder="Search by Events"
                       className="p-inputtext p-component rounded-2xl bg-[#F5F6F7] xl:w-[16.927vw] placeholder:text-[#9CA1AB] placeholder:font-normal placeholder:xl:text-[0.729vw] "
                     />
@@ -50,9 +115,11 @@ export default function EventCalenderFilter(props) {
                 </div>
                 <div className="event-dropdown">
                   <Dropdown
-                    placeholder="2023"
+                    placeholder="Select year"
                     value={year}
-                    onChange={(e) => setYear(e.value)}
+                    onChange={(e) => {
+                      setYear(e.value)
+                    }}
                     options={YearList}
                     optionLabel="name"
                     className=" md:w-14rem rounded-full"
@@ -64,11 +131,10 @@ export default function EventCalenderFilter(props) {
                       <Tab>
                         <div
                           className={`text-[14px] xl:text-[0.729vw] border py-[13px] rounded-l-[60px] xl:py-[0.677vw] px-[20px] xl:px-[1.042vw]
-                 ${
-                   activeTab == 0
-                     ? "bg-[#0F1F38] text-white"
-                     : "bg-[#F5F6F7] border-[#9CA3AF] text-[#9CA1AB]"
-                 }`}
+                 ${activeTab == 0
+                              ? "bg-[#0F1F38] text-white"
+                              : "bg-[#F5F6F7] border-[#9CA3AF] text-[#9CA1AB]"
+                            }`}
                         >
                           Calendar
                         </div>
@@ -76,11 +142,10 @@ export default function EventCalenderFilter(props) {
                       <Tab>
                         <div
                           className={`text-[14px] xl:text-[0.729vw] border py-[13px] rounded-r-[60px] xl:py-[0.677vw] px-[20px] xl:px-[1.042vw]
-                 ${
-                   activeTab == 1
-                     ? "bg-[#0F1F38] text-white"
-                     : "bg-[#F5F6F7] border-[#9CA3AF] text-[#9CA1AB]"
-                 }`}
+                 ${activeTab == 1
+                              ? "bg-[#0F1F38] text-white"
+                              : "bg-[#F5F6F7] border-[#9CA3AF] text-[#9CA1AB]"
+                            }`}
                         >
                           List (Month)
                         </div>
@@ -188,10 +253,20 @@ export default function EventCalenderFilter(props) {
           </div>
           <div>
             <TabPanel>
-              <CalenderPage />
+              <CalenderPage
+                events={events}
+                year={year}
+                fetchsingleEvent={fetchsingleEvent}
+                activeTab={activeTab}
+              />
             </TabPanel>
             <TabPanel>
-              <ListMonth />
+              <ListMonth
+                events={events}
+                year={year}
+                fetchsingleEvent={fetchsingleEvent}
+                activeTab={activeTab}
+              />
             </TabPanel>
           </div>
         </div>
@@ -274,6 +349,13 @@ export default function EventCalenderFilter(props) {
           </div>
         </TabList>
       </Tabs> */}
+
+      <ViewEvent
+        visible={ViewEventpopup}
+        onHides={closeViewEventPopup}
+        eventDetails={eventDetails}
+      />
+
     </div>
   );
 }

@@ -40,13 +40,14 @@ export default function Index() {
             axios.post(process.env.BASE_URL + '/auth/login',
               {
                 email: resp?.data?.email,
+                googleToken: tokenResponse?.access_token
               }).then(response => {
                 response?.data?.message.includes('successfully') && sessionStorage.setItem("UserName", `${response?.data?.user?.firstName} ${response?.data?.user?.lastName}`)
                 // response?.data?.message.includes('successfully') && sessionStorage.setItem("UserImage", `${response?.data?.user?.profile_pic}`)
                 response?.data?.message.includes('successfully') && sessionStorage.setItem("AccessToken", `${response?.data?.token}`)
                 response?.data?.message.includes('successfully') && sessionStorage.setItem("UserID", `${response?.data?.user?.user_id}`)
                 response?.data?.message.includes('successfully') && sessionStorage.setItem('IsAuthenticated', true)
-                router.push('/website')
+                router.push('/landing')
               }
               )
               .catch(error => {
@@ -105,6 +106,7 @@ export default function Index() {
         <>
           <Head>
             <title>Welcome to Austin ISD</title>
+            <meta name="google-site-verification" content="W6XmndxNINBwm3c3p5KH0Sar2-92Hufz7t4kD0-d1HA" />
             <meta name="description" content="" />
             <meta name="viewport" content="width=device-width, initial-scale=1" />
             <link rel="icon" href="/favicon.ico" />

@@ -9,10 +9,10 @@ export default function AisdCalendartv() {
         <div>
             <div className='flex'>
                
-                <div className='h-full w-full  bg-[#111928] text-[#fff] py-[12px] px-[18px]'>
-                    <div className=" flex justify-center">
-                        <Calendar value={date} onChange={(e) => setDate(e.value)} inline showWeek className='headp '/>
-                    </div>
+                <div className='h-full w-full text-[#fff] '>
+              
+                        <Calendar value={date} onChange={(e) => setDate(e.value)} inline showWeek className='custom_calender'/>
+              
                    
                 </div>
             </div>

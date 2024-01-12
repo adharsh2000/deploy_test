@@ -7,6 +7,8 @@ import { Montserrat, Inter } from "@next/font/google";
 import { convertDateFormat } from "@/service/utils/DateConversion";
 import fetchAPI from '@/service/api/fetchAPI'
 import { Toast } from "primereact/toast";
+import {setGlobalState } from '@/redux/slice/globalState';
+import { useDispatch } from "react-redux";
 
 const myMontserrat = Montserrat({
   weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900'],
@@ -20,8 +22,9 @@ const myInter = Inter({
 })
 
 const RelatedItems = (props) => {
-  const toast = useRef(null);
+  const dispatch = useDispatch();
 
+  const toast = useRef(null);
   const Unpin = async (topic_id, action) => {
     let data = {
       topic_id: topic_id,
@@ -48,7 +51,7 @@ const RelatedItems = (props) => {
 
   return (
     <>
-      <div className={`${myInter.className} bg-white rounded-[24px] xl:rounded-[1.250vw] py-[24px] xl:py-[1.250vw] px-[28px] xl:px-[1.458vw]`}>
+      <div className={`${myInter.className} bg-white rounded-[24px] xl:rounded-[1.250vw] mt-2 py-[24px] xl:py-[1.250vw] px-[28px] xl:px-[1.458vw]`}>
         <div className="md:flex items-start lg:items-center gap-[26px] xl:gap-[1.354vw] space-y-5 md:space-y-0">
           <div className="col">
             <div className={myMontserrat.className}>
@@ -69,26 +72,29 @@ const RelatedItems = (props) => {
               </Link>
             </div>
           </div>
-          <div className="col">
-            {props?.data?.rows?.map(item =>
-              <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-[24px] xl:gap-[1.250vw]">
+          <div className="col w-full">
+            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-[24px] xl:gap-[1.250vw]">
+              {props?.data?.rows?.map(item =>
+
                 <div className="border border-[#E5E7EB] rounded-[8px] xl:rounded-[0.417vw] p-[16px] xl:p-[0.833vw] boxWrapper grow_ellipse">
                   <div className="relative">
-                    <div className="col">
-                      <span className="text-[#374151] text-[14px] xl:text-[0.729vw]">
-                        {item?.user?.firstName + item?.user?.lastName}
+                    <Link className="col cursor-pointer" href={{ pathname: '/messageboard/discussiondetails', query: {post_id:item?.post_id,category_id:item?.category_id } }} onClick={() => { props?.checkLocalStorage,localStorage.setItem('post_id',item?.post_id),localStorage.setItem('category_id',item?.category_id),localStorage.setItem('pinnedStatus',item?.isPined),localStorage.setItem('topic_id',item?.topic_id) }}>
+                      <span className="capitalize text-[#374151] text-[14px] xl:text-[0.729vw]">
+                        {item?.user?.firstName +' '+ item?.user?.lastName}
                       </span>
-                      <span className="text-[#4B586E] text-[12px] xl:text-[0.625vw]">
+                      <span className="text-[#4B586E] text-[12px] xl:text-[0.625vw] ml-2">
                         {convertDateFormat(item?.createdAt)}
                       </span>
-                    </div>
+                    </Link>
                     <div onClick={() => Unpin(item?.topic_id, item?.pinnedStatus == 0 ? 'pin' : 'unpin')} className="absolute right-0 top-0 cursor-pointer pinWapper">
                       <span className={`inline-flex items-center justify-center w-[40px] xl:w-[2.083vw] h-[40px] xl:h-[2.083vw] rounded-full ${item?.pinnedStatus ? 'bg-[#A93439]' : 'bg-[#ccc]'}`}>
                         <i className="text-white text-[20px] austin-pin"></i>
                       </span>
                     </div>
                     <div className="text-[#374151] text-[16px] xl:text-[0.729vw] font-medium mt-[16px] xl:mt-[0.833vw] min-h-[76px] xl:min-h-[3.958vw]">
+                    <Link href={{ pathname: '/messageboard/discussiondetails', query: {post_id:item?.post_id,category_id:item?.category_id } }} onClick={() => { props?.checkLocalStorage(),localStorage.setItem('post_id',item?.post_id),localStorage.setItem('category_id',item?.category_id),localStorage.setItem('pinnedStatus',item?.isPined),localStorage.setItem('topic_id',item?.topic_id) }} className="cursor-pointer">
                       {item?.post}
+                    </Link>
                     </div>
                   </div>
                   <div className="flex items-center justify-between border-t border-[#E5E7EB] pt-[12px] xl:pt-[0.625vw]">
@@ -99,30 +105,24 @@ const RelatedItems = (props) => {
                       </div>
                     </div>
                     <div className="custmAvatar">
-                      <AvatarGroup>
-                        <Avatar
-                          image="/assets/images/userpic1.png"
-                          shape="circle"
-                        />
-                        <Avatar
-                          image="/assets/images/userpic2.png"
-                          shape="circle"
-                        />
-                        <Avatar
-                          image="/assets/images/userpic3.png"
-                          shape="circle"
-                        />
-                        <Avatar
-                          image="/assets/images/userpic4.png"
-                          shape="circle"
-                        />
-                        <Avatar label="+4" shape="circle" />
-                      </AvatarGroup>
-                    </div>
+                        <AvatarGroup>
+                          {item?.CommentDetails?.commentUser?.map(itr =>
+                            itr?.user?.profile_pic ? <Avatar
+                              image={itr?.user?.profile_pic}
+                              shape="circle"
+                            />
+                              :
+                              itr?.user?.profile_pic &&<div className="capitalize text-sm rounded-full w-6 h-6 flex items-center justify-center bg-gray-500 text-white">
+                                {itr?.user?.firstName?.charAt(0)}
+                              </div>
+                          )}
+                          {item?.CommentDetails?.commentCount > 3&&<div className="capitalize text-xs rounded-full w-6 h-6 flex items-center justify-center bg-[#232b25] text-white">+{item?.CommentDetails?.commentCount-3}</div>}
+                        </AvatarGroup>
+                      </div>
                   </div>
                 </div>
-              </div>
-            )}
+              )}
+            </div>
           </div>
         </div>
       </div>
